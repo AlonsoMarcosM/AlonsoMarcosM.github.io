@@ -1,0 +1,40 @@
+---
+// Raíz "/": redirige al idioma del navegador (o a la preferencia guardada).
+// Spanish -> /es/, cualquier otro -> /en/ (idioma por defecto internacional).
+import { profile } from '../data/site';
+const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://alonsomarcosm.github.io';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{profile.name} · Data Engineer</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={`${site}/en/`} />
+    <link rel="alternate" hreflang="es" href={`${site}/es/`} />
+    <link rel="alternate" hreflang="en" href={`${site}/en/`} />
+    <link rel="alternate" hreflang="x-default" href={`${site}/en/`} />
+    <meta name="description" content="Data Engineer · Data Governance & Interoperability." />
+    <script is:inline>
+      (function () {
+        var lang = 'en';
+        try {
+          var stored = localStorage.getItem('lang');
+          var nav = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+          lang = stored === 'es' || stored === 'en' ? stored : nav.indexOf('es') === 0 ? 'es' : 'en';
+        } catch (e) {}
+        window.location.replace('/' + lang + '/');
+      })();
+    </script>
+  </head>
+  <body style="font-family: system-ui, sans-serif; background:#020617; color:#e2e8f0;">
+    <noscript>
+      <p style="padding:2rem;">
+        <a href="/es/" style="color:#22d3ee;">Español</a> ·
+        <a href="/en/" style="color:#22d3ee;">English</a>
+      </p>
+    </noscript>
+  </body>
+</html>

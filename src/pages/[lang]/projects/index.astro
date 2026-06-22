@@ -1,0 +1,26 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Section from '../../../components/Section.astro';
+import ProjectCard from '../../../components/ProjectCard.astro';
+import { orderedProjects } from '../../../data/projects';
+import { profile } from '../../../data/site';
+import { useTranslations, locales, type Lang } from '../../../i18n/utils';
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+const title = `${t('section.projects')} · ${profile.name}`;
+const description = t('section.projects.subtitle');
+---
+
+<Base lang={lang} title={title} description={description} path="projects">
+  <div class="pt-8"></div>
+  <Section id="projects" title={t('projects.all')} subtitle={t('section.projects.subtitle')}>
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {orderedProjects.map((project) => <ProjectCard project={project} lang={lang} />)}
+    </div>
+  </Section>
+</Base>

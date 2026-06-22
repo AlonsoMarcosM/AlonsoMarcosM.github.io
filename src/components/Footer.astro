@@ -1,0 +1,33 @@
+---
+import Icon from './Icon.astro';
+import { profile } from '../data/site';
+import { useTranslations, type Lang } from '../i18n/utils';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-slate-200 dark:border-slate-800">
+  <div
+    class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-slate-500 sm:flex-row sm:px-6 dark:text-slate-400"
+  >
+    <p>© {year} {profile.name}</p>
+    <div class="flex items-center gap-4">
+      {
+        profile.socials.map((s) => (
+          <a
+            href={s.href}
+            class="transition hover:text-brand-500"
+            aria-label={s.label}
+            target={s.icon === 'email' ? undefined : '_blank'}
+            rel={s.icon === 'email' ? undefined : 'noopener noreferrer'}
+          >
+            <Icon name={s.icon} class="h-5 w-5" />
+          </a>
+        ))
+      }
+    </div>
+    <p class="text-center text-xs sm:text-right">{t('footer.builtWith')}</p>
+  </div>
+</footer>

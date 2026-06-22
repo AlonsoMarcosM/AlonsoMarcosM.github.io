@@ -1,0 +1,44 @@
+---
+import { localePath, locales, type Lang } from '../i18n/utils';
+interface Props {
+  lang: Lang;
+  /** Ruta relativa al idioma (sin prefijo). */
+  path?: string;
+}
+const { lang, path = '' } = Astro.props;
+---
+
+<div
+  class="inline-flex items-center rounded-lg border border-slate-200 p-0.5 text-xs font-medium dark:border-slate-700"
+  role="group"
+  aria-label="Language"
+>
+  {
+    locales.map((l) => (
+      <a
+        href={localePath(l, path)}
+        data-lang={l}
+        class:list={[
+          'rounded-md px-2 py-1 uppercase transition',
+          l === lang
+            ? 'bg-brand-500 text-slate-950'
+            : 'text-slate-500 hover:text-brand-500 dark:text-slate-400',
+        ]}
+        aria-current={l === lang ? 'true' : undefined}
+      >
+        {l}
+      </a>
+    ))
+  }
+</div>
+
+<script is:inline>
+  // Recuerda la elección manual de idioma para la redirección de la raíz.
+  document.querySelectorAll('a[data-lang]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      try {
+        localStorage.setItem('lang', a.getAttribute('data-lang'));
+      } catch (e) {}
+    });
+  });
+</script>
