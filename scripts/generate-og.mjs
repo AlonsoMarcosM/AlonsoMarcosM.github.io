@@ -35,7 +35,7 @@ const svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http
 
   <circle cx="980" cy="315" r="158" fill="none" stroke="url(#ring)" stroke-width="8"/>
   <image x="830" y="165" width="300" height="300" clip-path="url(#circle)"
-    href="data:image/jpeg;base64,${photoB64}" preserveAspectRatio="xMidYMin slice"/>
+    href="data:image/jpeg;base64,${photoB64}" preserveAspectRatio="xMidYMid slice"/>
 </svg>`;
 
 await sharp(Buffer.from(svg)).png().toFile(resolve(root, 'public/img/og-default.png'));
