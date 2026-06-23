@@ -129,7 +129,7 @@ const description = pick(project.tagline, lang);
         {t('projects.stack')}
       </h2>
       <div class="mt-4 flex flex-wrap gap-2">
-        {project.stack.map((s) => <TechBadge label={s} size="md" />)}
+        {project.stack.map((s) => <TechBadge label={s} size="md" link />)}
       </div>
     </section>
   </article>

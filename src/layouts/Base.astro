@@ -145,6 +145,33 @@ const personLd = {
           }
         });
       })();
+
+      // Count-up de las estadísticas.
+      (function () {
+        var els = document.querySelectorAll('[data-countup]');
+        if (!els.length) return;
+        var lang = document.documentElement.lang || 'es';
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        function run(el) {
+          var end = parseInt(el.getAttribute('data-countup'), 10) || 0;
+          if (reduce) { el.textContent = end.toLocaleString(lang); return; }
+          var dur = 1300, start = null;
+          function tick(now) {
+            if (start === null) start = now;
+            var p = Math.min((now - start) / dur, 1);
+            var v = Math.floor((1 - Math.pow(1 - p, 3)) * end);
+            el.textContent = v.toLocaleString(lang);
+            if (p < 1) requestAnimationFrame(tick);
+            else el.textContent = end.toLocaleString(lang);
+          }
+          requestAnimationFrame(tick);
+        }
+        if (!('IntersectionObserver' in window)) { els.forEach(run); return; }
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } });
+        }, { threshold: 0.4 });
+        els.forEach(function (el) { io.observe(el); });
+      })();
     </script>
   </body>
 </html>

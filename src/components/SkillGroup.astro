@@ -27,6 +27,6 @@ function groupIcon(t: string): string {
     {pick(group.title, lang)}
   </h3>
   <div class="flex flex-wrap gap-2">
-    {group.items.map((item) => <TechBadge label={item} size="sm" />)}
+    {group.items.map((item) => <TechBadge label={item} size="sm" link />)}
   </div>
 </div>

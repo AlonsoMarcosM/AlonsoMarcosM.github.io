@@ -6,7 +6,61 @@
 export interface TechIcon {
   icon: string;
   color: string;
+  /** Documentación oficial (opcional). */
+  doc?: string;
 }
+
+// Documentación oficial por slug de icono.
+const DOCS: Record<string, string> = {
+  'simple-icons:claude': 'https://docs.anthropic.com',
+  'simple-icons:githubcopilot': 'https://docs.github.com/copilot',
+  'simple-icons:openai': 'https://platform.openai.com/docs',
+  'simple-icons:powerautomate': 'https://learn.microsoft.com/power-automate/',
+  'simple-icons:powerapps': 'https://learn.microsoft.com/power-apps/',
+  'simple-icons:microsoftsqlserver': 'https://learn.microsoft.com/sql/',
+  'simple-icons:microsoftoffice': 'https://learn.microsoft.com/microsoft-365/',
+  'simple-icons:microsoftsharepoint': 'https://learn.microsoft.com/sharepoint/',
+  'simple-icons:awslambda': 'https://docs.aws.amazon.com/lambda/',
+  'simple-icons:amazondynamodb': 'https://docs.aws.amazon.com/dynamodb/',
+  'simple-icons:amazonapigateway': 'https://docs.aws.amazon.com/apigateway/',
+  'simple-icons:amazoncloudwatch': 'https://docs.aws.amazon.com/cloudwatch/',
+  'simple-icons:amazonec2': 'https://docs.aws.amazon.com/ec2/',
+  'simple-icons:amazons3': 'https://docs.aws.amazon.com/s3/',
+  'simple-icons:awssecretsmanager': 'https://docs.aws.amazon.com/secretsmanager/',
+  'simple-icons:amazonwebservices': 'https://docs.aws.amazon.com/',
+  'simple-icons:mqtt': 'https://mqtt.org/',
+  'simple-icons:openapiinitiative': 'https://spec.openapis.org/',
+  'simple-icons:apachespark': 'https://spark.apache.org/docs/latest/',
+  'simple-icons:apacheairflow': 'https://airflow.apache.org/docs/',
+  'simple-icons:apachekafka': 'https://kafka.apache.org/documentation/',
+  'simple-icons:apacheparquet': 'https://parquet.apache.org/docs/',
+  'simple-icons:apachehadoop': 'https://hadoop.apache.org/docs/stable/',
+  'simple-icons:python': 'https://docs.python.org/3/',
+  'simple-icons:podman': 'https://docs.podman.io/',
+  'simple-icons:docker': 'https://docs.docker.com/',
+  'simple-icons:kubernetes': 'https://kubernetes.io/docs/',
+  'simple-icons:helm': 'https://helm.sh/docs/',
+  'simple-icons:postgresql': 'https://www.postgresql.org/docs/',
+  'simple-icons:redis': 'https://redis.io/docs/latest/',
+  'simple-icons:apachesolr': 'https://solr.apache.org/guide/',
+  'simple-icons:minio': 'https://min.io/docs/minio/linux/index.html',
+  'simple-icons:databricks': 'https://docs.databricks.com/',
+  'simple-icons:mlflow': 'https://mlflow.org/docs/latest/',
+  'simple-icons:terraform': 'https://developer.hashicorp.com/terraform/docs',
+  'simple-icons:nginx': 'https://nginx.org/en/docs/',
+  'simple-icons:linux': 'https://www.kernel.org/doc/html/latest/',
+  'simple-icons:gitlab': 'https://docs.gitlab.com/',
+  'simple-icons:github': 'https://docs.github.com/',
+  'simple-icons:git': 'https://git-scm.com/doc',
+  'simple-icons:angular': 'https://angular.dev/overview',
+  'simple-icons:typescript': 'https://www.typescriptlang.org/docs/',
+  'simple-icons:reactivex': 'https://rxjs.dev/guide/overview',
+  'simple-icons:streamlit': 'https://docs.streamlit.io/',
+  'simple-icons:nextdotjs': 'https://nextjs.org/docs',
+  'simple-icons:jinja': 'https://jinja.palletsprojects.com/',
+  'simple-icons:oracle': 'https://docs.oracle.com/en/database/',
+  'simple-icons:r': 'https://cran.r-project.org/manuals.html',
+};
 
 interface Rule {
   test: (s: string) => boolean;
@@ -84,7 +138,7 @@ const rules: Rule[] = [
 export function getTech(label: string): TechIcon | null {
   const s = label.toLowerCase().trim();
   for (const r of rules) {
-    if (r.test(s)) return { icon: r.icon, color: r.color };
+    if (r.test(s)) return { icon: r.icon, color: r.color, doc: DOCS[r.icon] };
   }
   return null;
 }

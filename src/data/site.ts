@@ -60,10 +60,10 @@ export const profile: SiteProfile = {
 
 /** Secciones navegables del home (ancla -> etiqueta i18n). */
 export const navSections = [
-  { id: 'about', key: 'nav.about' },
-  { id: 'experience', key: 'nav.experience' },
-  { id: 'projects', key: 'nav.projects' },
-  { id: 'skills', key: 'nav.skills' },
-  { id: 'education', key: 'nav.education' },
-  { id: 'contact', key: 'nav.contact' },
+  { id: 'about', key: 'nav.about', icon: 'lucide:user-round' },
+  { id: 'experience', key: 'nav.experience', icon: 'lucide:briefcase' },
+  { id: 'projects', key: 'nav.projects', icon: 'lucide:layers' },
+  { id: 'skills', key: 'nav.skills', icon: 'lucide:code-xml' },
+  { id: 'education', key: 'nav.education', icon: 'lucide:graduation-cap' },
+  { id: 'contact', key: 'nav.contact', icon: 'lucide:mail' },
 ] as const;

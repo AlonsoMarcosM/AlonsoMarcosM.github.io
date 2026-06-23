@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import { Icon as Iconify } from 'astro-icon/components';
 import CopyEmail from './CopyEmail.astro';
 import { profile } from '../data/site';
 import { pick, localePath, useTranslations, type Lang } from '../i18n/utils';
@@ -37,10 +38,10 @@ const cvHref = lang === 'es' ? profile.cv.es : profile.cv.en;
         <div class="mt-8 flex flex-wrap items-center gap-3">
           <a
             href={localePath(lang, 'projects')}
-            class="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-5 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-brand-500/20 transition hover:bg-brand-400"
+            class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-brand-500 to-blue-500 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_18px_40px_-22px_rgba(14,165,233,0.9)] transition-all hover:from-cyan-400 hover:to-sky-600"
           >
+            <Iconify name="lucide:layers" class="h-4 w-4" />
             {t('hero.cta.projects')}
-            <Icon name="arrow-right" class="h-4 w-4" />
           </a>
           <a
             href={`mailto:${profile.email}`}
@@ -100,6 +101,33 @@ const cvHref = lang === 'es' ? profile.cv.es : profile.cv.en;
             class="relative h-44 w-44 rounded-full object-cover object-center shadow-2xl ring-2 ring-slate-950/10 transition duration-500 group-hover:scale-[1.03] sm:h-60 sm:w-60"
           />
         </div>
+      </div>
+    </div>
+
+    <div
+      class="mt-12 grid grid-cols-1 divide-y divide-slate-200/70 rounded-2xl border border-slate-200/70 bg-white/60 backdrop-blur sm:grid-cols-3 sm:divide-x sm:divide-y-0 dark:divide-slate-700/50 dark:border-slate-700/50 dark:bg-slate-900/40"
+    >
+      <div class="px-6 py-5 text-center sm:text-left">
+        <p class="text-gradient text-3xl font-bold tracking-tight sm:text-4xl">
+          +<span data-countup="10000">10.000</span>
+        </p>
+        <p class="mt-1 text-[11px] font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          {lang === 'es' ? 'Datasets públicos · datos.gob.es' : 'Public datasets · datos.gob.es'}
+        </p>
+      </div>
+      <div class="px-6 py-5 text-center sm:text-left">
+        <p class="text-gradient text-3xl font-bold tracking-tight sm:text-4xl">
+          <span data-countup="22">22</span>
+        </p>
+        <p class="mt-1 text-[11px] font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          {lang === 'es' ? 'Organismos de la AGE' : 'Public bodies (AGE)'}
+        </p>
+      </div>
+      <div class="px-6 py-5 text-center sm:text-left">
+        <p class="text-3xl font-bold tracking-tight sm:text-4xl">DATA</p>
+        <p class="mt-1 text-[11px] font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          {lang === 'es' ? 'Gobernanza e interoperabilidad' : 'Governance & interoperability'}
+        </p>
       </div>
     </div>
   </div>

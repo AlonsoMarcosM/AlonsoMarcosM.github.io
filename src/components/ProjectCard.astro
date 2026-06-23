@@ -16,8 +16,9 @@ const tags = project.tags.slice(0, 4);
 ---
 
 <article
-  class="reveal group relative flex flex-col rounded-2xl border border-slate-200 bg-white/70 p-6 backdrop-blur transition hover:-translate-y-1 hover:border-brand-400/70 hover:shadow-xl hover:shadow-brand-500/10 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:border-brand-400/60"
+  class="reveal group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/70 p-6 backdrop-blur transition hover:-translate-y-1 hover:border-brand-400/70 hover:shadow-xl hover:shadow-brand-500/10 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:border-brand-400/60"
 >
+  <div class="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-400 via-accent-500 to-blue-500 opacity-80 transition group-hover:opacity-100"></div>
   <div class="mb-3 flex items-center justify-between gap-2 text-xs font-medium">
     <span class="rounded-full bg-gradient-to-r from-brand-500/15 to-accent-500/15 px-2.5 py-1 font-mono text-brand-600 dark:text-brand-300">
       {pick(project.category, lang)}
