@@ -5,7 +5,9 @@ import Section from '../../components/Section.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import ExperienceItem from '../../components/ExperienceItem.astro';
 import SkillGroup from '../../components/SkillGroup.astro';
+import CopyEmail from '../../components/CopyEmail.astro';
 import Icon from '../../components/Icon.astro';
+import { Icon as Iconify } from 'astro-icon/components';
 import { profile } from '../../data/site';
 import { experiences } from '../../data/experience';
 import { orderedProjects } from '../../data/projects';
@@ -27,23 +29,23 @@ const description = pick(profile.tagline, lang);
 <Base lang={lang} title={title} description={description}>
   <Hero lang={lang} />
 
-  <Section id="about" title={t('section.about')}>
-    <div class="max-w-3xl space-y-4 text-slate-600 dark:text-slate-300">
+  <Section id="about" index="01" title={t('section.about')}>
+    <div class="reveal max-w-3xl space-y-4 text-slate-600 dark:text-slate-300">
       {profile.about.map((p) => <p class="leading-relaxed">{pick(p, lang)}</p>)}
     </div>
   </Section>
 
-  <Section id="experience" title={t('section.experience')} class="bg-slate-50/60 dark:bg-slate-900/30">
-    <div class="space-y-10">
+  <Section id="experience" index="02" title={t('section.experience')} class="bg-slate-50/60 dark:bg-slate-900/30">
+    <div>
       {experiences.map((item) => <ExperienceItem item={item} lang={lang} />)}
     </div>
   </Section>
 
-  <Section id="projects" title={t('section.projects')} subtitle={t('section.projects.subtitle')}>
+  <Section id="projects" index="03" title={t('section.projects')} subtitle={t('section.projects.subtitle')}>
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {featured.map((project) => <ProjectCard project={project} lang={lang} />)}
     </div>
-    <div class="mt-8">
+    <div class="reveal mt-8">
       <a
         href={localePath(lang, 'projects')}
         class="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-5 py-2.5 text-sm font-semibold transition hover:border-brand-400 hover:text-brand-500 dark:border-slate-700"
@@ -54,57 +56,82 @@ const description = pick(profile.tagline, lang);
     </div>
   </Section>
 
-  <Section id="skills" title={t('section.skills')} class="bg-slate-50/60 dark:bg-slate-900/30">
+  <Section id="skills" index="04" title={t('section.skills')} class="bg-slate-50/60 dark:bg-slate-900/30">
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {skillGroups.map((group) => <SkillGroup group={group} lang={lang} />)}
     </div>
   </Section>
 
-  <Section id="education" title={t('section.education')}>
+  <Section id="education" index="05" title={t('section.education')}>
     <div class="grid gap-10 md:grid-cols-2">
-      <div class="space-y-5">
-        {
-          education.map((e) => (
-            <div class="rounded-2xl border border-slate-200 p-5 dark:border-slate-800">
-              <div class="flex items-baseline justify-between gap-2">
-                <span class="font-mono text-xs text-brand-600 dark:text-brand-400">{e.institution}</span>
-                <span class="font-mono text-xs text-slate-400">{pick(e.period, lang)}</span>
-              </div>
-              <p class="mt-1 font-medium">{pick(e.title, lang)}</p>
-              {e.note && (
-                <span class="mt-2 inline-block rounded-full bg-brand-500/10 px-2 py-0.5 text-xs text-brand-600 dark:text-brand-300">
-                  {pick(e.note, lang)}
+      <div>
+        <h3 class="reveal mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          <Iconify name="lucide:graduation-cap" class="h-4 w-4 text-brand-500" />
+          {lang === 'es' ? 'Educación' : 'Education'}
+        </h3>
+        <div class="space-y-4">
+          {
+            education.map((e) => (
+              <div class="reveal group flex gap-4 rounded-2xl border border-slate-200 bg-white/60 p-5 transition hover:border-brand-400/50 dark:border-slate-800 dark:bg-slate-900/40">
+                <span class="grid h-10 w-10 flex-none place-items-center rounded-xl bg-brand-500/10 text-brand-500">
+                  <Iconify name="lucide:graduation-cap" class="h-5 w-5" />
                 </span>
-              )}
-            </div>
-          ))
-        }
-      </div>
-      <div class="space-y-5">
-        {
-          certifications.map((c) => (
-            <div class="rounded-2xl border border-slate-200 p-5 dark:border-slate-800">
-              <div class="flex items-baseline justify-between gap-2">
-                <p class="font-medium">{c.name}</p>
-                <span class="font-mono text-xs text-slate-400">{c.issuer}</span>
+                <div>
+                  <div class="flex flex-wrap items-baseline gap-x-2">
+                    <span class="font-mono text-xs text-brand-600 dark:text-brand-400">{e.institution}</span>
+                    <span class="font-mono text-xs text-slate-400">· {pick(e.period, lang)}</span>
+                  </div>
+                  <p class="mt-1 font-medium leading-snug">{pick(e.title, lang)}</p>
+                  {e.note && (
+                    <span class="mt-2 inline-block rounded-full bg-brand-500/10 px-2 py-0.5 text-xs text-brand-600 dark:text-brand-300">
+                      {pick(e.note, lang)}
+                    </span>
+                  )}
+                </div>
               </div>
-              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{pick(c.note, lang)}</p>
-            </div>
-          ))
-        }
+            ))
+          }
+        </div>
+      </div>
+      <div>
+        <h3 class="reveal mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          <Iconify name="lucide:award" class="h-4 w-4 text-accent-500" />
+          {lang === 'es' ? 'Certificaciones' : 'Certifications'}
+        </h3>
+        <div class="space-y-4">
+          {
+            certifications.map((c) => (
+              <div class="reveal flex gap-4 rounded-2xl border border-slate-200 bg-white/60 p-5 transition hover:border-accent-400/50 dark:border-slate-800 dark:bg-slate-900/40">
+                <span class="grid h-10 w-10 flex-none place-items-center rounded-xl bg-accent-500/10 text-accent-500">
+                  <Iconify name="lucide:badge-check" class="h-5 w-5" />
+                </span>
+                <div>
+                  <div class="flex flex-wrap items-baseline gap-x-2">
+                    <p class="font-medium">{c.name}</p>
+                    <span class="font-mono text-xs text-slate-400">· {c.issuer}</span>
+                  </div>
+                  <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{pick(c.note, lang)}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
       </div>
     </div>
   </Section>
 
-  <Section id="contact" title={t('section.contact')} subtitle={t('section.contact.subtitle')} class="bg-slate-50/60 dark:bg-slate-900/30">
-    <div class="flex flex-col items-start gap-6">
-      <a
-        href={`mailto:${profile.email}`}
-        class="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-brand-400"
-      >
-        <Icon name="email" class="h-5 w-5" />
-        {profile.email}
-      </a>
+  <Section id="contact" index="06" title={t('section.contact')} subtitle={t('section.contact.subtitle')} class="bg-slate-50/60 dark:bg-slate-900/30">
+    <div class="reveal flex flex-col items-start gap-5">
+      <div class="flex flex-wrap items-center gap-3">
+        <a
+          href={`mailto:${profile.email}`}
+          class="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-brand-500/20 transition hover:bg-brand-400"
+        >
+          <Icon name="email" class="h-5 w-5" />
+          {t('contact.cta')}
+        </a>
+        <CopyEmail email={profile.email} variant="pill" copyLabel={t('contact.copy')} copiedLabel={t('contact.copied')} />
+      </div>
       <div class="flex flex-wrap items-center gap-5 text-slate-500 dark:text-slate-400">
         {
           profile.socials.filter((s) => s.icon !== 'email').map((s) => (

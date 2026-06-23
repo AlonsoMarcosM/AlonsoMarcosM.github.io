@@ -1,0 +1,43 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  email: string;
+  /** 'icon' = solo icono (junto al botón de email); 'pill' = email + icono. */
+  variant?: 'icon' | 'pill';
+  copyLabel?: string;
+  copiedLabel?: string;
+}
+const { email, variant = 'icon', copyLabel = 'Copiar email', copiedLabel = '¡Copiado!' } = Astro.props;
+---
+
+{
+  variant === 'icon' ? (
+    <button
+      type="button"
+      class="group/copy relative inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-300 text-slate-500 transition hover:border-brand-400 hover:text-brand-500 dark:border-slate-700 dark:text-slate-400"
+      data-copy-email={email}
+      data-copied-label={copiedLabel}
+      aria-label={copyLabel}
+      title={copyLabel}
+    >
+      <Icon name="lucide:copy" class="copy-ico h-4 w-4" />
+      <Icon name="lucide:check" class="check-ico hidden h-4 w-4 text-brand-500" />
+      <span class="copy-tip pointer-events-none absolute -top-9 whitespace-nowrap rounded-md bg-slate-900 px-2 py-1 text-xs text-white opacity-0 transition group-hover/copy:opacity-100 dark:bg-slate-700">
+        {copyLabel}
+      </span>
+    </button>
+  ) : (
+    <button
+      type="button"
+      class="group/copy inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 font-mono text-sm transition hover:border-brand-400 hover:text-brand-500 dark:border-slate-700"
+      data-copy-email={email}
+      data-copied-label={copiedLabel}
+      aria-label={copyLabel}
+    >
+      <Icon name="lucide:copy" class="copy-ico h-4 w-4" />
+      <Icon name="lucide:check" class="check-ico hidden h-4 w-4 text-brand-500" />
+      <span class="copy-text">{email}</span>
+    </button>
+  )
+}

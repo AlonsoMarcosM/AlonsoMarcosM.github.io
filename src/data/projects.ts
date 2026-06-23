@@ -40,6 +40,7 @@ export const projects: Project[] = [
     tags: ['OpenMetadata', 'DCAT-AP-ES', 'Kubernetes', 'Python'],
     stack: ['Python', 'OpenMetadata 1.x', 'Kubernetes', 'Helm', 'Kind', 'PostgreSQL', 'SHACL / pySHACL', 'JSON-LD / RDF', 'Next.js'],
     github: 'https://github.com/AlonsoMarcosM/TFM_Alonso_Marcos_Mu-oz',
+    demo: 'https://tfm-plataforma-gobierno-dato.vercel.app',
     context: {
       es: 'Trabajo Fin de Máster: diseño y configuración de un modelo de metadatos en OpenMetadata conforme al estándar DCAT-AP para la interoperabilidad de catálogos de datos. El perfil activo combina DCAT-AP 2.1.1, DCAT-AP HVD 2.2.0 y especificaciones adicionales.',
       en: "Master's thesis: designing and configuring a metadata model in OpenMetadata compliant with the DCAT-AP standard for data catalogue interoperability. The active profile combines DCAT-AP 2.1.1, DCAT-AP HVD 2.2.0 and additional specifications.",
@@ -128,6 +129,7 @@ export const projects: Project[] = [
     tags: ['Databricks', 'Delta Lake', 'MLflow', 'Unity Catalog'],
     stack: ['Databricks', 'Unity Catalog', 'PySpark', 'Delta Lake', 'Auto Loader', 'Databricks Asset Bundles', 'Spark MLlib', 'MLflow', 'Lakehouse Monitoring'],
     github: 'https://github.com/AlonsoMarcosM/Trabajo-DESARROLLO-Y-DESPLIEGUE-DE-SOLUCIONES-BIG-DATA',
+    demo: 'https://alonsomarcosm.github.io/Trabajo-DESARROLLO-Y-DESPLIEGUE-DE-SOLUCIONES-BIG-DATA/',
     context: {
       es: 'Plataforma de Big Data y MLOps sobre Databricks Lakehouse para predecir la fuga de clientes (churn) en una operadora. Cubre todo el ciclo: generación de datos, ingesta incremental, arquitectura Medallion, calidad, histórico SCD2/CDC, feature engineering temporal, entrenamiento, trazabilidad y monitorización.',
       en: 'A Big Data and MLOps platform on Databricks Lakehouse to predict customer churn at a telecom operator. It covers the full lifecycle: data generation, incremental ingestion, Medallion architecture, quality, SCD2/CDC history, temporal feature engineering, training, traceability and monitoring.',
@@ -166,6 +168,7 @@ export const projects: Project[] = [
     tags: ['Spark', 'Airflow', 'Kafka', 'Delta Lake'],
     stack: ['Python', 'Apache Spark', 'Apache Airflow', 'Apache Kafka', 'SQL Server', 'MinIO', 'Delta Lake', 'Docker Compose'],
     github: 'https://github.com/AlonsoMarcosM/Proyecto_Big_Data_PMD_ASBD',
+    demo: 'https://alonsomarcosm.github.io/Proyecto_Big_Data_PMD_ASBD/',
     context: {
       es: 'Proyecto reproducible para mantener un catálogo vivo de metadatos de datasets mediante ingesta batch y streaming, combinando fuentes estructuradas (SQL Server), semiestructuradas (CSV con JSON embebido) y streaming real (Kafka).',
       en: 'A reproducible project to maintain a living metadata catalogue through batch and streaming ingestion, combining structured (SQL Server), semi-structured (CSV with embedded JSON) and real streaming (Kafka) sources.',
@@ -204,6 +207,7 @@ export const projects: Project[] = [
     tags: ['OpenMetadata', 'UNE 0077-0081', 'Kubernetes'],
     stack: ['OpenMetadata 1.12', 'Kubernetes', 'Helm', 'Kind', 'Python 3.10', 'PowerShell 7'],
     github: 'https://github.com/AlonsoMarcosM/TrabajoGobiernoCalidadDatos',
+    demo: 'https://alonsomarcosm.github.io/TrabajoGobiernoCalidadDatos/',
     context: {
       es: 'Práctica transversal que aplica los procesos UNE 0077, 0078, 0079, 0080 y 0081 sobre el caso ficticio EnergiTech y materializa el modelo en una instancia real de OpenMetadata sobre Kubernetes. El entregable no se queda en papel: catálogo, glosario, linaje y custom properties existen como entidades navegables.',
       en: 'A cross-cutting case study applying the UNE 0077, 0078, 0079, 0080 and 0081 processes to the fictional EnergiTech case, materialising the model in a real OpenMetadata instance on Kubernetes. The deliverable is not just paper: catalogue, glossary, lineage and custom properties exist as navigable entities.',
@@ -240,6 +244,7 @@ export const projects: Project[] = [
     tags: ['Terraform', 'AWS', 'Lambda', 'IaC'],
     stack: ['Terraform', 'AWS EC2 (Cowrie)', 'AWS S3', 'AWS Lambda', 'AWS SNS', 'AWS CloudWatch', 'AWS SSM', 'PowerShell'],
     github: 'https://github.com/AlonsoMarcosM/DAMN-TEAMSSN',
+    demo: 'https://alonsomarcosm.github.io/DAMN-TEAMSSN/',
     context: {
       es: 'Proyecto cloud para desplegar un honeypot SSH (Cowrie) en AWS con recogida de logs en S3, análisis automatizado con Lambda y alertas por SNS, con infraestructura como código en Terraform. Trabajo en equipo con flujo de PRs revisados y aislamiento por persona.',
       en: 'A cloud project to deploy an SSH honeypot (Cowrie) on AWS with log collection in S3, automated analysis with Lambda and alerts via SNS, with infrastructure as code in Terraform. Teamwork with a reviewed-PR flow and per-person isolation.',
@@ -276,6 +281,7 @@ export const projects: Project[] = [
     tags: ['Angular', 'R / Plumber', 'Docker', 'JWT'],
     stack: ['Angular', 'TypeScript', 'RxJS', 'R', 'Plumber', 'Docker Compose', 'JWT', 'OpenAPI'],
     github: 'https://github.com/AlonsoMarcosM/TFG_AlonsoMarcosMu-oz',
+    demo: 'https://alonsomarcosm.github.io/TFG_AlonsoMarcosMu-oz/',
     context: {
       es: 'Trabajo Fin de Grado: aplicación web interactiva capaz de ejecutar scripts en R desde el navegador. Separa frontend y backend, expone APIs REST con Plumber y despliega ambos componentes en contenedores Docker.',
       en: "Bachelor's thesis: an interactive web application that runs R scripts from the browser. It separates frontend and backend, exposes REST APIs with Plumber and deploys both components in Docker containers.",

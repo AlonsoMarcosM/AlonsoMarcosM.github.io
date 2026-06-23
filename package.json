@@ -12,8 +12,14 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
+    "@iconify-json/lucide": "^1.2.114",
+    "@iconify-json/simple-icons": "^1.2.87",
     "@tailwindcss/vite": "^4.3.1",
     "astro": "^5.18.2",
+    "astro-icon": "^1.1.5",
     "tailwindcss": "^4.3.1"
+  },
+  "devDependencies": {
+    "playwright": "^1.61.0"
   }
 }

@@ -7,7 +7,7 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Consolas", monospace;
 
-  /* Acento de marca (teal/cyan) — eje "data engineering". */
+  /* Acento principal (teal/cyan) — eje "data engineering". */
   --color-brand-50: #ecfeff;
   --color-brand-100: #cffafe;
   --color-brand-200: #a5f3fc;
@@ -18,6 +18,12 @@
   --color-brand-700: #0e7490;
   --color-brand-800: #155e75;
   --color-brand-900: #164e63;
+
+  /* Acento secundario (índigo) para gradientes y variedad. */
+  --color-accent-300: #a5b4fc;
+  --color-accent-400: #818cf8;
+  --color-accent-500: #6366f1;
+  --color-accent-600: #4f46e5;
 }
 
 html {
@@ -26,13 +32,10 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
     animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
 }
@@ -42,11 +45,24 @@ body {
 }
 
 .dark body {
-  @apply bg-slate-950 text-slate-200;
+  @apply text-slate-200;
+  background-color: #020617;
+  background-image:
+    radial-gradient(60rem 60rem at 80% -10%, rgba(99, 102, 241, 0.10), transparent 60%),
+    radial-gradient(50rem 50rem at 0% 0%, rgba(6, 182, 212, 0.10), transparent 55%);
+  background-attachment: fixed;
 }
 
 ::selection {
   @apply bg-brand-400/30;
+}
+
+/* Texto con gradiente de marca. */
+.text-gradient {
+  background-image: linear-gradient(120deg, var(--color-brand-400), var(--color-accent-400));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* Patrón sutil de rejilla para fondos de sección (motivo "pipeline/grafo"). */
@@ -57,7 +73,41 @@ body {
   background-size: 2.5rem 2.5rem;
 }
 
-/* Realce de la foto del hero. */
-.photo-ring {
-  mask-image: radial-gradient(circle, #000 70%, transparent 72%);
+/* Revelado al hacer scroll (lo activa un IntersectionObserver en Base).
+   Solo se oculta si hay JS (clase .js en <html>): sin JS, todo es visible. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  will-change: opacity, transform;
+}
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Anillo de gradiente giratorio para la foto del hero. */
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 9s linear infinite;
+}
+
+/* Flotación sutil. */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Marquesina suave para la tira de tecnologías. */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
 }

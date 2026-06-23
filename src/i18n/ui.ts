@@ -52,6 +52,8 @@ export const ui = {
     'contact.linkedin': 'LinkedIn',
     'contact.github': 'GitHub',
     'contact.cta': 'Enviar email',
+    'contact.copy': 'Copiar email',
+    'contact.copied': '¡Copiado!',
 
     'footer.builtWith': 'Hecho con Astro y Tailwind. Desplegado en GitHub Pages.',
     'footer.source': 'Código fuente',
@@ -106,6 +108,8 @@ export const ui = {
     'contact.linkedin': 'LinkedIn',
     'contact.github': 'GitHub',
     'contact.cta': 'Send email',
+    'contact.copy': 'Copy email',
+    'contact.copied': 'Copied!',
 
     'footer.builtWith': 'Built with Astro and Tailwind. Deployed on GitHub Pages.',
     'footer.source': 'Source code',

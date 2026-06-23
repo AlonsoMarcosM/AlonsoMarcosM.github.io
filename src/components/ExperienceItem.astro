@@ -1,4 +1,5 @@
 ---
+import TechBadge from './TechBadge.astro';
 import { pick, useTranslations, type Lang } from '../i18n/utils';
 import type { Experience } from '../data/experience';
 
@@ -18,41 +19,56 @@ function fmt(value: string): string {
 }
 const period = `${fmt(item.period.from)} – ${item.period.to ? fmt(item.period.to) : t('experience.present')}`;
 const highlights = pick(item.highlights, lang);
+
+const stop = ['de', 'del', 'la', 'el', 'y', 'and', 'of'];
+const initials = item.company
+  .split(/\s+/)
+  .filter((w) => !stop.includes(w.toLowerCase()))
+  .slice(0, 2)
+  .map((w) => w[0])
+  .join('')
+  .toUpperCase();
+const current = item.period.to === null;
 ---
 
-<article class="relative pl-8">
-  <span class="absolute left-0 top-1.5 h-3 w-3 rounded-full border-2 border-brand-500 bg-white dark:bg-slate-950"></span>
-  <span class="absolute left-[5px] top-5 h-[calc(100%-1rem)] w-px bg-slate-200 dark:bg-slate-800"></span>
-
-  <div class="flex flex-col justify-between gap-1 sm:flex-row sm:items-baseline">
-    <h3 class="text-lg font-semibold">
-      {item.company}
-    </h3>
-    <span class="font-mono text-xs text-slate-400">{period}</span>
+<article class="reveal relative flex gap-4 pl-1">
+  <div class="flex flex-col items-center">
+    <span class="grid h-11 w-11 flex-none place-items-center rounded-xl bg-gradient-to-br from-brand-500 to-accent-500 font-mono text-sm font-bold text-slate-950 shadow-lg shadow-brand-500/20">
+      {initials}
+    </span>
+    <span class="mt-2 w-px flex-1 bg-slate-200 dark:bg-slate-800"></span>
   </div>
-  <p class="text-sm font-medium text-brand-600 dark:text-brand-400">{pick(item.role, lang)}</p>
-  <p class="mt-1 text-xs text-slate-400">{pick(item.location, lang)}</p>
 
-  <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">{pick(item.summary, lang)}</p>
+  <div class="pb-10">
+    <div class="flex flex-col justify-between gap-1 sm:flex-row sm:items-baseline">
+      <h3 class="flex items-center gap-2 text-lg font-semibold">
+        {item.company}
+        {current && (
+          <span class="rounded-full bg-brand-500/15 px-2 py-0.5 text-[11px] font-medium text-brand-600 dark:text-brand-300">
+            {t('experience.present')}
+          </span>
+        )}
+      </h3>
+      <span class="font-mono text-xs text-slate-400">{period}</span>
+    </div>
+    <p class="text-sm font-medium text-brand-600 dark:text-brand-400">{pick(item.role, lang)}</p>
+    <p class="mt-1 text-xs text-slate-400">{pick(item.location, lang)}</p>
 
-  <ul class="mt-3 space-y-1.5">
-    {
-      highlights.map((h) => (
-        <li class="flex gap-2 text-sm text-slate-600 dark:text-slate-400">
-          <span class="mt-2 h-1 w-1 flex-none rounded-full bg-brand-500"></span>
-          <span>{h}</span>
-        </li>
-      ))
-    }
-  </ul>
+    <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">{pick(item.summary, lang)}</p>
 
-  <div class="mt-3 flex flex-wrap gap-1.5">
-    {
-      item.tags.map((tag) => (
-        <span class="rounded-md border border-slate-200 px-2 py-0.5 font-mono text-[11px] text-slate-500 dark:border-slate-700 dark:text-slate-400">
-          {tag}
-        </span>
-      ))
-    }
+    <ul class="mt-3 space-y-1.5">
+      {
+        highlights.map((h) => (
+          <li class="flex gap-2 text-sm text-slate-600 dark:text-slate-400">
+            <span class="mt-2 h-1 w-1 flex-none rounded-full bg-brand-500"></span>
+            <span>{h}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-4 flex flex-wrap gap-1.5">
+      {item.tags.map((tag) => <TechBadge label={tag} size="sm" />)}
+    </div>
   </div>
 </article>
