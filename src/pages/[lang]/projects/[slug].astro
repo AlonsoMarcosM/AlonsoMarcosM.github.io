@@ -38,10 +38,18 @@ const description = pick(project.tagline, lang);
     <header class="relative mt-6 overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-brand-500/10 via-transparent to-accent-500/10 p-7 dark:border-slate-800">
       <div class="bg-grid pointer-events-none absolute inset-0 opacity-40 [mask-image:radial-gradient(ellipse_at_top_left,black,transparent_70%)]"></div>
       <div class="relative">
-        <div class="flex items-center gap-3 text-xs font-medium">
+        <div class="flex flex-wrap items-center gap-3 text-xs font-medium">
           <span class="rounded-full bg-gradient-to-r from-brand-500/20 to-accent-500/20 px-2.5 py-1 font-mono text-brand-600 dark:text-brand-200">
             {pick(project.category, lang)}
           </span>
+          {
+            project.badge && (
+              <span class="inline-flex items-center gap-1.5 rounded-full bg-amber-400/15 px-2.5 py-1 font-mono text-amber-700 ring-1 ring-amber-400/30 dark:text-amber-300">
+                <Iconify name="lucide:graduation-cap" class="h-3.5 w-3.5" />
+                {pick(project.badge, lang)}
+              </span>
+            )
+          }
           <span class="font-mono text-slate-400">{project.year}</span>
         </div>
         <h1 class="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">{pick(project.title, lang)}</h1>

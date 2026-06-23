@@ -19,7 +19,7 @@ export interface Certification {
 export const education: EducationItem[] = [
   {
     institution: 'UCLM',
-    logo: '/img/edu/uclm.svg',
+    logo: '/img/edu/uclm.jpg',
     title: {
       es: 'Máster Universitario en Big Data y Computación en la Nube',
       en: "Master's Degree in Big Data & Cloud Computing",
@@ -29,7 +29,7 @@ export const education: EducationItem[] = [
   },
   {
     institution: 'UCLM',
-    logo: '/img/edu/uclm.svg',
+    logo: '/img/edu/uclm.jpg',
     title: {
       es: 'Grado en Ingeniería Informática · Especialización en Tecnologías de la Información',
       en: 'BSc in Computer Engineering · Information Technologies specialisation',

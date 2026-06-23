@@ -6,6 +6,8 @@ export interface Project {
   /** Frase corta para la tarjeta. */
   tagline: I18nText;
   category: I18nText;
+  /** Distintivo académico opcional (p.ej. TFM/TFG). */
+  badge?: I18nText;
   year: string;
   featured: boolean;
   /** Orden de aparición (menor = antes). */
@@ -25,6 +27,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     slug: 'tfm-openmetadata-dcat-ap-es',
+    badge: { es: 'TFM · Trabajo Fin de Máster', en: "TFM · Master's Thesis" },
     title: {
       es: 'OpenMetadata + DCAT-AP-ES',
       en: 'OpenMetadata + DCAT-AP-ES',
@@ -76,11 +79,12 @@ export const projects: Project[] = [
     },
     category: { es: 'Cloud · IoT', en: 'Cloud · IoT' },
     year: '2026',
-    featured: false,
+    featured: true,
     order: 2,
     tags: ['AWS IoT', 'Serverless', 'Lambda', 'DynamoDB'],
     stack: ['AWS IoT Core (MQTT + mTLS)', 'AWS Lambda (Python 3.12)', 'DynamoDB', 'API Gateway + OpenAPI 3.0', 'GeoJSON', 'Streamlit', 'boto3', 'paho-mqtt'],
     github: 'https://github.com/AlonsoMarcosM/smart-parking-albacete',
+    demo: 'https://smart-parking-albacete.streamlit.app/',
     context: {
       es: 'Plataforma IoT serverless end-to-end de aparcamiento inteligente para el entorno universitario de Albacete, sobre infraestructura AWS real (no simulada). 40 sensores simulados publican por MQTT con mTLS contra AWS IoT Core, con procesado serverless y un dashboard en vivo.',
       en: 'End-to-end serverless IoT smart-parking platform for the university area of Albacete, on real (non-mocked) AWS infrastructure. 40 simulated sensors publish over MQTT with mTLS to AWS IoT Core, with serverless processing and a live dashboard.',
@@ -124,7 +128,7 @@ export const projects: Project[] = [
     },
     category: { es: 'Big Data · MLOps', en: 'Big Data · MLOps' },
     year: '2026',
-    featured: true,
+    featured: false,
     order: 3,
     tags: ['Databricks', 'Delta Lake', 'MLflow', 'Unity Catalog'],
     stack: ['Databricks', 'Unity Catalog', 'PySpark', 'Delta Lake', 'Auto Loader', 'Databricks Asset Bundles', 'Spark MLlib', 'MLflow', 'Lakehouse Monitoring'],
@@ -266,6 +270,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'tfg-remote-r-scripts',
+    badge: { es: 'TFG · Trabajo Fin de Grado', en: 'TFG · Bachelor’s Thesis' },
     title: {
       es: 'Ejecución remota de scripts en R',
       en: 'Remote execution of R scripts',

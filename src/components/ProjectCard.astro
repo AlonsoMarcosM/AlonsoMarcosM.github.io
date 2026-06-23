@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import { Icon as Iconify } from 'astro-icon/components';
 import TechBadge from './TechBadge.astro';
 import { pick, localePath, useTranslations, type Lang } from '../i18n/utils';
 import type { Project } from '../data/projects';
@@ -23,6 +24,15 @@ const tags = project.tags.slice(0, 4);
     </span>
     <span class="font-mono text-slate-400">{project.year}</span>
   </div>
+
+  {
+    project.badge && (
+      <span class="mb-2 inline-flex w-fit items-center gap-1 rounded-md bg-amber-400/15 px-2 py-0.5 font-mono text-[11px] font-semibold text-amber-700 ring-1 ring-amber-400/30 dark:text-amber-300">
+        <Iconify name="lucide:graduation-cap" class="h-3 w-3" />
+        {pick(project.badge, lang)}
+      </span>
+    )
+  }
 
   <h3 class="text-lg font-semibold tracking-tight">
     <a href={href} class="transition group-hover:text-brand-500 before:absolute before:inset-0 before:content-['']">
