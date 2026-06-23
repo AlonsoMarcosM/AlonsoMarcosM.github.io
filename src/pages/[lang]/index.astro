@@ -6,8 +6,8 @@ import ProjectCard from '../../components/ProjectCard.astro';
 import ExperienceItem from '../../components/ExperienceItem.astro';
 import SkillGroup from '../../components/SkillGroup.astro';
 import CopyEmail from '../../components/CopyEmail.astro';
+import CredentialCard from '../../components/CredentialCard.astro';
 import Icon from '../../components/Icon.astro';
-import { Icon as Iconify } from 'astro-icon/components';
 import { profile } from '../../data/site';
 import { experiences } from '../../data/experience';
 import { orderedProjects } from '../../data/projects';
@@ -62,61 +62,34 @@ const description = pick(profile.tagline, lang);
     </div>
   </Section>
 
-  <Section id="education" index="05" title={t('section.education')}>
-    <div class="grid gap-10 md:grid-cols-2">
-      <div>
-        <h3 class="reveal mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-          <Iconify name="lucide:graduation-cap" class="h-4 w-4 text-brand-500" />
-          {lang === 'es' ? 'Educación' : 'Education'}
-        </h3>
-        <div class="space-y-4">
-          {
-            education.map((e) => (
-              <div class="reveal group flex gap-4 rounded-2xl border border-slate-200 bg-white/60 p-5 transition hover:border-brand-400/50 dark:border-slate-800 dark:bg-slate-900/40">
-                <span class="grid h-10 w-10 flex-none place-items-center rounded-xl bg-brand-500/10 text-brand-500">
-                  <Iconify name="lucide:graduation-cap" class="h-5 w-5" />
-                </span>
-                <div>
-                  <div class="flex flex-wrap items-baseline gap-x-2">
-                    <span class="font-mono text-xs text-brand-600 dark:text-brand-400">{e.institution}</span>
-                    <span class="font-mono text-xs text-slate-400">· {pick(e.period, lang)}</span>
-                  </div>
-                  <p class="mt-1 font-medium leading-snug">{pick(e.title, lang)}</p>
-                  {e.note && (
-                    <span class="mt-2 inline-block rounded-full bg-brand-500/10 px-2 py-0.5 text-xs text-brand-600 dark:text-brand-300">
-                      {pick(e.note, lang)}
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-      <div>
-        <h3 class="reveal mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-          <Iconify name="lucide:award" class="h-4 w-4 text-accent-500" />
-          {lang === 'es' ? 'Certificaciones' : 'Certifications'}
-        </h3>
-        <div class="space-y-4">
-          {
-            certifications.map((c) => (
-              <div class="reveal flex gap-4 rounded-2xl border border-slate-200 bg-white/60 p-5 transition hover:border-accent-400/50 dark:border-slate-800 dark:bg-slate-900/40">
-                <span class="grid h-10 w-10 flex-none place-items-center rounded-xl bg-accent-500/10 text-accent-500">
-                  <Iconify name="lucide:badge-check" class="h-5 w-5" />
-                </span>
-                <div>
-                  <div class="flex flex-wrap items-baseline gap-x-2">
-                    <p class="font-medium">{c.name}</p>
-                    <span class="font-mono text-xs text-slate-400">· {c.issuer}</span>
-                  </div>
-                  <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{pick(c.note, lang)}</p>
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      </div>
+  <Section id="education" title={t('section.education')}>
+    <div class="grid gap-4 sm:grid-cols-2">
+      {
+        education.map((e) => (
+          <CredentialCard
+            type="edu"
+            typeLabel={lang === 'es' ? 'Formación' : 'Education'}
+            logo={e.logo}
+            title={pick(e.title, lang)}
+            sub={`${e.institution} · ${pick(e.period, lang)}`}
+            note={e.note ? pick(e.note, lang) : undefined}
+            alt={e.institution}
+          />
+        ))
+      }
+      {
+        certifications.map((c) => (
+          <CredentialCard
+            type="cert"
+            typeLabel={lang === 'es' ? 'Certificación' : 'Certification'}
+            logo={c.logo}
+            title={c.name}
+            sub={c.issuer}
+            note={pick(c.note, lang)}
+            alt={c.issuer}
+          />
+        ))
+      }
     </div>
   </Section>
 

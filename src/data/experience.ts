@@ -2,6 +2,8 @@ import type { I18nText, I18nList } from '../i18n/utils';
 
 export interface Experience {
   company: string;
+  /** Logo/escudo de la empresa (ruta en /public). */
+  logo?: string;
   role: I18nText;
   /** Periodo legible; usa null en "to" para indicar "actualidad". */
   period: { from: string; to: string | null };
@@ -14,6 +16,7 @@ export interface Experience {
 export const experiences: Experience[] = [
   {
     company: 'Tragsatec',
+    logo: '/img/companies/tragsatec.jpg',
     role: {
       es: 'Analista Programador de Datos · ImpulsaDATA (Dirección General del Dato, AGE)',
       en: 'Data Analyst–Programmer · ImpulsaDATA (Spanish Data Directorate)',
@@ -46,6 +49,7 @@ export const experiences: Experience[] = [
   },
   {
     company: 'La Fábrica del Tiempo',
+    logo: '/img/companies/lafabrica.png',
     role: {
       es: 'Consultor de Automatización de Procesos y Productividad',
       en: 'Process Automation & Productivity Consultant',
@@ -72,6 +76,7 @@ export const experiences: Experience[] = [
   },
   {
     company: 'Ayuntamiento de Alcázar de San Juan',
+    logo: '/img/companies/alcazar.svg',
     role: {
       es: 'Técnico informático',
       en: 'IT Technician',

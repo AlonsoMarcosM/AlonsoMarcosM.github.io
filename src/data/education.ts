@@ -2,6 +2,8 @@ import type { I18nText } from '../i18n/utils';
 
 export interface EducationItem {
   institution: string;
+  /** Logo de la institución (ruta en /public); si falta, se usa icono. */
+  logo?: string;
   title: I18nText;
   period: I18nText;
   note?: I18nText;
@@ -10,12 +12,14 @@ export interface EducationItem {
 export interface Certification {
   name: string;
   issuer: string;
+  logo?: string;
   note: I18nText;
 }
 
 export const education: EducationItem[] = [
   {
     institution: 'UCLM',
+    logo: '/img/edu/uclm.svg',
     title: {
       es: 'Máster Universitario en Big Data y Computación en la Nube',
       en: "Master's Degree in Big Data & Cloud Computing",
@@ -25,6 +29,7 @@ export const education: EducationItem[] = [
   },
   {
     institution: 'UCLM',
+    logo: '/img/edu/uclm.svg',
     title: {
       es: 'Grado en Ingeniería Informática · Especialización en Tecnologías de la Información',
       en: 'BSc in Computer Engineering · Information Technologies specialisation',
@@ -45,6 +50,7 @@ export const certifications: Certification[] = [
   {
     name: 'CAPM',
     issuer: 'Project Management Institute',
+    logo: '/img/edu/pmi.png',
     note: {
       es: 'Fundamentos certificados de dirección de proyectos PMI.',
       en: 'Certified foundations of PMI project management.',
@@ -53,6 +59,7 @@ export const certifications: Certification[] = [
   {
     name: 'First Certificate in English (B2)',
     issuer: 'Cambridge English',
+    logo: '/img/edu/cambridge.png',
     note: {
       es: 'Competencia profesional acreditada en inglés.',
       en: 'Accredited professional English proficiency.',
