@@ -62,14 +62,14 @@ export const skillGroups: SkillGroup[] = [
     ],
   },
   {
-    title: { es: 'Flujos con agentes de IA', en: 'Agentic AI workflows' },
+    title: { es: 'Automatización y calidad', en: 'Automation & quality' },
     items: [
-      'Claude / Claude Code',
-      'Codex',
-      'GitHub Copilot Pro',
-      'AI harness engineering',
-      'Context engineering',
-      'E2E tests asistidos',
+      'Automatización de flujos técnicos',
+      'Diseño de contexto operativo',
+      'Pruebas end-to-end',
+      'Revisión técnica de código',
+      'Documentación reproducible',
+      'Trazabilidad de cambios',
     ],
   },
   {
