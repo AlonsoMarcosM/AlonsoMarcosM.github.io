@@ -62,14 +62,14 @@ export const skillGroups: SkillGroup[] = [
     ],
   },
   {
-    title: { es: 'Automatización y calidad', en: 'Automation & quality' },
+    title: { es: 'IA aplicada y calidad', en: 'Applied AI & quality' },
     items: [
+      'AI harness engineering',
+      'Context engineering',
       'Automatización de flujos técnicos',
-      'Diseño de contexto operativo',
-      'Pruebas end-to-end',
+      'Pruebas end-to-end asistidas',
       'Revisión técnica de código',
       'Documentación reproducible',
-      'Trazabilidad de cambios',
     ],
   },
   {

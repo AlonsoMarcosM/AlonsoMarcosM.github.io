@@ -41,8 +41,8 @@ export const profile: SiteProfile = {
       en: 'My work combines Python development, metadata ETL, CKAN and standards such as DCAT-AP-ES, RDF, JSON-LD and SHACL, together with containerisation, environment administration and operational documentation. I care about building maintainable, traceable solutions ready to run in real, regulated settings.',
     },
     {
-      es: 'Lo complemento con un Máster en Big Data y Computación en la Nube, la certificación CAPM y proyectos en OpenMetadata, Kubernetes, Airflow, Spark, Kafka, Databricks y AWS, además de automatización aplicada para acelerar análisis, desarrollo y documentación.',
-      en: 'I complement this with a Master’s in Big Data & Cloud Computing, the CAPM certification and projects across OpenMetadata, Kubernetes, Airflow, Spark, Kafka, Databricks and AWS, plus applied automation to speed up analysis, development and documentation.',
+      es: 'Lo complemento con un Máster en Big Data y Computación en la Nube, la certificación CAPM y proyectos en OpenMetadata, Kubernetes, Airflow, Spark, Kafka, Databricks y AWS, además de IA generativa aplicada y AI harness engineering para acelerar análisis, desarrollo y documentación.',
+      en: 'I complement this with a Master’s in Big Data & Cloud Computing, the CAPM certification and projects across OpenMetadata, Kubernetes, Airflow, Spark, Kafka, Databricks and AWS, plus applied generative AI and AI harness engineering to speed up analysis, development and documentation.',
     },
   ],
   location: { es: 'Albacete, España', en: 'Albacete, Spain' },
