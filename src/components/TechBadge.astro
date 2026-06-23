@@ -9,10 +9,10 @@ interface Props {
 }
 const { label, size = 'sm' } = Astro.props;
 const tech = getTech(label);
-const pad = size === 'md' ? 'pl-1.5 pr-3 py-1 text-sm' : 'pl-1 pr-2.5 py-0.5 text-xs';
-const flat = size === 'md' ? 'px-3 py-1.5 text-sm' : 'px-2.5 py-1 text-xs';
-const tile = size === 'md' ? 'h-6 w-6' : 'h-5 w-5';
-const ico = size === 'md' ? 'h-4 w-4' : 'h-3.5 w-3.5';
+const pad = size === 'md' ? 'pl-2 pr-3.5 py-1.5 text-sm' : 'pl-1.5 pr-3 py-1 text-[13px]';
+const flat = size === 'md' ? 'px-3.5 py-1.5 text-sm' : 'px-3 py-1 text-[13px]';
+const tile = size === 'md' ? 'h-7 w-7' : 'h-6 w-6';
+const ico = size === 'md' ? 'h-[18px] w-[18px]' : 'h-4 w-4';
 ---
 
 {
