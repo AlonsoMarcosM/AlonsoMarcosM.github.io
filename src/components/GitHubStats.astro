@@ -37,12 +37,12 @@ const tt = (es: string, en: string) => (lang === 'es' ? es : en);
       <p class="mt-0.5 text-[10px] uppercase tracking-wide text-slate-400">{tt('Repos', 'Repos')}</p>
     </div>
     <div class="rounded-xl bg-slate-50 py-3 text-center dark:bg-slate-800/50">
-      <p class="text-2xl font-bold tracking-tight text-gradient" data-gh="followers">—</p>
-      <p class="mt-0.5 text-[10px] uppercase tracking-wide text-slate-400">{tt('Seguidores', 'Followers')}</p>
+      <p class="text-2xl font-bold tracking-tight text-gradient" data-gh="langcount">—</p>
+      <p class="mt-0.5 text-[10px] uppercase tracking-wide text-slate-400">{tt('Lenguajes', 'Languages')}</p>
     </div>
     <div class="rounded-xl bg-slate-50 py-3 text-center dark:bg-slate-800/50">
-      <p class="text-2xl font-bold tracking-tight text-gradient" data-gh="stars">—</p>
-      <p class="mt-0.5 text-[10px] uppercase tracking-wide text-slate-400">{tt('Estrellas', 'Stars')}</p>
+      <p class="text-2xl font-bold tracking-tight text-gradient" data-gh="since">—</p>
+      <p class="mt-0.5 text-[10px] uppercase tracking-wide text-slate-400">{tt('En GitHub', 'On GitHub')}</p>
     </div>
   </div>
 
@@ -75,16 +75,20 @@ const tt = (es: string, en: string) => (lang === 'es' ? es : en);
     }
     fetch('https://api.github.com/users/' + user)
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) { if (d) { set('public_repos', d.public_repos); set('followers', d.followers); } })
+      .then(function (d) {
+        if (d) {
+          set('public_repos', d.public_repos);
+          if (d.created_at) set('since', new Date(d.created_at).getFullYear());
+        }
+      })
       .catch(function () {});
     fetch('https://api.github.com/users/' + user + '/repos?per_page=100&sort=updated')
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (repos) {
         if (!Array.isArray(repos)) return;
-        var stars = repos.reduce(function (a, r) { return a + (r.stargazers_count || 0); }, 0);
-        set('stars', stars);
         var langs = {};
         repos.forEach(function (r) { if (r.language) langs[r.language] = (langs[r.language] || 0) + 1; });
+        set('langcount', Object.keys(langs).length);
         var top = Object.keys(langs).sort(function (a, b) { return langs[b] - langs[a]; }).slice(0, 6);
         var box = card.querySelector('[data-gh-langs]');
         if (box && top.length) {
