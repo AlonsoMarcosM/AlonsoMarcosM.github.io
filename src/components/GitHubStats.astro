@@ -1,0 +1,103 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  username: string;
+  lang: 'es' | 'en';
+}
+const { username, lang } = Astro.props;
+const tt = (es: string, en: string) => (lang === 'es' ? es : en);
+---
+
+<div
+  class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white/70 p-5 backdrop-blur dark:border-slate-800 dark:bg-slate-900/50"
+  data-gh-user={username}
+>
+  <div class="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-400 via-accent-500 to-blue-500"></div>
+
+  <div class="flex items-center justify-between gap-3">
+    <h3 class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">
+      <Icon name="github" class="h-4 w-4" />
+      {tt('Señal de GitHub en vivo', 'Live GitHub signal')}
+    </h3>
+    <span class="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-400">
+      <span class="relative flex h-2 w-2">
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+        <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+      </span>
+      Live
+    </span>
+  </div>
+  <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+    {tt('Snapshot en tiempo real desde GitHub.', 'Realtime snapshot directly from GitHub.')}
+  </p>
+
+  <div class="mt-4 grid grid-cols-3 gap-3">
+    <div class="rounded-xl bg-slate-50 py-3 text-center dark:bg-slate-800/50">
+      <p class="text-2xl font-bold tracking-tight text-gradient" data-gh="public_repos">—</p>
+      <p class="mt-0.5 text-[10px] uppercase tracking-wide text-slate-400">{tt('Repos', 'Repos')}</p>
+    </div>
+    <div class="rounded-xl bg-slate-50 py-3 text-center dark:bg-slate-800/50">
+      <p class="text-2xl font-bold tracking-tight text-gradient" data-gh="followers">—</p>
+      <p class="mt-0.5 text-[10px] uppercase tracking-wide text-slate-400">{tt('Seguidores', 'Followers')}</p>
+    </div>
+    <div class="rounded-xl bg-slate-50 py-3 text-center dark:bg-slate-800/50">
+      <p class="text-2xl font-bold tracking-tight text-gradient" data-gh="stars">—</p>
+      <p class="mt-0.5 text-[10px] uppercase tracking-wide text-slate-400">{tt('Estrellas', 'Stars')}</p>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <p class="text-[10px] uppercase tracking-wide text-slate-400">{tt('Lenguajes principales', 'Top languages')}</p>
+    <div class="mt-2 flex flex-wrap gap-1.5" data-gh-langs>
+      <span class="text-xs text-slate-400">…</span>
+    </div>
+  </div>
+
+  <a
+    href={`https://github.com/${username}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-brand-600 transition hover:text-brand-500 dark:text-brand-400"
+  >
+    <Icon name="github" class="h-4 w-4" />
+    @{username}
+  </a>
+</div>
+
+<script is:inline>
+  (function () {
+    var card = document.querySelector('[data-gh-user]');
+    if (!card) return;
+    var user = card.getAttribute('data-gh-user');
+    function set(key, val) {
+      var el = card.querySelector('[data-gh="' + key + '"]');
+      if (el) el.textContent = String(val);
+    }
+    fetch('https://api.github.com/users/' + user)
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d) { set('public_repos', d.public_repos); set('followers', d.followers); } })
+      .catch(function () {});
+    fetch('https://api.github.com/users/' + user + '/repos?per_page=100&sort=updated')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (repos) {
+        if (!Array.isArray(repos)) return;
+        var stars = repos.reduce(function (a, r) { return a + (r.stargazers_count || 0); }, 0);
+        set('stars', stars);
+        var langs = {};
+        repos.forEach(function (r) { if (r.language) langs[r.language] = (langs[r.language] || 0) + 1; });
+        var top = Object.keys(langs).sort(function (a, b) { return langs[b] - langs[a]; }).slice(0, 6);
+        var box = card.querySelector('[data-gh-langs]');
+        if (box && top.length) {
+          box.innerHTML = '';
+          top.forEach(function (l) {
+            var s = document.createElement('span');
+            s.className =
+              'rounded-md border border-slate-200 px-2 py-0.5 font-mono text-[11px] text-slate-600 dark:border-slate-700 dark:text-slate-300';
+            s.textContent = l;
+            box.appendChild(s);
+          });
+        }
+      })
+      .catch(function () {});
+  })();
+</script>

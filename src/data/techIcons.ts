@@ -4,8 +4,9 @@
 // Devuelve null si no hay icono apropiado (se renderiza un chip plano).
 
 export interface TechIcon {
-  icon: string;
-  color: string;
+  /** Slug de icono de marca; ausente para tecnologías sin logo oficial. */
+  icon?: string;
+  color?: string;
   /** Documentación oficial (opcional). */
   doc?: string;
 }
@@ -135,10 +136,36 @@ const rules: Rule[] = [
   { test: (s) => s === 'r' || has(s, 'plumber'), icon: 'simple-icons:r', color: '#276DC3' },
 ];
 
+// Documentación oficial para tecnologías SIN logo de marca (chips de texto).
+const textDocs: { test: (s: string) => boolean; doc: string }[] = [
+  { test: (s) => has(s, 'dcat-ap-es', 'dcat ap es'), doc: 'https://datosgobes.github.io/DCAT-AP-ES/' },
+  { test: (s) => has(s, 'dcat-ap', 'dcat'), doc: 'https://semiceu.github.io/DCAT-AP/releases/' },
+  { test: (s) => has(s, 'json-ld', 'jsonld'), doc: 'https://json-ld.org/' },
+  { test: (s) => has(s, 'shacl'), doc: 'https://www.w3.org/TR/shacl/' },
+  { test: (s) => has(s, 'rdf'), doc: 'https://www.w3.org/RDF/' },
+  { test: (s) => has(s, 'ckan'), doc: 'https://docs.ckan.org/' },
+  { test: (s) => has(s, 'openmetadata'), doc: 'https://docs.open-metadata.org/' },
+  { test: (s) => has(s, 'unity catalog'), doc: 'https://docs.databricks.com/data-governance/unity-catalog/' },
+  { test: (s) => has(s, 'delta lake', 'delta'), doc: 'https://docs.delta.io/latest/index.html' },
+  { test: (s) => has(s, 'auto loader', 'cloudfiles'), doc: 'https://docs.databricks.com/ingestion/cloud-object-storage/auto-loader/' },
+  { test: (s) => has(s, 'medallion'), doc: 'https://www.databricks.com/glossary/medallion-architecture' },
+  { test: (s) => has(s, 'asset bundle'), doc: 'https://docs.databricks.com/dev-tools/bundles/' },
+  { test: (s) => has(s, 'lakehouse monitoring'), doc: 'https://docs.databricks.com/lakehouse-monitoring/index.html' },
+  { test: (s) => has(s, 'mllib'), doc: 'https://spark.apache.org/docs/latest/ml-guide.html' },
+  { test: (s) => has(s, 'geojson'), doc: 'https://geojson.org/' },
+  { test: (s) => has(s, 'boto3'), doc: 'https://boto3.amazonaws.com/v1/documentation/api/latest/index.html' },
+  { test: (s) => has(s, 'rest api', 'apis rest', 'action api'), doc: 'https://restfulapi.net/' },
+  { test: (s) => has(s, 'une 0077', 'une 0078', 'une 0079', 'une 0080', 'une 0081', 'une '), doc: 'https://www.une.org/' },
+  { test: (s) => has(s, 'pyshacl'), doc: 'https://github.com/RDFLib/pySHACL' },
+];
+
 export function getTech(label: string): TechIcon | null {
   const s = label.toLowerCase().trim();
   for (const r of rules) {
     if (r.test(s)) return { icon: r.icon, color: r.color, doc: DOCS[r.icon] };
+  }
+  for (const t of textDocs) {
+    if (t.test(s)) return { doc: t.doc };
   }
   return null;
 }

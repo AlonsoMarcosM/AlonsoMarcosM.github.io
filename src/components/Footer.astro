@@ -12,7 +12,24 @@ const year = new Date().getFullYear();
   <div
     class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-slate-500 sm:flex-row sm:px-6 dark:text-slate-400"
   >
-    <p>© {year} {profile.name}</p>
+    <div class="text-center sm:text-left">
+      <p>© {year} {profile.name}</p>
+      <p class="mt-1 text-xs text-slate-400">
+        {lang === 'es' ? 'Contenido bajo' : 'Content under'}{' '}
+        <a
+          href="https://creativecommons.org/licenses/by/4.0/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="underline decoration-dotted underline-offset-2 transition hover:text-brand-500"
+        >CC BY 4.0</a>{' '}· {lang === 'es' ? 'código en' : 'code on'}{' '}
+        <a
+          href="https://github.com/AlonsoMarcosM"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="underline decoration-dotted underline-offset-2 transition hover:text-brand-500"
+        >GitHub</a>
+      </p>
+    </div>
     <div class="flex items-center gap-4">
       {
         profile.socials.map((s) => (

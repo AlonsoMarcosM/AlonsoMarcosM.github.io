@@ -7,6 +7,7 @@ import ExperienceItem from '../../components/ExperienceItem.astro';
 import SkillGroup from '../../components/SkillGroup.astro';
 import CopyEmail from '../../components/CopyEmail.astro';
 import CredentialCard from '../../components/CredentialCard.astro';
+import GitHubStats from '../../components/GitHubStats.astro';
 import Icon from '../../components/Icon.astro';
 import { profile } from '../../data/site';
 import { experiences } from '../../data/experience';
@@ -37,7 +38,7 @@ const description = pick(profile.tagline, lang);
 
   <Section id="experience" index="02" title={t('section.experience')} class="bg-slate-50/60 dark:bg-slate-900/30">
     <div>
-      {experiences.map((item) => <ExperienceItem item={item} lang={lang} />)}
+      {experiences.map((item, i) => <ExperienceItem item={item} lang={lang} index={i} total={experiences.length} />)}
     </div>
   </Section>
 
@@ -94,32 +95,35 @@ const description = pick(profile.tagline, lang);
   </Section>
 
   <Section id="contact" index="06" title={t('section.contact')} subtitle={t('section.contact.subtitle')} class="bg-slate-50/60 dark:bg-slate-900/30">
-    <div class="reveal flex flex-col items-start gap-5">
-      <div class="flex flex-wrap items-center gap-3">
-        <a
-          href={`mailto:${profile.email}`}
-          class="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-brand-500/20 transition hover:bg-brand-400"
-        >
-          <Icon name="email" class="h-5 w-5" />
-          {t('contact.cta')}
-        </a>
-        <CopyEmail email={profile.email} variant="pill" copyLabel={t('contact.copy')} copiedLabel={t('contact.copied')} />
+    <div class="reveal grid gap-8 md:grid-cols-2 md:items-start">
+      <div class="flex flex-col items-start gap-5">
+        <div class="flex flex-wrap items-center gap-3">
+          <a
+            href={`mailto:${profile.email}`}
+            class="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-brand-500/20 transition hover:bg-brand-400"
+          >
+            <Icon name="email" class="h-5 w-5" />
+            {t('contact.cta')}
+          </a>
+          <CopyEmail email={profile.email} variant="pill" copyLabel={t('contact.copy')} copiedLabel={t('contact.copied')} />
+        </div>
+        <div class="flex flex-wrap items-center gap-5 text-slate-500 dark:text-slate-400">
+          {
+            profile.socials.filter((s) => s.icon !== 'email').map((s) => (
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 text-sm transition hover:text-brand-500"
+              >
+                <Icon name={s.icon} class="h-5 w-5" />
+                {s.label}
+              </a>
+            ))
+          }
+        </div>
       </div>
-      <div class="flex flex-wrap items-center gap-5 text-slate-500 dark:text-slate-400">
-        {
-          profile.socials.filter((s) => s.icon !== 'email').map((s) => (
-            <a
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 text-sm transition hover:text-brand-500"
-            >
-              <Icon name={s.icon} class="h-5 w-5" />
-              {s.label}
-            </a>
-          ))
-        }
-      </div>
+      <GitHubStats username="AlonsoMarcosM" lang={lang} />
     </div>
   </Section>
 </Base>

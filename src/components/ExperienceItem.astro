@@ -6,9 +6,20 @@ import type { Experience } from '../data/experience';
 interface Props {
   item: Experience;
   lang: Lang;
+  /** Posición en la línea temporal (0 = más reciente) y total de hitos. */
+  index?: number;
+  total?: number;
 }
-const { item, lang } = Astro.props;
+const { item, lang, index = 0, total = 1 } = Astro.props;
 const t = useTranslations(lang);
+
+// La línea temporal es un único gradiente continuo cian -> azul -> índigo
+// que avanza a lo largo de toda la carrera; cada tramo toma su porción.
+const palette = ['#22d3ee', '#3b82f6', '#6366f1', '#8b5cf6'];
+const fromColor = palette[Math.min(index, palette.length - 1)];
+const isLast = index === total - 1;
+const toColor = isLast ? 'transparent' : palette[Math.min(index + 1, palette.length - 1)];
+const lineStyle = `background: linear-gradient(to bottom, ${fromColor}, ${toColor});`;
 
 const locale = lang === 'es' ? 'es-ES' : 'en-US';
 function fmt(value: string): string {
@@ -44,7 +55,7 @@ const current = item.period.to === null;
         </span>
       )
     }
-    <span class="mt-2 w-1 flex-1 rounded-full bg-gradient-to-b from-brand-400 via-accent-500 to-accent-600/30"></span>
+    <span class="mt-2 w-1 flex-1 rounded-full" style={lineStyle}></span>
   </div>
 
   <div class="pb-10">

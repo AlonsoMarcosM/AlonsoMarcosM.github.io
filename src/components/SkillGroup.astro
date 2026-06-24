@@ -21,7 +21,8 @@ function groupIcon(t: string): string {
 }
 ---
 
-<div class="reveal rounded-2xl border border-slate-200 bg-white/70 p-5 backdrop-blur transition hover:border-brand-400/40 dark:border-slate-800 dark:bg-slate-900/50">
+<div class="reveal group relative overflow-hidden rounded-2xl border border-slate-200 bg-white/70 p-5 backdrop-blur transition hover:border-brand-400/40 dark:border-slate-800 dark:bg-slate-900/50">
+  <div class="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-400 via-accent-500 to-blue-500 opacity-80 transition group-hover:opacity-100"></div>
   <h3 class="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">
     <Icon name={groupIcon(title)} class="h-4 w-4" />
     {pick(group.title, lang)}
