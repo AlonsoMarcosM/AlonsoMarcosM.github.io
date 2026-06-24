@@ -20,6 +20,7 @@
     "tailwindcss": "^4.3.1"
   },
   "devDependencies": {
+    "@iconify-json/circle-flags": "^1.2.10",
     "playwright": "^1.61.0"
   }
 }

@@ -11,7 +11,7 @@ interface Props {
 }
 const { label, size = 'sm', link = false } = Astro.props;
 const tech = getTech(label);
-const hasBrand = !!tech?.icon;
+const hasTile = !!(tech?.icon || tech?.img);
 const lucide = tech?.lucide;
 const doc = tech?.doc;
 const isLink = link && !!doc;
@@ -28,16 +28,22 @@ const base =
 ---
 
 <Tag
-  class:list={[base, hasBrand ? padIcon : padFlat, isLink && 'hover:-translate-y-0.5 hover:text-brand-600 dark:hover:text-brand-300']}
+  class:list={[base, hasTile ? padIcon : padFlat, isLink && 'hover:-translate-y-0.5 hover:text-brand-600 dark:hover:text-brand-300']}
   href={isLink ? doc : undefined}
   target={isLink ? '_blank' : undefined}
   rel={isLink ? 'noopener noreferrer' : undefined}
   title={isLink ? `${label} · docs` : undefined}
 >
   {
-    hasBrand ? (
-      <span class={`grid ${tile} flex-none place-items-center rounded-md bg-white ring-1 ring-slate-200/70 dark:ring-white/10`}>
-        <Icon name={tech!.icon!} class={ico} style={`color:${tech!.color}`} />
+    hasTile ? (
+      <span class={`grid ${tile} flex-none place-items-center overflow-hidden rounded-md bg-white ring-1 ring-slate-200/70 dark:ring-white/10`}>
+        {
+          tech!.img ? (
+            <img src={tech!.img} alt="" class="h-full w-full object-contain p-px" loading="lazy" />
+          ) : (
+            <Icon name={tech!.icon!} class={ico} style={tech!.color ? `color:${tech!.color}` : undefined} />
+          )
+        }
       </span>
     ) : lucide ? (
       <Icon name={lucide} class:list={[ico, 'flex-none text-brand-500/80']} />

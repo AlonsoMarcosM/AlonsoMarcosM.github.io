@@ -4,8 +4,10 @@
 // Devuelve null si no hay icono apropiado (se renderiza un chip plano).
 
 export interface TechIcon {
-  /** Slug de icono de marca; ausente para tecnologías sin logo oficial. */
+  /** Slug de icono de marca (iconify); ausente para tecnologías sin logo oficial. */
   icon?: string;
+  /** Logo self-hosted (ruta en /public) para logos que no están en los sets. */
+  img?: string;
   color?: string;
   /** Icono lucide de respaldo (cuando no hay logo de marca). */
   lucide?: string;
@@ -33,6 +35,13 @@ const DOCS: Record<string, string> = {
   'simple-icons:amazonwebservices': 'https://docs.aws.amazon.com/',
   'simple-icons:mqtt': 'https://mqtt.org/',
   'simple-icons:openapiinitiative': 'https://spec.openapis.org/',
+  'simple-icons:jsonwebtokens': 'https://jwt.io/introduction',
+  'simple-icons:serverless': 'https://www.serverless.com/framework/docs',
+  'simple-icons:powershell': 'https://learn.microsoft.com/powershell/',
+  'simple-icons:markdown': 'https://commonmark.org/',
+  'simple-icons:swagger': 'https://swagger.io/docs/',
+  'circle-flags:es': 'https://datosgobes.github.io/DCAT-AP-ES/',
+  'openmetadata-img': 'https://docs.open-metadata.org/',
   'simple-icons:apachespark': 'https://spark.apache.org/docs/latest/',
   'simple-icons:apacheairflow': 'https://airflow.apache.org/docs/',
   'simple-icons:apachekafka': 'https://kafka.apache.org/documentation/',
@@ -100,6 +109,11 @@ const rules: Rule[] = [
   // Protocolos / specs.
   { test: (s) => has(s, 'mqtt', 'paho'), icon: 'simple-icons:mqtt', color: '#660066' },
   { test: (s) => has(s, 'openapi'), icon: 'simple-icons:openapiinitiative', color: '#6BA539' },
+  { test: (s) => has(s, 'swagger'), icon: 'simple-icons:swagger', color: '#85EA2D' },
+  { test: (s) => has(s, 'jwt', 'json web token'), icon: 'simple-icons:jsonwebtokens', color: '#FB015B' },
+  { test: (s) => has(s, 'serverless'), icon: 'simple-icons:serverless', color: '#FD5750' },
+  { test: (s) => has(s, 'powershell'), icon: 'simple-icons:powershell', color: '#5391FE' },
+  { test: (s) => has(s, 'markdown', 'commonmark'), icon: 'simple-icons:markdown', color: '#5B5B5B' },
 
   // Big Data.
   { test: (s) => has(s, 'pyspark', 'spark'), icon: 'simple-icons:apachespark', color: '#E25A1C' },
@@ -198,6 +212,9 @@ function fallbackLucide(s: string): string {
 
 export function getTech(label: string): TechIcon | null {
   const s = label.toLowerCase().trim();
+  // Casos especiales: logo self-hosted y bandera.
+  if (has(s, 'openmetadata')) return { img: '/img/tech/openmetadata.png', doc: 'https://docs.open-metadata.org/' };
+  if (has(s, 'dcat-ap-es', 'dcat ap es', 'dcat-ap es')) return { icon: 'circle-flags:es', doc: 'https://datosgobes.github.io/DCAT-AP-ES/' };
   for (const r of rules) {
     if (r.test(s)) return { icon: r.icon, color: r.color, doc: DOCS[r.icon] };
   }
