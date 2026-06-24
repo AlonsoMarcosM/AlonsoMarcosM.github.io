@@ -107,14 +107,21 @@ const cvHref = lang === 'es' ? profile.cv.es : profile.cv.en;
     <div
       class="mt-12 grid grid-cols-1 divide-y divide-slate-200/70 rounded-2xl border border-slate-200/70 bg-white/60 backdrop-blur sm:grid-cols-3 sm:divide-x sm:divide-y-0 dark:divide-slate-700/50 dark:border-slate-700/50 dark:bg-slate-900/40"
     >
-      <div class="px-6 py-5 text-center sm:text-left">
+      <a
+        href="https://datos.gob.es/es/catalogo/conjuntos-datos"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group/stat block px-6 py-5 text-center transition hover:bg-brand-500/5 sm:text-left"
+        title="datos.gob.es"
+      >
         <p class="text-gradient text-3xl font-bold tracking-tight sm:text-4xl">
           +<span data-countup="10000">10.000</span>
         </p>
-        <p class="mt-1 text-[11px] font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
+        <p class="mt-1 inline-flex items-center gap-1 text-[11px] font-medium uppercase tracking-wide text-slate-500 transition group-hover/stat:text-brand-500 dark:text-slate-400">
           {lang === 'es' ? 'Datasets públicos · datos.gob.es' : 'Public datasets · datos.gob.es'}
+          <Iconify name="lucide:external-link" class="h-3 w-3 opacity-50" />
         </p>
-      </div>
+      </a>
       <div class="px-6 py-5 text-center sm:text-left">
         <p class="text-gradient text-3xl font-bold tracking-tight sm:text-4xl">
           <span data-countup="22">22</span>

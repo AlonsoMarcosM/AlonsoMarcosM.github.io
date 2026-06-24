@@ -11,6 +11,8 @@ export interface Experience {
   summary: I18nText;
   highlights: I18nList;
   tags: string[];
+  /** Enlace externo relevante (p.ej. catálogo público). */
+  link?: { label: string; href: string };
 }
 
 export const experiences: Experience[] = [
@@ -46,6 +48,7 @@ export const experiences: Experience[] = [
       ],
     },
     tags: ['Python', 'CKAN', 'DCAT-AP-ES', 'RDF/JSON-LD', 'SHACL', 'PostgreSQL', 'Docker/Podman', 'ETL'],
+    link: { label: 'datos.gob.es', href: 'https://datos.gob.es/es/catalogo/conjuntos-datos' },
   },
   {
     company: 'La Fábrica del Tiempo',

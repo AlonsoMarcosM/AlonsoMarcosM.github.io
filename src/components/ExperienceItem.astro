@@ -1,5 +1,6 @@
 ---
 import TechBadge from './TechBadge.astro';
+import { Icon as Iconify } from 'astro-icon/components';
 import { pick, useTranslations, type Lang } from '../i18n/utils';
 import type { Experience } from '../data/experience';
 
@@ -75,6 +76,19 @@ const current = item.period.to === null;
     </div>
     <p class="text-sm font-medium text-brand-600 dark:text-brand-400">{pick(item.role, lang)}</p>
     <p class="mt-1 text-xs text-slate-400">{pick(item.location, lang)}</p>
+    {
+      item.link && (
+        <a
+          href={item.link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-1.5 inline-flex items-center gap-1 text-xs font-medium text-brand-600 transition hover:text-brand-500 dark:text-brand-400"
+        >
+          <Iconify name="lucide:external-link" class="h-3 w-3" />
+          {item.link.label}
+        </a>
+      )
+    }
 
     <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">{pick(item.summary, lang)}</p>
 
