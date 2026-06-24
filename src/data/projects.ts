@@ -1,5 +1,13 @@
 import type { I18nText, I18nList } from '../i18n/utils';
 
+export interface ProjectIcon {
+  /** Iconify name, e.g. simple-icons:databricks or lucide:parking-circle. */
+  icon?: string;
+  /** Local image under /public when a brand logo is not in Iconify. */
+  img?: string;
+  color?: string;
+}
+
 export interface Project {
   slug: string;
   title: I18nText;
@@ -8,6 +16,8 @@ export interface Project {
   category: I18nText;
   /** Distintivo académico opcional (p.ej. TFM/TFG). */
   badge?: I18nText;
+  /** Icono técnico principal asociado al proyecto. */
+  icon: ProjectIcon;
   year: string;
   featured: boolean;
   /** Orden de aparición (menor = antes). */
@@ -37,6 +47,7 @@ export const projects: Project[] = [
       en: 'A governed metadata model, DCAT-AP compliant, with RDF/JSON-LD export and SHACL validation.',
     },
     category: { es: 'Gobernanza del dato', en: 'Data governance' },
+    icon: { img: '/img/tech/openmetadata.png' },
     year: '2026',
     featured: true,
     order: 1,
@@ -78,6 +89,7 @@ export const projects: Project[] = [
       en: 'Serverless IoT smart-parking platform on real AWS, from sensor to real-time dashboard.',
     },
     category: { es: 'Cloud · IoT', en: 'Cloud · IoT' },
+    icon: { icon: 'lucide:parking-circle', color: '#0EA5E9' },
     year: '2026',
     featured: true,
     order: 2,
@@ -127,6 +139,7 @@ export const projects: Project[] = [
       en: 'End-to-end MLOps platform on Databricks Lakehouse to predict customer churn, with model governance and monitoring.',
     },
     category: { es: 'Big Data · MLOps', en: 'Big Data · MLOps' },
+    icon: { icon: 'simple-icons:databricks', color: '#FF3621' },
     year: '2026',
     featured: false,
     order: 3,
@@ -166,6 +179,7 @@ export const projects: Project[] = [
       en: 'A living metadata catalogue with batch and streaming ingestion over a Medallion architecture and Delta Lake, orchestrated with Airflow.',
     },
     category: { es: 'Big Data', en: 'Big Data' },
+    icon: { icon: 'simple-icons:apachespark', color: '#E25A1C' },
     year: '2026',
     featured: false,
     order: 4,
@@ -205,6 +219,7 @@ export const projects: Project[] = [
       en: 'Applying the UNE 0077–0081 family to a full case study, materialised as real entities in OpenMetadata.',
     },
     category: { es: 'Gobernanza del dato', en: 'Data governance' },
+    icon: { icon: 'lucide:scale', color: '#16A34A' },
     year: '2026',
     featured: false,
     order: 5,
@@ -242,6 +257,7 @@ export const projects: Project[] = [
       en: 'SSH honeypot on AWS with serverless log analysis and alerts, all as infrastructure as code.',
     },
     category: { es: 'Cloud · Seguridad', en: 'Cloud · Security' },
+    icon: { icon: 'simple-icons:terraform', color: '#844FBA' },
     year: '2026',
     featured: false,
     order: 6,
@@ -280,6 +296,7 @@ export const projects: Project[] = [
       en: 'A full-stack web app to run R scripts from the browser, with a REST API, containers and JWT.',
     },
     category: { es: 'Full stack', en: 'Full stack' },
+    icon: { icon: 'simple-icons:r', color: '#276DC3' },
     year: '2025',
     featured: true,
     order: 7,

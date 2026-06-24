@@ -38,6 +38,7 @@ export const education: EducationItem[] = [
   },
   {
     institution: 'IES Juan Bosco',
+    logo: '/img/edu/ies-juan-bosco-logo.png',
     title: {
       es: 'C.F.G.S. en Administración de Sistemas Informáticos en Red',
       en: 'Higher Vocational Diploma in Network Systems Administration',

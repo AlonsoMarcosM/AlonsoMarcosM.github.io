@@ -2,6 +2,7 @@
 import Base from '../../../layouts/Base.astro';
 import Icon from '../../../components/Icon.astro';
 import { Icon as Iconify } from 'astro-icon/components';
+import ProjectIcon from '../../../components/ProjectIcon.astro';
 import TechBadge from '../../../components/TechBadge.astro';
 import { projects, getProject } from '../../../data/projects';
 import { profile } from '../../../data/site';
@@ -21,7 +22,8 @@ if (!project) return Astro.redirect(localePath(lang, 'projects'));
 
 const highlights = pick(project.highlights, lang);
 const results = project.results ? pick(project.results, lang) : null;
-const title = `${pick(project.title, lang)} · ${profile.name}`;
+const projectTitle = pick(project.title, lang);
+const title = `${projectTitle} · ${profile.name}`;
 const description = pick(project.tagline, lang);
 ---
 
@@ -37,47 +39,50 @@ const description = pick(project.tagline, lang);
 
     <header class="relative mt-6 overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-brand-500/10 via-transparent to-accent-500/10 p-7 dark:border-slate-800">
       <div class="bg-grid pointer-events-none absolute inset-0 opacity-40 [mask-image:radial-gradient(ellipse_at_top_left,black,transparent_70%)]"></div>
-      <div class="relative">
-        <div class="flex flex-wrap items-center gap-3 text-xs font-medium">
-          <span class="rounded-full bg-gradient-to-r from-brand-500/20 to-accent-500/20 px-2.5 py-1 font-mono text-brand-600 dark:text-brand-200">
-            {pick(project.category, lang)}
-          </span>
-          {
-            project.badge && (
-              <span class="inline-flex items-center gap-1.5 rounded-full bg-amber-400/15 px-2.5 py-1 font-mono text-amber-700 ring-1 ring-amber-400/30 dark:text-amber-300">
-                <Iconify name="lucide:graduation-cap" class="h-3.5 w-3.5" />
-                {pick(project.badge, lang)}
-              </span>
-            )
-          }
-          <span class="font-mono text-slate-400">{project.year}</span>
-        </div>
-        <h1 class="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">{pick(project.title, lang)}</h1>
-        <p class="mt-3 text-lg text-slate-600 dark:text-slate-300">{pick(project.tagline, lang)}</p>
+      <div class="relative flex flex-col gap-5 sm:flex-row sm:items-start">
+        <ProjectIcon icon={project.icon} label={projectTitle} size="hero" />
+        <div class="min-w-0 flex-1">
+          <div class="flex flex-wrap items-center gap-3 text-xs font-medium">
+            <span class="rounded-full bg-gradient-to-r from-brand-500/20 to-accent-500/20 px-2.5 py-1 font-mono text-brand-600 dark:text-brand-200">
+              {pick(project.category, lang)}
+            </span>
+            {
+              project.badge && (
+                <span class="inline-flex items-center gap-1.5 rounded-full bg-amber-400/15 px-2.5 py-1 font-mono text-amber-700 ring-1 ring-amber-400/30 dark:text-amber-300">
+                  <Iconify name="lucide:graduation-cap" class="h-3.5 w-3.5" />
+                  {pick(project.badge, lang)}
+                </span>
+              )
+            }
+            <span class="font-mono text-slate-400">{project.year}</span>
+          </div>
+          <h1 class="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">{projectTitle}</h1>
+          <p class="mt-3 text-lg text-slate-600 dark:text-slate-300">{pick(project.tagline, lang)}</p>
 
-        <div class="mt-6 flex flex-wrap gap-3">
-          {
-            project.demo && (
-              <a
-                href={project.demo}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-lg shadow-brand-500/20 transition hover:bg-brand-400"
-              >
-                <Icon name="external" class="h-4 w-4" />
-                {t('projects.demo')}
-              </a>
-            )
-          }
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold transition hover:border-brand-400 hover:text-brand-500 dark:border-slate-700"
-          >
-            <Icon name="github" class="h-4 w-4" />
-            {t('projects.repo')}
-          </a>
+          <div class="mt-6 flex flex-wrap gap-3">
+            {
+              project.demo && (
+                <a
+                  href={project.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-lg shadow-brand-500/20 transition hover:bg-brand-400"
+                >
+                  <Icon name="external" class="h-4 w-4" />
+                  {t('projects.demo')}
+                </a>
+              )
+            }
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold transition hover:border-brand-400 hover:text-brand-500 dark:border-slate-700"
+            >
+              <Icon name="github" class="h-4 w-4" />
+              {t('projects.repo')}
+            </a>
+          </div>
         </div>
       </div>
     </header>

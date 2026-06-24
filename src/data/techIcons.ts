@@ -32,12 +32,18 @@ const DOCS: Record<string, string> = {
   'simple-icons:amazonec2': 'https://docs.aws.amazon.com/ec2/',
   'simple-icons:amazons3': 'https://docs.aws.amazon.com/s3/',
   'simple-icons:awssecretsmanager': 'https://docs.aws.amazon.com/secretsmanager/',
+  'simple-icons:amazoniam': 'https://docs.aws.amazon.com/iam/',
+  'simple-icons:amazonsqs': 'https://docs.aws.amazon.com/sqs/',
   'simple-icons:amazonwebservices': 'https://docs.aws.amazon.com/',
   'simple-icons:mqtt': 'https://mqtt.org/',
   'simple-icons:openapiinitiative': 'https://spec.openapis.org/',
   'simple-icons:jsonwebtokens': 'https://jwt.io/introduction',
+  'simple-icons:semanticweb': 'https://www.w3.org/2001/sw/wiki/Main_Page',
+  'simple-icons:w3c': 'https://www.w3.org/standards/semanticweb/',
   'simple-icons:serverless': 'https://www.serverless.com/framework/docs',
   'simple-icons:powershell': 'https://learn.microsoft.com/powershell/',
+  'simple-icons:latex': 'https://www.latex-project.org/help/documentation/',
+  'simple-icons:jupyter': 'https://docs.jupyter.org/',
   'simple-icons:markdown': 'https://commonmark.org/',
   'simple-icons:swagger': 'https://swagger.io/docs/',
   'circle-flags:es': 'https://datosgobes.github.io/DCAT-AP-ES/',
@@ -76,8 +82,10 @@ const DOCS: Record<string, string> = {
 
 interface Rule {
   test: (s: string) => boolean;
-  icon: string;
-  color: string;
+  icon?: string;
+  color?: string;
+  lucide?: string;
+  doc?: string;
 }
 
 const has = (s: string, ...keys: string[]) => keys.some((k) => s.includes(k));
@@ -103,14 +111,24 @@ const rules: Rule[] = [
   { test: (s) => has(s, ' ec2', 'ec2 ') || s === 'ec2', icon: 'simple-icons:amazonec2', color: '#FF9900' },
   { test: (s) => has(s, ' s3', 's3 ') || s === 's3' || s.endsWith('s3'), icon: 'simple-icons:amazons3', color: '#569A31' },
   { test: (s) => has(s, 'secrets manager'), icon: 'simple-icons:awssecretsmanager', color: '#DD344C' },
-  // AWS genérico (IoT Core, SNS, SSM, etc.).
-  { test: (s) => has(s, 'aws', 'amazon', 'iot core'), icon: 'simple-icons:amazonwebservices', color: '#FF9900' },
+  { test: (s) => has(s, ' iam', 'iam ') || s === 'iam', icon: 'simple-icons:amazoniam', color: '#DD344C' },
+  { test: (s) => has(s, ' sqs', 'sqs ') || s === 'sqs', icon: 'simple-icons:amazonsqs', color: '#FF4F8B' },
+  { test: (s) => has(s, 'iot core'), lucide: 'lucide:radio-tower', doc: 'https://docs.aws.amazon.com/iot/' },
+  { test: (s) => has(s, ' sns', 'sns ') || s === 'sns', lucide: 'lucide:radio-tower', doc: 'https://docs.aws.amazon.com/sns/' },
+  { test: (s) => has(s, ' ssm', 'ssm ') || s === 'ssm', lucide: 'lucide:server-cog', doc: 'https://docs.aws.amazon.com/systems-manager/' },
+  // AWS genérico.
+  { test: (s) => has(s, 'aws', 'amazon'), icon: 'simple-icons:amazonwebservices', color: '#FF9900' },
 
   // Protocolos / specs.
   { test: (s) => has(s, 'mqtt', 'paho'), icon: 'simple-icons:mqtt', color: '#660066' },
   { test: (s) => has(s, 'openapi'), icon: 'simple-icons:openapiinitiative', color: '#6BA539' },
   { test: (s) => has(s, 'swagger'), icon: 'simple-icons:swagger', color: '#85EA2D' },
   { test: (s) => has(s, 'jwt', 'json web token'), icon: 'simple-icons:jsonwebtokens', color: '#FB015B' },
+  { test: (s) => has(s, 'dcat-ap-es', 'dcat ap es', 'dcat-ap es'), icon: 'circle-flags:es', doc: 'https://datosgobes.github.io/DCAT-AP-ES/' },
+  { test: (s) => has(s, 'dcat-ap', 'dcat'), icon: 'simple-icons:w3c', color: '#005A9C', doc: 'https://semiceu.github.io/DCAT-AP/releases/' },
+  { test: (s) => has(s, 'json-ld', 'jsonld'), icon: 'simple-icons:w3c', color: '#005A9C', doc: 'https://json-ld.org/' },
+  { test: (s) => has(s, 'rdf', 'shacl'), icon: 'simple-icons:semanticweb', color: '#005A9C', doc: 'https://www.w3.org/standards/semanticweb/' },
+  { test: (s) => has(s, 'ckan'), lucide: 'lucide:database', doc: 'https://docs.ckan.org/' },
   { test: (s) => has(s, 'serverless'), icon: 'simple-icons:serverless', color: '#FD5750' },
   { test: (s) => has(s, 'powershell'), icon: 'simple-icons:powershell', color: '#5391FE' },
   { test: (s) => has(s, 'markdown', 'commonmark'), icon: 'simple-icons:markdown', color: '#5B5B5B' },
@@ -123,6 +141,7 @@ const rules: Rule[] = [
   { test: (s) => has(s, 'hadoop'), icon: 'simple-icons:apachehadoop', color: '#66CCFF' },
 
   // Data engineering / lenguajes / infra.
+  { test: (s) => has(s, 'boto3'), icon: 'simple-icons:python', color: '#3776AB', doc: 'https://boto3.amazonaws.com/v1/documentation/api/latest/index.html' },
   { test: (s) => has(s, 'python'), icon: 'simple-icons:python', color: '#3776AB' },
   { test: (s) => has(s, 'podman'), icon: 'simple-icons:podman', color: '#892CA0' },
   { test: (s) => has(s, 'docker', 'compose'), icon: 'simple-icons:docker', color: '#2496ED' },
@@ -150,6 +169,9 @@ const rules: Rule[] = [
   { test: (s) => has(s, 'jinja'), icon: 'simple-icons:jinja', color: '#B41717' },
   { test: (s) => has(s, 'oracle'), icon: 'simple-icons:oracle', color: '#F80000' },
   { test: (s) => s === 'r' || has(s, 'plumber'), icon: 'simple-icons:r', color: '#276DC3' },
+  { test: (s) => has(s, 'latex'), icon: 'simple-icons:latex', color: '#008080' },
+  { test: (s) => has(s, 'jupyter'), icon: 'simple-icons:jupyter', color: '#F37626' },
+  { test: (s) => s === 'sql' || has(s, 'sql avanzado'), lucide: 'lucide:database', doc: 'https://www.iso.org/standard/76583.html' },
 ];
 
 // Documentación oficial para tecnologías SIN logo de marca (chips de texto).
@@ -173,6 +195,7 @@ const textDocs: { test: (s: string) => boolean; doc: string }[] = [
   { test: (s) => has(s, 'rest api', 'apis rest', 'action api'), doc: 'https://restfulapi.net/' },
   { test: (s) => has(s, 'une 0077', 'une 0078', 'une 0079', 'une 0080', 'une 0081', 'une '), doc: 'https://www.une.org/' },
   { test: (s) => has(s, 'pyshacl'), doc: 'https://github.com/RDFLib/pySHACL' },
+  { test: (s) => has(s, 'adocc'), doc: 'https://www.adocc.es/' },
 ];
 
 // Icono lucide de respaldo por categoría, para chips sin logo de marca.
@@ -192,7 +215,7 @@ const fallbacks: { test: (s: string) => boolean; lucide: string }[] = [
   { test: (s) => has(s, 'ckan', 'sql', 'datastore', 'data store', 'database', 'datos'), lucide: 'lucide:database' },
   { test: (s) => has(s, 'geojson', 'geo', 'spatial', 'inspire', 'gis', 'mapa'), lucide: 'lucide:map' },
   { test: (s) => has(s, 'boto3', 'powershell', 'bash', 'cli', 'consola', 'terminal'), lucide: 'lucide:terminal' },
-  { test: (s) => has(s, 'harness', 'agent', 'context engineering', 'agentic', ' ia', 'a.i', ' ai'), lucide: 'lucide:bot' },
+  { test: (s) => has(s, 'harness', 'agent', 'context engineering', 'agentic') || s.startsWith('ai ') || has(s, ' ia', 'a.i', ' ai'), lucide: 'lucide:bot' },
   { test: (s) => has(s, 'end-to-end', 'e2e', 'prueba', 'test'), lucide: 'lucide:flask-conical' },
   { test: (s) => has(s, 'revisión', 'review', 'code', 'código'), lucide: 'lucide:git-pull-request' },
   { test: (s) => has(s, 'documenta', 'markdown', 'commonmark', 'latex'), lucide: 'lucide:file-text' },
@@ -216,7 +239,10 @@ export function getTech(label: string): TechIcon | null {
   if (has(s, 'openmetadata')) return { img: '/img/tech/openmetadata.png', doc: 'https://docs.open-metadata.org/' };
   if (has(s, 'dcat-ap-es', 'dcat ap es', 'dcat-ap es')) return { icon: 'circle-flags:es', doc: 'https://datosgobes.github.io/DCAT-AP-ES/' };
   for (const r of rules) {
-    if (r.test(s)) return { icon: r.icon, color: r.color, doc: DOCS[r.icon] };
+    if (r.test(s)) {
+      const doc = r.doc ?? (r.icon ? DOCS[r.icon] : undefined);
+      return { icon: r.icon, color: r.color, lucide: r.lucide, doc };
+    }
   }
   let doc: string | undefined;
   for (const t of textDocs) {

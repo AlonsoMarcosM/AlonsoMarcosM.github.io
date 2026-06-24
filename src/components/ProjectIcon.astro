@@ -1,0 +1,31 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { ProjectIcon } from '../data/projects';
+
+interface Props {
+  icon: ProjectIcon;
+  label: string;
+  size?: 'card' | 'hero';
+}
+
+const { icon, label, size = 'card' } = Astro.props;
+const box = size === 'hero' ? 'h-16 w-16 rounded-2xl' : 'h-12 w-12 rounded-xl';
+const inner = size === 'hero' ? 'h-9 w-9' : 'h-6 w-6';
+const imgPad = size === 'hero' ? 'p-2.5' : 'p-2';
+---
+
+<span
+  class:list={[
+    'grid flex-none place-items-center overflow-hidden bg-white ring-1 ring-slate-200 shadow-sm shadow-slate-900/5 dark:bg-slate-950 dark:ring-white/10',
+    box,
+  ]}
+  title={label}
+>
+  {
+    icon.img ? (
+      <img src={icon.img} alt="" class:list={['h-full w-full object-contain', imgPad]} loading="lazy" />
+    ) : (
+      <Icon name={icon.icon!} class={inner} style={icon.color ? `color:${icon.color}` : undefined} aria-hidden="true" />
+    )
+  }
+</span>
