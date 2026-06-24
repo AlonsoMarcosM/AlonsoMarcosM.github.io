@@ -16,10 +16,13 @@ const t = useTranslations(lang);
 // La línea temporal es un único gradiente continuo cian -> azul -> índigo
 // que avanza a lo largo de toda la carrera; cada tramo toma su porción.
 const palette = ['#22d3ee', '#3b82f6', '#6366f1', '#8b5cf6'];
-const fromColor = palette[Math.min(index, palette.length - 1)];
+const color = palette[Math.min(index, palette.length - 1)];
 const isLast = index === total - 1;
-const toColor = isLast ? 'transparent' : palette[Math.min(index + 1, palette.length - 1)];
-const lineStyle = `background: linear-gradient(to bottom, ${fromColor}, ${toColor});`;
+// Cada experiencia = un color sólido; el conjunto forma la progresión.
+const lineStyle = isLast
+  ? `background: linear-gradient(to bottom, ${color}, transparent);`
+  : `background: ${color};`;
+const glowStyle = `box-shadow: 0 0 0 5px ${color}26;`;
 
 const locale = lang === 'es' ? 'es-ES' : 'en-US';
 function fmt(value: string): string {
@@ -46,11 +49,11 @@ const current = item.period.to === null;
   <div class="flex flex-col items-center">
     {
       item.logo ? (
-        <span class="grid h-12 w-12 flex-none place-items-center overflow-hidden rounded-xl bg-white p-1.5 shadow-[0_0_0_5px_rgba(6,182,212,0.14)] ring-1 ring-slate-200 transition-transform duration-300 group-hover:scale-110 dark:ring-white/10">
+        <span class="grid h-12 w-12 flex-none place-items-center overflow-hidden rounded-xl bg-white p-1.5 ring-1 ring-slate-200 transition-transform duration-300 group-hover:scale-110 dark:ring-white/10" style={glowStyle}>
           <img src={item.logo} alt={item.company} class="h-full w-full object-contain" loading="lazy" />
         </span>
       ) : (
-        <span class="grid h-12 w-12 flex-none place-items-center rounded-xl bg-gradient-to-br from-brand-500 to-accent-500 font-mono text-sm font-bold text-slate-950 shadow-[0_0_0_5px_rgba(6,182,212,0.18)] transition-transform duration-300 group-hover:scale-110">
+        <span class="grid h-12 w-12 flex-none place-items-center rounded-xl bg-gradient-to-br from-brand-500 to-accent-500 font-mono text-sm font-bold text-slate-950 transition-transform duration-300 group-hover:scale-110" style={glowStyle}>
           {initials}
         </span>
       )

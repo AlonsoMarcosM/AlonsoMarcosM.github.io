@@ -1,107 +1,67 @@
 ---
 import Icon from './Icon.astro';
+import { Icon as Iconify } from 'astro-icon/components';
 interface Props {
   username: string;
   lang: 'es' | 'en';
 }
 const { username, lang } = Astro.props;
 const tt = (es: string, en: string) => (lang === 'es' ? es : en);
+
+// github-readme-stats (servicio público) con tema oscuro a juego.
+const common = 'hide_border=true&bg_color=00000000&title_color=22d3ee&text_color=94a3b8&icon_color=22d3ee';
+const statsUrl = `https://github-readme-stats.vercel.app/api?username=${username}&include_all_commits=true&count_private=true&show_icons=true&show=prs_merged_percent&${common}`;
+const langsUrl = `https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&layout=compact&langs_count=8&${common}`;
 ---
 
-<div
-  class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white/70 p-5 backdrop-blur dark:border-slate-800 dark:bg-slate-900/50"
-  data-gh-user={username}
->
+<div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/60 p-6 backdrop-blur sm:p-8 dark:border-slate-800 dark:bg-slate-900/40">
   <div class="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-400 via-accent-500 to-blue-500"></div>
 
-  <div class="flex items-center justify-between gap-3">
-    <h3 class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">
-      <Icon name="github" class="h-4 w-4" />
-      {tt('Señal de GitHub en vivo', 'Live GitHub signal')}
-    </h3>
-    <span class="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-400">
-      <span class="relative flex h-2 w-2">
-        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-        <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+    <div>
+      <span class="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-600 dark:text-emerald-300">
+        <span class="relative flex h-2 w-2">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+        </span>
+        {tt('Señal de GitHub en vivo', 'Live GitHub signal')}
       </span>
-      Live
-    </span>
-  </div>
-  <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-    {tt('Snapshot en tiempo real desde GitHub.', 'Realtime snapshot directly from GitHub.')}
-  </p>
-
-  <div class="mt-4 grid grid-cols-3 gap-3">
-    <div class="rounded-xl bg-slate-50 py-3 text-center dark:bg-slate-800/50">
-      <p class="text-2xl font-bold tracking-tight text-gradient" data-gh="public_repos">—</p>
-      <p class="mt-0.5 text-[10px] uppercase tracking-wide text-slate-400">{tt('Repos', 'Repos')}</p>
+      <h2 class="mt-3 flex items-center gap-2 text-2xl font-bold tracking-tight sm:text-3xl">
+        <Iconify name="lucide:activity" class="h-6 w-6 text-brand-500" />
+        {tt('Estadísticas de código', 'Coding stats')}
+      </h2>
+      <p class="mt-1 text-slate-500 dark:text-slate-400">
+        {tt('Snapshot en tiempo real desde GitHub.', 'Realtime snapshot directly from GitHub.')}
+      </p>
     </div>
-    <div class="rounded-xl bg-slate-50 py-3 text-center dark:bg-slate-800/50">
-      <p class="text-2xl font-bold tracking-tight text-gradient" data-gh="langcount">—</p>
-      <p class="mt-0.5 text-[10px] uppercase tracking-wide text-slate-400">{tt('Lenguajes', 'Languages')}</p>
-    </div>
-    <div class="rounded-xl bg-slate-50 py-3 text-center dark:bg-slate-800/50">
-      <p class="text-2xl font-bold tracking-tight text-gradient" data-gh="since">—</p>
-      <p class="mt-0.5 text-[10px] uppercase tracking-wide text-slate-400">{tt('En GitHub', 'On GitHub')}</p>
-    </div>
+    <a
+      href={`https://github.com/${username}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex flex-none items-center gap-2 rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold transition hover:border-brand-400 hover:text-brand-500 dark:border-slate-700"
+    >
+      <Icon name="github" class="h-4 w-4" />
+      {tt('Abrir perfil de GitHub', 'Open GitHub profile')}
+      <Iconify name="lucide:arrow-up-right" class="h-4 w-4" />
+    </a>
   </div>
 
-  <div class="mt-4">
-    <p class="text-[10px] uppercase tracking-wide text-slate-400">{tt('Lenguajes principales', 'Top languages')}</p>
-    <div class="mt-2 flex flex-wrap gap-1.5" data-gh-langs>
-      <span class="text-xs text-slate-400">…</span>
+  <div class="mt-6 grid items-center gap-4 lg:grid-cols-2">
+    <div class="rounded-2xl border border-slate-200/70 bg-white/50 p-3 dark:border-slate-800 dark:bg-slate-900/40">
+      <img
+        src={statsUrl}
+        alt={tt('Estadísticas de GitHub de ', 'GitHub stats for ') + username}
+        loading="lazy"
+        class="h-auto w-full"
+      />
+    </div>
+    <div class="rounded-2xl border border-slate-200/70 bg-white/50 p-3 dark:border-slate-800 dark:bg-slate-900/40">
+      <img
+        src={langsUrl}
+        alt={tt('Lenguajes más usados', 'Most used languages')}
+        loading="lazy"
+        class="mx-auto h-auto w-full max-w-sm"
+      />
     </div>
   </div>
-
-  <a
-    href={`https://github.com/${username}`}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-brand-600 transition hover:text-brand-500 dark:text-brand-400"
-  >
-    <Icon name="github" class="h-4 w-4" />
-    @{username}
-  </a>
 </div>
-
-<script is:inline>
-  (function () {
-    var card = document.querySelector('[data-gh-user]');
-    if (!card) return;
-    var user = card.getAttribute('data-gh-user');
-    function set(key, val) {
-      var el = card.querySelector('[data-gh="' + key + '"]');
-      if (el) el.textContent = String(val);
-    }
-    fetch('https://api.github.com/users/' + user)
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) {
-        if (d) {
-          set('public_repos', d.public_repos);
-          if (d.created_at) set('since', new Date(d.created_at).getFullYear());
-        }
-      })
-      .catch(function () {});
-    fetch('https://api.github.com/users/' + user + '/repos?per_page=100&sort=updated')
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (repos) {
-        if (!Array.isArray(repos)) return;
-        var langs = {};
-        repos.forEach(function (r) { if (r.language) langs[r.language] = (langs[r.language] || 0) + 1; });
-        set('langcount', Object.keys(langs).length);
-        var top = Object.keys(langs).sort(function (a, b) { return langs[b] - langs[a]; }).slice(0, 6);
-        var box = card.querySelector('[data-gh-langs]');
-        if (box && top.length) {
-          box.innerHTML = '';
-          top.forEach(function (l) {
-            var s = document.createElement('span');
-            s.className =
-              'rounded-md border border-slate-200 px-2 py-0.5 font-mono text-[11px] text-slate-600 dark:border-slate-700 dark:text-slate-300';
-            s.textContent = l;
-            box.appendChild(s);
-          });
-        }
-      })
-      .catch(function () {});
-  })();
-</script>

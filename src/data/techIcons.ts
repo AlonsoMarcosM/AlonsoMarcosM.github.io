@@ -7,6 +7,8 @@ export interface TechIcon {
   /** Slug de icono de marca; ausente para tecnologías sin logo oficial. */
   icon?: string;
   color?: string;
+  /** Icono lucide de respaldo (cuando no hay logo de marca). */
+  lucide?: string;
   /** Documentación oficial (opcional). */
   doc?: string;
 }
@@ -159,13 +161,49 @@ const textDocs: { test: (s: string) => boolean; doc: string }[] = [
   { test: (s) => has(s, 'pyshacl'), doc: 'https://github.com/RDFLib/pySHACL' },
 ];
 
+// Icono lucide de respaldo por categoría, para chips sin logo de marca.
+const fallbacks: { test: (s: string) => boolean; lucide: string }[] = [
+  { test: (s) => has(s, 'dcat', 'rdf', 'json-ld', 'jsonld', 'shacl', 'semantic', 'linked data', 'interoper'), lucide: 'lucide:share-2' },
+  { test: (s) => has(s, 'lineage', 'linaje', 'trazabilidad', 'traceab', 'scd', 'cdc'), lucide: 'lucide:git-compare' },
+  { test: (s) => has(s, 'openmetadata', 'unity catalog', 'metadata', 'catalog', 'catálogo', 'glossary', 'glosario'), lucide: 'lucide:book-marked' },
+  { test: (s) => has(s, 'governance', 'gobernanza', 'gobierno del dato'), lucide: 'lucide:shield-check' },
+  { test: (s) => has(s, 'quality', 'calidad'), lucide: 'lucide:badge-check' },
+  { test: (s) => has(s, 'une '), lucide: 'lucide:scale' },
+  { test: (s) => has(s, 'delta lake', 'delta', 'medallion', 'lakehouse', 'bronze', 'silver', 'gold'), lucide: 'lucide:layers' },
+  { test: (s) => has(s, 'auto loader', 'loader', 'ingesta', 'ingestion'), lucide: 'lucide:download' },
+  { test: (s) => has(s, 'asset bundle', 'bundle'), lucide: 'lucide:blocks' },
+  { test: (s) => has(s, 'monitoring', 'monitoriz', 'drift', 'observab'), lucide: 'lucide:gauge' },
+  { test: (s) => has(s, 'etl', 'elt', 'pipeline', 'orquestac', 'orchestr', 'workflow', 'automat', 'adocc'), lucide: 'lucide:workflow' },
+  { test: (s) => has(s, 'rest api', 'apis', 'api ', 'openapi', 'webhook') || s === 'api', lucide: 'lucide:webhook' },
+  { test: (s) => has(s, 'ckan', 'sql', 'datastore', 'data store', 'database', 'datos'), lucide: 'lucide:database' },
+  { test: (s) => has(s, 'geojson', 'geo', 'spatial', 'inspire', 'gis', 'mapa'), lucide: 'lucide:map' },
+  { test: (s) => has(s, 'boto3', 'powershell', 'bash', 'cli', 'consola', 'terminal'), lucide: 'lucide:terminal' },
+  { test: (s) => has(s, 'harness', 'agent', 'context engineering', 'agentic', ' ia', 'a.i', ' ai'), lucide: 'lucide:bot' },
+  { test: (s) => has(s, 'end-to-end', 'e2e', 'prueba', 'test'), lucide: 'lucide:flask-conical' },
+  { test: (s) => has(s, 'revisión', 'review', 'code', 'código'), lucide: 'lucide:git-pull-request' },
+  { test: (s) => has(s, 'documenta', 'markdown', 'commonmark', 'latex'), lucide: 'lucide:file-text' },
+  { test: (s) => has(s, 'pmi', 'capm', 'scrum', 'psm', 'project'), lucide: 'lucide:award' },
+  { test: (s) => has(s, 'kanban'), lucide: 'lucide:square-kanban' },
+  { test: (s) => has(s, 'español', 'inglés', 'ingles', 'english', 'idioma', 'language'), lucide: 'lucide:languages' },
+  { test: (s) => has(s, 'soporte', 'support', 'sistemas', 'systems', 'helpdesk'), lucide: 'lucide:server-cog' },
+  { test: (s) => has(s, 'red', 'network', 'dns', 'nginx'), lucide: 'lucide:network' },
+];
+
+function fallbackLucide(s: string): string {
+  for (const f of fallbacks) {
+    if (f.test(s)) return f.lucide;
+  }
+  return 'lucide:sparkles';
+}
+
 export function getTech(label: string): TechIcon | null {
   const s = label.toLowerCase().trim();
   for (const r of rules) {
     if (r.test(s)) return { icon: r.icon, color: r.color, doc: DOCS[r.icon] };
   }
+  let doc: string | undefined;
   for (const t of textDocs) {
-    if (t.test(s)) return { doc: t.doc };
+    if (t.test(s)) { doc = t.doc; break; }
   }
-  return null;
+  return { lucide: fallbackLucide(s), doc };
 }
