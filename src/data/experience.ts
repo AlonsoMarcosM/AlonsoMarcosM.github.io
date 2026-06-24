@@ -23,7 +23,7 @@ export const experiences: Experience[] = [
       es: 'Analista Programador de Datos · ImpulsaDATA (Dirección General del Dato, AGE)',
       en: 'Data Analyst–Programmer · ImpulsaDATA (Spanish Data Directorate)',
     },
-    period: { from: '2025-06', to: null },
+    period: { from: '2025-10', to: null },
     location: { es: 'Sector público · España', en: 'Public sector · Spain' },
     summary: {
       es: 'Ingeniería de datos y gobernanza del dato en un contexto real de la Administración General del Estado, con alcance sobre 22 organismos y más de 10.000 datasets federados en datos.gob.es a través de catálogos CKAN comunes.',
@@ -31,7 +31,7 @@ export const experiences: Experience[] = [
     },
     highlights: {
       es: [
-        'Diseño y evolución de un conversor ETL de metadatos de extremo a extremo: extracción desde herramientas de gobierno, normalización, mapeo a un modelo común y publicación en CKAN.',
+        'Evolución y mantenimiento de pipelines ETL de metadatos: normalización, mapeo a modelos comunes y publicación en CKAN.',
         'Alineación de metadatos con DCAT-AP-ES y generación de salidas RDF y JSON-LD con validación semántica SHACL previa y posterior a la carga.',
         'Desarrollo y evolución de extensiones y plugins de CKAN (DCAT, scheming, harvest, spatial) y de un plugin propio común a todos los organismos.',
         'Configuración de stacks contenedorizados (Docker/Podman) y administración de entornos test, desarrollo, preproducción y producción del equipo.',
@@ -39,7 +39,7 @@ export const experiences: Experience[] = [
         'Documentación operativa y tutorización de perfiles junior, con criterio de calidad, mantenibilidad y baja deuda técnica.',
       ],
       en: [
-        'Designed and evolved an end-to-end metadata ETL converter: extraction from governance tooling, normalisation, mapping to a common model and publishing into CKAN.',
+        'Evolved and maintained metadata ETL pipelines: normalisation, mapping to common models and publishing into CKAN.',
         'Aligned metadata with DCAT-AP-ES and produced RDF and JSON-LD outputs with SHACL semantic validation before and after catalogue ingestion.',
         'Built and evolved CKAN extensions and plugins (DCAT, scheming, harvest, spatial) plus a custom plugin shared across all public bodies.',
         'Configured containerised stacks (Docker/Podman) and administered the team’s test, development, pre-production and production environments.',
@@ -48,6 +48,36 @@ export const experiences: Experience[] = [
       ],
     },
     tags: ['Python', 'CKAN', 'DCAT-AP-ES', 'RDF/JSON-LD', 'SHACL', 'PostgreSQL', 'Docker/Podman', 'ETL'],
+    link: { label: 'datos.gob.es', href: 'https://datos.gob.es/es/catalogo/conjuntos-datos' },
+  },
+  {
+    company: 'Tragsatec',
+    logo: '/img/companies/tragsatec.jpg',
+    role: {
+      es: 'Programador de Datos · Contrato de prácticas · ImpulsaDATA',
+      en: 'Data Programmer · Internship contract · ImpulsaDATA',
+    },
+    period: { from: '2025-06', to: '2025-09' },
+    location: { es: 'Provincia de Albacete · España', en: 'Province of Albacete · Spain' },
+    summary: {
+      es: 'Primera etapa en el proyecto ImpulsaDATA, centrada en el diseño y desarrollo inicial de un conversor ETL de metadatos para flujos de gobernanza del dato en el sector público.',
+      en: 'First stage in the ImpulsaDATA project, focused on the initial design and development of a metadata ETL converter for public-sector data-governance workflows.',
+    },
+    highlights: {
+      es: [
+        'Desarrollo de flujos ETL de metadatos en Python, desde extracción y normalización hasta estructuras JSON/JSON-LD estandarizadas.',
+        'Mapeo de metadatos a un modelo común alineado con DCAT-AP-ES y generación de RDF para publicación interoperable.',
+        'Validación semántica mediante SHACL e integración con catálogos CKAN a través de la CKAN Action API.',
+        'Implementación de configuración externa, logs estructurados, documentación técnica, diagramas, diccionarios de datos y guías operativas.',
+      ],
+      en: [
+        'Developed metadata ETL flows in Python, from extraction and normalisation to standardised JSON/JSON-LD structures.',
+        'Mapped metadata to a common DCAT-AP-ES-aligned model and generated RDF for interoperable publishing.',
+        'Performed SHACL semantic validation and integrated with CKAN catalogues through the CKAN Action API.',
+        'Implemented external configuration, structured logs, technical documentation, diagrams, data dictionaries and operating guides.',
+      ],
+    },
+    tags: ['Python', 'CKAN', 'CKAN Action API', 'JSON/JSON-LD', 'RDF', 'SHACL', 'Docker', 'GitLab'],
     link: { label: 'datos.gob.es', href: 'https://datos.gob.es/es/catalogo/conjuntos-datos' },
   },
   {

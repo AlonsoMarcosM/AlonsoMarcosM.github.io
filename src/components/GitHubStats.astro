@@ -52,16 +52,49 @@ const langsUrl = `https://github-readme-stats.vercel.app/api/top-langs/?username
         src={statsUrl}
         alt={tt('Estadísticas de GitHub de ', 'GitHub stats for ') + username}
         loading="lazy"
+        decoding="async"
+        referrerpolicy="no-referrer"
+        onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');"
         class="h-auto w-full"
       />
+      <div class="grid hidden min-h-[176px] place-content-center rounded-xl bg-slate-950/5 p-5 text-center dark:bg-white/5">
+        <Icon name="github" class="mx-auto h-7 w-7 text-brand-500" />
+        <p class="mt-3 text-sm font-semibold text-slate-800 dark:text-slate-100">
+          {tt('Estadísticas de GitHub no disponibles', 'GitHub stats unavailable')}
+        </p>
+        <p class="mx-auto mt-1 max-w-xs text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+          {tt('El servicio externo no respondió. El perfil sigue disponible en GitHub.', 'The external service did not respond. The profile is still available on GitHub.')}
+        </p>
+        <a
+          href={`https://github.com/${username}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-4 inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 px-3 py-2 text-xs font-semibold transition hover:border-brand-400 hover:text-brand-500 dark:border-slate-700"
+        >
+          {tt('Abrir GitHub', 'Open GitHub')}
+          <Iconify name="lucide:arrow-up-right" class="h-3.5 w-3.5" />
+        </a>
+      </div>
     </div>
     <div class="rounded-2xl border border-slate-200/70 bg-white/50 p-3 dark:border-slate-800 dark:bg-slate-900/40">
       <img
         src={langsUrl}
         alt={tt('Lenguajes más usados', 'Most used languages')}
         loading="lazy"
+        decoding="async"
+        referrerpolicy="no-referrer"
+        onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');"
         class="mx-auto h-auto w-full max-w-sm"
       />
+      <div class="grid hidden min-h-[243px] place-content-center rounded-xl bg-slate-950/5 p-5 text-center dark:bg-white/5">
+        <Iconify name="lucide:code-2" class="mx-auto h-7 w-7 text-brand-500" />
+        <p class="mt-3 text-sm font-semibold text-slate-800 dark:text-slate-100">
+          {tt('Lenguajes no disponibles', 'Languages unavailable')}
+        </p>
+        <p class="mx-auto mt-1 max-w-xs text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+          {tt('La imagen externa no pudo cargarse en este momento.', 'The external image could not be loaded right now.')}
+        </p>
+      </div>
     </div>
   </div>
 </div>

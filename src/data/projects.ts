@@ -89,7 +89,7 @@ export const projects: Project[] = [
       en: 'Serverless IoT smart-parking platform on real AWS, from sensor to real-time dashboard.',
     },
     category: { es: 'Cloud · IoT', en: 'Cloud · IoT' },
-    icon: { icon: 'lucide:parking-circle', color: '#0EA5E9' },
+    icon: { icon: 'lucide:circle-parking', color: '#0EA5E9' },
     year: '2026',
     featured: true,
     order: 2,
