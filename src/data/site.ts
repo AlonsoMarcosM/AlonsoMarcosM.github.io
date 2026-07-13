@@ -51,6 +51,7 @@ export const profile: SiteProfile = {
     { label: 'GitHub', href: 'https://github.com/AlonsoMarcosM', icon: 'github' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/alonsomarcosm99/', icon: 'linkedin' },
     { label: 'Timeline CV · Manfred', href: 'https://www.getmanfred.com/perfil/735337eb-0689-4fa6-8776-0dc0784bfb27', icon: 'external' },
+    { label: 'Perfil profesional · Tecnoempleo', href: 'https://www.tecnoempleo.com/alonso-marcos-munoz.mpt', icon: 'external' },
     { label: 'Email', href: 'mailto:alonsomarcosm99@gmail.com', icon: 'email' },
   ],
   cv: {
