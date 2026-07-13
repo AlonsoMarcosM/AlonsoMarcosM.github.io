@@ -3,7 +3,7 @@ import type { I18nText } from '../i18n/utils';
 export interface SocialLink {
   label: string;
   href: string;
-  icon: 'github' | 'linkedin' | 'email';
+  icon: 'github' | 'linkedin' | 'email' | 'external';
 }
 
 export interface SiteProfile {
@@ -50,6 +50,7 @@ export const profile: SiteProfile = {
   socials: [
     { label: 'GitHub', href: 'https://github.com/AlonsoMarcosM', icon: 'github' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/alonsomarcosm99/', icon: 'linkedin' },
+    { label: 'Timeline CV · Manfred', href: 'https://www.getmanfred.com/perfil/735337eb-0689-4fa6-8776-0dc0784bfb27', icon: 'external' },
     { label: 'Email', href: 'mailto:alonsomarcosm99@gmail.com', icon: 'email' },
   ],
   cv: {
