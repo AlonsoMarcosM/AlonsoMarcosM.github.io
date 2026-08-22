@@ -20,8 +20,8 @@ export const experiences: Experience[] = [
     company: 'Tragsatec',
     logo: '/img/companies/tragsatec.jpg',
     role: {
-      es: 'Analista Programador de Datos · ImpulsaDATA (Dirección General del Dato, AGE)',
-      en: 'Data Analyst–Programmer · ImpulsaDATA (Spanish Data Directorate)',
+      es: 'Ingeniero de Datos · ImpulsaDATA (Dirección General del Dato, AGE)',
+      en: 'Data Engineer · ImpulsaDATA (Spanish Data Directorate)',
     },
     period: { from: '2025-10', to: null },
     location: { es: 'Sector público · España', en: 'Public sector · Spain' },
@@ -54,8 +54,8 @@ export const experiences: Experience[] = [
     company: 'Tragsatec',
     logo: '/img/companies/tragsatec.jpg',
     role: {
-      es: 'Programador de Datos · Contrato de prácticas · ImpulsaDATA',
-      en: 'Data Programmer · Internship contract · ImpulsaDATA',
+      es: 'Ingeniero de Datos en prácticas · ImpulsaDATA',
+      en: 'Data Engineer Intern · ImpulsaDATA',
     },
     period: { from: '2025-06', to: '2025-09' },
     location: { es: 'Provincia de Albacete · España', en: 'Province of Albacete · Spain' },

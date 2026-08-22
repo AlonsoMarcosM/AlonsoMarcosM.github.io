@@ -34,7 +34,7 @@ const initials = profile.name
       <span class="hidden sm:inline">{profile.name}</span>
     </a>
 
-    <div class="hidden items-center gap-1 md:flex">
+    <div class="hidden items-center gap-1 lg:flex">
       {
         navSections.map((s) => (
           <a
@@ -56,14 +56,14 @@ const initials = profile.name
         type="button"
         aria-label="Menu"
         aria-expanded="false"
-        class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 md:hidden dark:border-slate-700 dark:text-slate-300"
+        class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 lg:hidden dark:border-slate-700 dark:text-slate-300"
       >
         <Icon name="menu" class="h-5 w-5" />
       </button>
     </div>
   </nav>
 
-  <div id="mobile-menu" class="hidden border-t border-slate-200 px-4 py-2 md:hidden dark:border-slate-800">
+  <div id="mobile-menu" class="hidden border-t border-slate-200 px-4 py-2 lg:hidden dark:border-slate-800">
     {
       navSections.map((s) => (
         <a
