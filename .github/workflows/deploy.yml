@@ -35,6 +35,10 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          # Enables the public contribution totals used by the coding-stats card.
+          # The token is consumed only during the static build and is never shipped.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

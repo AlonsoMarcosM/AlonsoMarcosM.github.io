@@ -7,89 +7,266 @@ interface Props {
   lang: 'es' | 'en';
 }
 
-interface GitHubProfile {
-  public_repos: number;
-}
-
 interface GitHubRepository {
   fork: boolean;
-  language: string | null;
-  pushed_at: string | null;
+  full_name: string;
+}
+
+interface SearchResponse {
+  total_count: number;
+}
+
+interface ContributionsResponse {
+  data?: {
+    user?: {
+      currentYear?: {
+        totalCommitContributions: number;
+      };
+      lastYear?: {
+        contributionCalendar: {
+          totalContributions: number;
+        };
+      };
+    };
+  };
+  errors?: Array<{ message: string }>;
+}
+
+interface LanguageStat {
+  name: string;
+  bytes: number;
+  percentage: number;
+  color: string;
 }
 
 const { username, lang } = Astro.props;
 const tt = (es: string, en: string) => (lang === 'es' ? es : en);
-const githubHeaders = {
+const token = process.env.GITHUB_TOKEN;
+const currentDate = new Date();
+const currentYear = currentDate.getUTCFullYear();
+const currentYearStart = new Date(Date.UTC(currentYear, 0, 1)).toISOString();
+const lastYearStart = new Date(currentDate.getTime() - 365 * 24 * 60 * 60 * 1000).toISOString();
+const currentDateIso = currentDate.toISOString();
+
+const githubHeaders: Record<string, string> = {
   Accept: 'application/vnd.github+json',
+  'X-GitHub-Api-Version': '2022-11-28',
   'User-Agent': 'AlonsoMarcosM-portfolio',
 };
 
-let profile: GitHubProfile | null = null;
-let repositories: GitHubRepository[] = [];
+if (token) githubHeaders.Authorization = `Bearer ${token}`;
 
-try {
-  const [profileResponse, repositoriesResponse] = await Promise.all([
-    fetch(`https://api.github.com/users/${username}`, { headers: githubHeaders }),
-    fetch(`https://api.github.com/users/${username}/repos?per_page=100&type=owner&sort=updated`, {
-      headers: githubHeaders,
-    }),
-  ]);
+const getJson = async <T>(url: string, init?: RequestInit): Promise<T> => {
+  const response = await fetch(url, init ?? { headers: githubHeaders });
+  if (!response.ok) throw new Error(`${url} returned ${response.status}`);
+  return response.json() as Promise<T>;
+};
 
-  if (!profileResponse.ok || !repositoriesResponse.ok) {
-    throw new Error(`GitHub API returned ${profileResponse.status}/${repositoriesResponse.status}`);
+const searchCount = async (query: string): Promise<number> => {
+  const url = `https://api.github.com/search/issues?q=${encodeURIComponent(query)}&per_page=1`;
+  return (await getJson<SearchResponse>(url)).total_count;
+};
+
+const contributionQuery = `
+  query PortfolioStats($login: String!, $yearStart: DateTime!, $lastYearStart: DateTime!, $now: DateTime!) {
+    user(login: $login) {
+      currentYear: contributionsCollection(from: $yearStart, to: $now) {
+        totalCommitContributions
+      }
+      lastYear: contributionsCollection(from: $lastYearStart, to: $now) {
+        contributionCalendar { totalContributions }
+      }
+    }
   }
+`;
 
-  profile = (await profileResponse.json()) as GitHubProfile;
-  repositories = (await repositoriesResponse.json()) as GitHubRepository[];
-} catch (error) {
-  console.warn('GitHub snapshot could not be generated:', error);
+let repositories: GitHubRepository[] = [];
+let commitsThisYear: number | null = null;
+let pullRequests: number | null = null;
+let mergedPullRequests: number | null = null;
+let issues: number | null = null;
+let contributionsLastYear: number | null = null;
+
+const [repositoriesResult, searchesResult, contributionsResult] = await Promise.allSettled([
+  getJson<GitHubRepository[]>(
+    `https://api.github.com/users/${encodeURIComponent(username)}/repos?per_page=100&type=owner&sort=updated`,
+  ),
+  Promise.all([
+    searchCount(`author:${username} type:pr is:public`),
+    searchCount(`author:${username} type:pr is:merged is:public`),
+    searchCount(`author:${username} type:issue is:public`),
+  ]),
+  token
+    ? getJson<ContributionsResponse>('https://api.github.com/graphql', {
+        method: 'POST',
+        headers: { ...githubHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query: contributionQuery,
+          variables: {
+            login: username,
+            yearStart: currentYearStart,
+            lastYearStart,
+            now: currentDateIso,
+          },
+        }),
+      })
+    : Promise.resolve(null),
+]);
+
+if (repositoriesResult.status === 'fulfilled') {
+  repositories = repositoriesResult.value.filter((repository) => !repository.fork);
+} else {
+  console.warn('GitHub repositories could not be loaded:', repositoriesResult.reason);
 }
 
-const ownRepositories = repositories.filter((repository) => !repository.fork);
-const languageCounts = ownRepositories.reduce<Record<string, number>>((counts, repository) => {
-  if (repository.language) counts[repository.language] = (counts[repository.language] ?? 0) + 1;
-  return counts;
-}, {});
-const languages = Object.entries(languageCounts)
+if (searchesResult.status === 'fulfilled') {
+  [pullRequests, mergedPullRequests, issues] = searchesResult.value;
+} else {
+  console.warn('GitHub issue and pull request totals could not be loaded:', searchesResult.reason);
+}
+
+if (contributionsResult.status === 'fulfilled' && contributionsResult.value?.data?.user) {
+  commitsThisYear = contributionsResult.value.data.user.currentYear?.totalCommitContributions ?? null;
+  contributionsLastYear = contributionsResult.value.data.user.lastYear?.contributionCalendar.totalContributions ?? null;
+} else if (contributionsResult.status === 'rejected') {
+  console.warn('GitHub contribution totals could not be loaded:', contributionsResult.reason);
+}
+
+// The GraphQL endpoint requires authentication. Keep the card useful in local
+// builds by falling back to GitHub's public commit search when no token exists.
+if (commitsThisYear === null) {
+  try {
+    const from = `${currentYear}-01-01`;
+    const to = `${currentYear}-12-31`;
+    const url = `https://api.github.com/search/commits?q=${encodeURIComponent(
+      `author:${username} committer-date:${from}..${to} is:public`,
+    )}&per_page=1`;
+    commitsThisYear = (await getJson<SearchResponse>(url)).total_count;
+  } catch (error) {
+    console.warn('GitHub commit total could not be loaded:', error);
+  }
+}
+
+const languageColors: Record<string, string> = {
+  Astro: '#ff5a03',
+  CSS: '#663399',
+  Dockerfile: '#384d54',
+  HCL: '#844fba',
+  HTML: '#e34c26',
+  JavaScript: '#f1e05a',
+  'Jupyter Notebook': '#da5b0b',
+  Mermaid: '#ff3670',
+  PowerShell: '#012456',
+  Python: '#3572a5',
+  Shell: '#89e051',
+  TeX: '#3d6117',
+  TSQL: '#e38c00',
+  TypeScript: '#3178c6',
+};
+const fallbackColors = ['#06b6d4', '#6366f1', '#14b8a6', '#f59e0b', '#ec4899', '#84cc16'];
+const languageTotals: Record<string, number> = {};
+
+if (repositories.length > 0) {
+  const languageResults = await Promise.allSettled(
+    repositories.map((repository) =>
+      getJson<Record<string, number>>(`https://api.github.com/repos/${repository.full_name}/languages`),
+    ),
+  );
+
+  for (const result of languageResults) {
+    if (result.status !== 'fulfilled') continue;
+    for (const [name, bytes] of Object.entries(result.value)) {
+      languageTotals[name] = (languageTotals[name] ?? 0) + bytes;
+    }
+  }
+}
+
+const totalLanguageBytes = Object.values(languageTotals).reduce((total, bytes) => total + bytes, 0);
+const languages: LanguageStat[] = Object.entries(languageTotals)
   .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-  .slice(0, 6);
-const maxLanguageCount = Math.max(...languages.map(([, count]) => count), 1);
-const latestPush = ownRepositories
-  .map((repository) => repository.pushed_at)
-  .filter((date): date is string => Boolean(date))
-  .sort()
-  .at(-1);
-const snapshotAvailable = profile !== null && repositories.length > 0;
-const dateFormatter = new Intl.DateTimeFormat(lang === 'es' ? 'es-ES' : 'en-GB', {
-  day: '2-digit',
+  .slice(0, 6)
+  .map(([name, bytes], index) => ({
+    name,
+    bytes,
+    percentage: totalLanguageBytes > 0 ? (bytes / totalLanguageBytes) * 100 : 0,
+    color: languageColors[name] ?? fallbackColors[index % fallbackColors.length],
+  }));
+
+const formatNumber = (value: number | null) =>
+  value === null ? '—' : new Intl.NumberFormat(lang === 'es' ? 'es-ES' : 'en-GB').format(value);
+const formatPercentage = (value: number) =>
+  new Intl.NumberFormat(lang === 'es' ? 'es-ES' : 'en-GB', {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  }).format(value);
+const mergeRate =
+  pullRequests !== null && mergedPullRequests !== null && pullRequests > 0
+    ? (mergedPullRequests / pullRequests) * 100
+    : null;
+const ringProgress = mergeRate ?? 0;
+const snapshotAvailable = repositories.length > 0 || commitsThisYear !== null || pullRequests !== null;
+const buildDate = new Intl.DateTimeFormat(lang === 'es' ? 'es-ES' : 'en-GB', {
+  day: 'numeric',
   month: 'short',
   year: 'numeric',
-});
-const latestActivity = latestPush ? dateFormatter.format(new Date(latestPush)) : '—';
+}).format(currentDate);
+
+const overviewStats = [
+  {
+    icon: 'lucide:git-commit-horizontal',
+    label: tt(`Commits (${currentYear})`, `Total commits (${currentYear})`),
+    value: formatNumber(commitsThisYear),
+  },
+  {
+    icon: 'lucide:git-pull-request',
+    label: tt('Pull requests', 'Total PRs'),
+    value: formatNumber(pullRequests),
+  },
+  {
+    icon: 'lucide:git-merge',
+    label: tt('PR fusionadas', 'Merged PRs'),
+    value: mergeRate === null ? '—' : `${formatPercentage(mergeRate)}%`,
+  },
+  {
+    icon: 'lucide:circle-dot-dashed',
+    label: tt('Issues totales', 'Total issues'),
+    value: formatNumber(issues),
+  },
+  {
+    icon: 'lucide:activity',
+    label: tt('Contribuciones (últimos 12 meses)', 'Contributions (last 12 months)'),
+    value: formatNumber(contributionsLastYear),
+  },
+];
 ---
 
-<div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/60 p-6 backdrop-blur sm:p-8 dark:border-slate-800 dark:bg-slate-900/40">
-  <div class="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-400 via-accent-500 to-blue-500"></div>
+<div class="relative isolate overflow-hidden rounded-3xl border border-slate-200/80 bg-white/55 p-6 backdrop-blur sm:p-8 dark:border-slate-800 dark:bg-slate-950/35">
+  <div class="pointer-events-none absolute -left-24 top-24 -z-10 h-72 w-72 rounded-full bg-brand-500/15 blur-3xl"></div>
+  <div class="pointer-events-none absolute -right-28 -top-28 -z-10 h-72 w-72 rounded-full bg-accent-500/10 blur-3xl"></div>
+  <div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-400 to-transparent"></div>
 
-  <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+  <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
     <div>
-      <span class="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-600 dark:text-emerald-300">
-        <span class="inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
-        {tt('Datos oficiales de GitHub', 'Official GitHub data')}
+      <span class="inline-flex items-center gap-2 rounded-full border border-emerald-500/35 bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-300">
+        <span class="relative inline-flex h-2 w-2">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+        </span>
+        {tt('Señal pública de GitHub', 'Live GitHub signal')}
       </span>
-      <h2 class="mt-3 flex items-center gap-2 text-2xl font-bold tracking-tight sm:text-3xl">
+      <h2 class="mt-3 flex items-center gap-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl dark:text-white">
         <Iconify name="lucide:activity" class="h-6 w-6 text-brand-500" />
         {tt('Estadísticas de código', 'Coding stats')}
       </h2>
-      <p class="mt-1 text-slate-500 dark:text-slate-400">
-        {tt('Snapshot actualizado en cada despliegue desde la API de GitHub.', 'Snapshot refreshed on every deployment from the GitHub API.')}
+      <p class="mt-1 text-sm text-slate-500 sm:text-base dark:text-slate-400">
+        {tt('Actividad pública actualizada en cada despliegue desde GitHub.', 'Public activity refreshed from GitHub on every deployment.')}
       </p>
     </div>
     <a
       href={`https://github.com/${username}`}
       target="_blank"
       rel="noopener noreferrer"
-      class="inline-flex flex-none items-center gap-2 rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold transition hover:border-brand-400 hover:text-brand-500 dark:border-slate-700"
+      class="inline-flex flex-none items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white/50 px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:-translate-y-0.5 hover:border-brand-400 hover:text-brand-600 dark:border-slate-700 dark:bg-slate-900/50 dark:text-slate-100 dark:hover:text-brand-300"
     >
       <Icon name="github" class="h-4 w-4" />
       {tt('Abrir perfil de GitHub', 'Open GitHub profile')}
@@ -98,50 +275,106 @@ const latestActivity = latestPush ? dateFormatter.format(new Date(latestPush)) :
   </div>
 
   {snapshotAvailable ? (
-    <div class="mt-6 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
-      <div class="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-        <div class="rounded-2xl border border-slate-200/70 bg-white/50 p-5 dark:border-slate-800 dark:bg-slate-900/40">
-          <p class="text-3xl font-bold text-slate-900 dark:text-white">{profile?.public_repos ?? ownRepositories.length}</p>
-          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{tt('Repositorios públicos', 'Public repositories')}</p>
+    <div class="mt-7 grid gap-5 lg:grid-cols-2">
+      <article class="rounded-2xl border border-slate-200/80 bg-white/65 p-5 shadow-[0_22px_70px_-46px_rgba(6,182,212,0.85)] sm:p-6 dark:border-slate-800 dark:bg-slate-900/65">
+        <div class="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+          <Icon name="github" class="h-4 w-4 text-brand-500" />
+          <h3>{tt(`GitHub de Alonso Marcos Muñoz`, `Alonso Marcos Muñoz's GitHub`)}</h3>
         </div>
-        <div class="rounded-2xl border border-slate-200/70 bg-white/50 p-5 dark:border-slate-800 dark:bg-slate-900/40">
-          <p class="text-3xl font-bold text-slate-900 dark:text-white">{languages.length}</p>
-          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{tt('Lenguajes principales', 'Primary languages')}</p>
-        </div>
-        <div class="rounded-2xl border border-slate-200/70 bg-white/50 p-5 dark:border-slate-800 dark:bg-slate-900/40">
-          <p class="text-xl font-bold text-slate-900 dark:text-white">{latestActivity}</p>
-          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{tt('Última actividad pública', 'Latest public activity')}</p>
-        </div>
-      </div>
 
-      <div class="rounded-2xl border border-slate-200/70 bg-white/50 p-5 dark:border-slate-800 dark:bg-slate-900/40 sm:p-6">
-        <div class="flex items-center gap-2">
-          <Iconify name="lucide:code-2" class="h-5 w-5 text-brand-500" />
-          <h3 class="font-semibold text-slate-900 dark:text-white">{tt('Lenguaje principal por repositorio', 'Primary language by repository')}</h3>
-        </div>
-        <p class="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-          {tt('Distribución de los repositorios públicos propios con un lenguaje detectado.', 'Distribution across owned public repositories with a detected language.')}
-        </p>
-        <div class="mt-5 space-y-4">
-          {languages.map(([language, count]) => (
-            <div>
-              <div class="mb-1.5 flex items-center justify-between gap-4 text-sm">
-                <span class="font-medium text-slate-700 dark:text-slate-200">{language}</span>
-                <span class="text-xs text-slate-500 dark:text-slate-400">{count} {count === 1 ? 'repo' : 'repos'}</span>
+        <div class="mt-5 grid gap-5 sm:grid-cols-[1fr_auto] sm:items-center">
+          <dl class="space-y-2.5">
+            {overviewStats.map((stat) => (
+              <div class="flex items-center justify-between gap-4 text-sm">
+                <dt class="flex min-w-0 items-center gap-2 text-slate-600 dark:text-slate-300">
+                  <Iconify name={stat.icon} class="h-4 w-4 flex-none text-brand-500" />
+                  <span>{stat.label}</span>
+                </dt>
+                <dd class="font-mono font-semibold tabular-nums text-slate-950 dark:text-white">{stat.value}</dd>
               </div>
-              <div class="h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
-                <div
-                  class="h-full rounded-full bg-gradient-to-r from-brand-400 to-accent-500"
-                  style={`width: ${(count / maxLanguageCount) * 100}%`}
-                ></div>
+            ))}
+          </dl>
+
+          <div class="mx-auto flex flex-col items-center sm:pl-2">
+            <div class="relative h-24 w-24">
+              <svg class="h-full w-full -rotate-90" viewBox="0 0 100 100" role="img" aria-label={tt('Porcentaje de pull requests fusionadas', 'Merged pull request percentage')}>
+                <circle cx="50" cy="50" r="41" fill="none" stroke="currentColor" stroke-width="7" class="text-slate-200 dark:text-slate-700" />
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="41"
+                  fill="none"
+                  stroke="url(#github-ring-gradient)"
+                  stroke-width="7"
+                  stroke-linecap="round"
+                  pathLength="100"
+                  stroke-dasharray="100"
+                  stroke-dashoffset={100 - ringProgress}
+                />
+                <defs>
+                  <linearGradient id="github-ring-gradient" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#22d3ee" />
+                    <stop offset="100%" stop-color="#818cf8" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                <span class="text-lg font-bold tabular-nums text-slate-950 dark:text-white">
+                  {mergeRate === null ? '—' : `${Math.round(mergeRate)}%`}
+                </span>
+                <span class="text-[9px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{tt('merge', 'merged')}</span>
               </div>
             </div>
-          ))}
+          </div>
         </div>
-      </div>
+      </article>
+
+      <article class="rounded-2xl border border-slate-200/80 bg-white/65 p-5 shadow-[0_22px_70px_-46px_rgba(99,102,241,0.8)] sm:p-6 dark:border-slate-800 dark:bg-slate-900/65">
+        <div class="flex items-center gap-2">
+          <Iconify name="lucide:code-2" class="h-5 w-5 text-brand-500" />
+          <h3 class="text-lg font-semibold text-slate-950 dark:text-white">{tt('Lenguajes más usados', 'Most used languages')}</h3>
+        </div>
+        <p class="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+          {tt('Porcentaje de bytes de código en repositorios públicos propios.', 'Share of code bytes across owned public repositories.')}
+        </p>
+
+        {languages.length > 0 ? (
+          <>
+            <div
+              class="mt-5 flex h-2.5 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"
+              role="img"
+              aria-label={tt('Distribución de lenguajes de programación', 'Programming language distribution')}
+            >
+              {languages.map((language) => (
+                <span
+                  class="h-full first:rounded-l-full last:rounded-r-full"
+                  style={`width:${language.percentage}%;background-color:${language.color}`}
+                  title={`${language.name} ${formatPercentage(language.percentage)}%`}
+                ></span>
+              ))}
+            </div>
+
+            <ul class="mt-5 grid grid-cols-1 gap-x-6 gap-y-3 text-sm sm:grid-cols-2">
+              {languages.map((language) => (
+                <li class="flex items-center justify-between gap-3">
+                  <span class="flex min-w-0 items-center gap-2 text-slate-700 dark:text-slate-200">
+                    <span class="h-3 w-3 flex-none rounded-full" style={`background-color:${language.color}`}></span>
+                    <span class="text-xs sm:text-sm">{language.name}</span>
+                  </span>
+                  <span class="font-mono text-xs tabular-nums text-slate-500 dark:text-slate-400">{formatPercentage(language.percentage)}%</span>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <p class="mt-6 rounded-xl border border-dashed border-slate-300 p-5 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
+            {tt('GitHub no devolvió el desglose de lenguajes.', 'GitHub did not return a language breakdown.')}
+          </p>
+        )}
+      </article>
     </div>
   ) : (
-    <div class="mt-6 rounded-2xl border border-slate-200/70 bg-white/50 p-6 text-center dark:border-slate-800 dark:bg-slate-900/40">
+    <div class="mt-7 rounded-2xl border border-slate-200/80 bg-white/60 p-6 text-center dark:border-slate-800 dark:bg-slate-900/60">
       <Icon name="github" class="mx-auto h-7 w-7 text-brand-500" />
       <p class="mt-3 text-sm font-semibold text-slate-800 dark:text-slate-100">
         {tt('El snapshot no pudo actualizarse en este despliegue', 'The snapshot could not be refreshed for this deployment')}
@@ -151,4 +384,12 @@ const latestActivity = latestPush ? dateFormatter.format(new Date(latestPush)) :
       </p>
     </div>
   )}
+
+  <p class="mt-4 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-[11px] text-slate-400 dark:text-slate-500">
+    <span>{tt('Solo actividad pública', 'Public activity only')}</span>
+    <span aria-hidden="true">·</span>
+    <span>{tt('Actualizado', 'Updated')} {buildDate}</span>
+    <span aria-hidden="true">·</span>
+    <a class="underline decoration-slate-300 underline-offset-2 hover:text-brand-500 dark:decoration-slate-700" href="https://docs.github.com/en/rest" target="_blank" rel="noopener noreferrer">GitHub API</a>
+  </p>
 </div>
