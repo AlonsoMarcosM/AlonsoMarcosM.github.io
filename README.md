@@ -2,8 +2,8 @@
 
 > **Despliegue público:** [Abrir portfolio](https://alonsomarcosm.github.io)
 
-Personal portfolio of Alonso Marcos Muñoz, Data Engineer focused on data
-governance, interoperability and metadata pipelines.
+Personal portfolio of Alonso Marcos Muñoz, Data Engineer focused on reliable
+pipelines, data modelling, data quality and operable data platforms.
 
 🌐 **https://alonsomarcosm.github.io**
 

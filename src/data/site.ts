@@ -24,21 +24,21 @@ export interface SiteProfile {
 export const profile: SiteProfile = {
   name: 'Alonso Marcos Muñoz',
   role: {
-    es: 'Ingeniero de Datos · Gobernanza del dato e interoperabilidad',
-    en: 'Data Engineer · Data Governance & Interoperability',
+    es: 'Ingeniero de Datos · Pipelines, modelado y plataformas',
+    en: 'Data Engineer · Pipelines, data modelling & platforms',
   },
   tagline: {
-    es: 'Diseño e industrializo pipelines de metadatos e interoperabilidad para el sector público, con estándares abiertos, validación semántica y plataformas de datos operables.',
-    en: 'I design and industrialise metadata & interoperability pipelines for the public sector, built on open standards, semantic validation and operable data platforms.',
+    es: 'Diseño e industrializo pipelines y modelos de datos con Python, SQL, calidad y operación multi-entorno; mi portfolio demuestra además Databricks, Spark, Airflow, Kafka, Delta Lake y AWS en soluciones end-to-end.',
+    en: 'I design and industrialise data pipelines and models with Python, SQL, quality controls and multi-environment operations; my portfolio also demonstrates Databricks, Spark, Airflow, Kafka, Delta Lake and AWS in end-to-end solutions.',
   },
   about: [
     {
-      es: 'Ingeniero de Datos centrado en gobernanza del dato, interoperabilidad y automatización de procesos de metadatos. Actualmente en Tragsatec, dentro del proyecto ImpulsaDATA para la Dirección General del Dato (Administración General del Estado), trabajando en publicación, validación y federación de datos en catálogos institucionales.',
-      en: 'Data Engineer focused on data governance, interoperability and metadata process automation. Currently at Tragsatec, within the ImpulsaDATA programme for the Spanish Data Directorate (central government), working on publishing, validating and federating data across institutional catalogues.',
+      es: 'Ingeniero de Datos y Plataformas centrado en construir pipelines fiables, modelos de datos mantenibles y soluciones operables. Actualmente trabajo en Tragsatec, dentro de ImpulsaDATA para la Dirección General del Dato, en una plataforma cuyo alcance incluye 22 organismos de la AGE y más de 10.000 datasets federados en datos.gob.es.',
+      en: 'Data Engineer and Platform Engineer focused on reliable pipelines, maintainable data models and operable solutions. I currently work at Tragsatec within ImpulsaDATA for the Spanish Data Directorate, on a platform spanning 22 central-government bodies and more than 10,000 datasets federated to datos.gob.es.',
     },
     {
-      es: 'Mi trabajo combina desarrollo en Python, ETL de metadatos, CKAN y estándares como DCAT-AP-ES, RDF, JSON-LD y SHACL, con contenedorización, administración de entornos y documentación operativa. Me interesa construir soluciones mantenibles, trazables y preparadas para operarse en contextos reales y regulados.',
-      en: 'My work combines Python development, metadata ETL, CKAN and standards such as DCAT-AP-ES, RDF, JSON-LD and SHACL, together with containerisation, environment administration and operational documentation. I care about building maintainable, traceable solutions ready to run in real, regulated settings.',
+      es: 'Mi trabajo combina Python, SQL y modelado sobre PostgreSQL/Oracle con ETL de metadatos, CKAN, DCAT-AP-ES, RDF/JSON-LD y SHACL. Abarca transformaciones, agregaciones, vistas y optimización, junto con contenedorización, seguridad, administración de entornos test/desa/pre/pro y documentación operativa.',
+      en: 'My work combines Python, SQL and data modelling on PostgreSQL/Oracle with metadata ETL, CKAN, DCAT-AP-ES, RDF/JSON-LD and SHACL. It covers transformations, aggregations, views and optimisation alongside containerisation, security, test/dev/pre-production/production environments and operational documentation.',
     },
     {
       es: 'Lo complemento con un Máster en Big Data y Computación en la Nube, la certificación CAPM y proyectos en OpenMetadata, Kubernetes, Airflow, Spark, Kafka, Databricks y AWS, además de IA generativa aplicada y AI harness engineering para acelerar análisis, desarrollo y documentación.',

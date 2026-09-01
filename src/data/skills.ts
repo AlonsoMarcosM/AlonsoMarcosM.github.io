@@ -2,28 +2,16 @@ import type { I18nText } from '../i18n/utils';
 
 export interface SkillGroup {
   title: I18nText;
-  items: string[];
+  items: Array<string | I18nText>;
 }
 
 export const skillGroups: SkillGroup[] = [
-  {
-    title: { es: 'Gobernanza y calidad del dato', en: 'Data governance & quality' },
-    items: [
-      'DCAT-AP-ES',
-      'RDF',
-      'JSON-LD',
-      'SHACL / pySHACL',
-      'OpenMetadata',
-      'Metadata management',
-      'Data lineage',
-      'UNE 0077–0081',
-    ],
-  },
   {
     title: { es: 'Ingeniería de datos', en: 'Data engineering' },
     items: [
       'Python',
       'ETL / ELT',
+      { es: 'Modelado de datos', en: 'Data modelling' },
       'CKAN + extensiones',
       'PostgreSQL',
       'Oracle',
@@ -59,6 +47,19 @@ export const skillGroups: SkillGroup[] = [
       'nginx',
       'Linux / SSH',
       'Git / GitLab / GitHub',
+    ],
+  },
+  {
+    title: { es: 'Gobernanza y calidad del dato', en: 'Data governance & quality' },
+    items: [
+      'DCAT-AP-ES',
+      'RDF',
+      'JSON-LD',
+      'SHACL / pySHACL',
+      'OpenMetadata',
+      'Metadata management',
+      'Data lineage',
+      'UNE 0077–0081',
     ],
   },
   {
