@@ -17,6 +17,8 @@ deployed automatically to GitHub Pages via GitHub Actions.
 - Tailwind CSS 4 (`@tailwindcss/vite`)
 - TypeScript content model in `src/data` (bilingual)
 - Light/dark theme, SEO (hreflang, JSON-LD, sitemap, OpenGraph)
+- Agent-readable discovery (`/llms.txt`) and Markdown mirrors generated from the
+  same typed content as the HTML pages
 
 ## Develop
 

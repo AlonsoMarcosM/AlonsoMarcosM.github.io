@@ -22,6 +22,7 @@ const norm = path.replace(/^\/|\/$/g, '');
 // Sin literales de plantilla anidados: rompen el scanner de @astrojs/compiler.
 const buildUrl = (l: Lang) => site + '/' + l + (norm ? '/' + norm : '') + '/';
 const canonical = buildUrl(lang);
+const markdownUrl = canonical + 'index.md';
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : site + ogImage;
 
 const fontsHref =
@@ -49,6 +50,8 @@ const personLd = {
     <meta name="description" content={description} />
     <meta name="author" content={profile.name} />
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="text/markdown" href={markdownUrl} />
+    <link rel="describedby" href={`${site}/llms.txt`} type="text/markdown" />
 
     <link rel="alternate" hreflang="es" href={buildUrl('es')} />
     <link rel="alternate" hreflang="en" href={buildUrl('en')} />

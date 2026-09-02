@@ -25,7 +25,7 @@ export const education: EducationItem[] = [
       en: "Master's Degree in Big Data & Cloud Computing",
     },
     period: { es: 'Sept. 2025 – Jun. 2026', en: 'Sep 2025 – Jun 2026' },
-    note: { es: 'En curso', en: 'In progress' },
+    note: { es: 'Finalizado · TFM 9,2/10', en: "Completed · Master's thesis 9.2/10" },
   },
   {
     institution: 'UCLM',
