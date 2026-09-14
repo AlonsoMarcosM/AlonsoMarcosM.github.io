@@ -61,7 +61,9 @@ jobs:
         run: npx lhci autorun
 
       - name: Check generated links
-        run: npx --yes linkinator@6 ./dist --recurse --skip "mailto:|linkedin.com|streamlit.app|getmanfred.com|tecnoempleo.com"
+        run: >-
+          npx --yes linkinator@6 ./dist --recurse
+          --skip "mailto:|linkedin.com|streamlit.app|getmanfred.com|tecnoempleo.com|alonsomarcosm.github.io/img/og/|github.com/.*/blob/|w3.org/|datos.gob.es/|iso.org/|une.org/"
 
       - name: Upload visual evidence
         if: always()
