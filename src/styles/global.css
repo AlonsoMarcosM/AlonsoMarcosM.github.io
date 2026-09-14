@@ -57,6 +57,23 @@ body {
   @apply bg-brand-400/30;
 }
 
+:focus-visible {
+  outline: 3px solid var(--color-brand-400);
+  outline-offset: 3px;
+}
+
+.case-section {
+  @apply mt-12;
+}
+
+.eyebrow {
+  @apply text-sm font-semibold uppercase tracking-[0.16em] text-brand-700 dark:text-brand-300;
+}
+
+.case-lead {
+  @apply mt-3 max-w-4xl text-lg leading-relaxed text-slate-600 dark:text-slate-300;
+}
+
 /* Texto con gradiente de marca. */
 .text-gradient {
   background-image: linear-gradient(120deg, var(--color-brand-400), var(--color-accent-400));

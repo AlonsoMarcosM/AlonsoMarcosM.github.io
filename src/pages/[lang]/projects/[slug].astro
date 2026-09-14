@@ -4,13 +4,13 @@ import Icon from '../../../components/Icon.astro';
 import { Icon as Iconify } from 'astro-icon/components';
 import ProjectIcon from '../../../components/ProjectIcon.astro';
 import TechBadge from '../../../components/TechBadge.astro';
-import { projects, getProject } from '../../../data/projects';
+import { projects, getProject, getProjectLink, type ProjectLinkType } from '../../../data/projects';
 import { profile } from '../../../data/site';
 import { pick, localePath, useTranslations, locales, type Lang } from '../../../i18n/utils';
 
 export function getStaticPaths() {
   return locales.flatMap((lang) =>
-    projects.map((p) => ({ params: { lang, slug: p.slug } })),
+    projects.map((project) => ({ params: { lang, slug: project.slug } })),
   );
 }
 
@@ -20,15 +20,53 @@ const t = useTranslations(lang);
 const project = getProject(slug);
 if (!project) return Astro.redirect(localePath(lang, 'projects'));
 
-const highlights = pick(project.highlights, lang);
-const results = project.results ? pick(project.results, lang) : null;
 const projectTitle = pick(project.title, lang);
 const title = `${projectTitle} · ${profile.name}`;
 const description = pick(project.tagline, lang);
+const github = getProjectLink(project, 'github');
+const linkLabels: Record<ProjectLinkType, string> = {
+  live_demo: t('projects.liveDemo'),
+  case_study: lang === 'es' ? 'Caso de estudio' : 'Case study',
+  architecture: t('projects.architecture'),
+  technical_docs: t('projects.technicalDocs'),
+  github: t('projects.repo'),
+};
+const externalLinks = project.links.filter((link) => link.type !== 'case_study');
+const evidenceUrl = (path: string) => github ? `${github.url}/blob/main/${path}` : path;
+const evidenceImage = (path: string) => {
+  const name = path.split('/').at(-1);
+  return project.assetBase && name ? `${project.assetBase}/${name}` : path;
+};
+const isRaster = (path: string) => /\.(png|jpe?g)$/i.test(path);
+const optimizedImage = (path: string, format: 'avif' | 'webp') =>
+  path.replace(/\.(png|jpe?g)$/i, `.${format}`);
+const ogImage = project.ogImage?.replace('-es.png', `-${lang}.png`);
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareSourceCode',
+  name: projectTitle,
+  description,
+  url: `https://alonsomarcosm.github.io/${lang}/projects/${slug}/`,
+  codeRepository: github?.url,
+  programmingLanguage: project.stack,
+  creator: { '@type': 'Person', name: profile.name },
+  contributor: project.team?.slice(1).map((member) => ({ '@type': 'Person', name: member.name })),
+  inLanguage: lang,
+  keywords: project.tags,
+};
 ---
 
-<Base lang={lang} title={title} description={description} path={`projects/${slug}`}>
-  <article class="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
+<Base
+  lang={lang}
+  title={title}
+  description={description}
+  path={`projects/${slug}`}
+  ogImage={ogImage}
+  ogImageAlt={projectTitle}
+  ogType="article"
+  structuredData={structuredData}
+>
+  <article class="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
     <a
       href={localePath(lang, 'projects')}
       class="inline-flex items-center gap-1.5 text-sm text-slate-500 transition hover:text-brand-500"
@@ -37,108 +75,183 @@ const description = pick(project.tagline, lang);
       {t('projects.backToProjects')}
     </a>
 
-    <header class="relative mt-6 overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-brand-500/10 via-transparent to-accent-500/10 p-7 dark:border-slate-800">
-      <div class="bg-grid pointer-events-none absolute inset-0 opacity-40 [mask-image:radial-gradient(ellipse_at_top_left,black,transparent_70%)]"></div>
-      <div class="relative flex flex-col gap-5 sm:flex-row sm:items-start">
-        <ProjectIcon icon={project.icon} label={projectTitle} size="hero" />
-        <div class="min-w-0 flex-1">
-          <div class="flex flex-wrap items-center gap-3 text-xs font-medium">
-            <span class="rounded-full bg-gradient-to-r from-brand-500/20 to-accent-500/20 px-2.5 py-1 font-mono text-brand-600 dark:text-brand-200">
-              {pick(project.category, lang)}
-            </span>
-            {
-              project.badge && (
+    <header class="relative mt-6 overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-brand-500/10 via-transparent to-accent-500/10 dark:border-slate-800">
+      {
+        project.heroImage && (
+          <div class="aspect-[16/8] overflow-hidden border-b border-slate-200 bg-slate-950 dark:border-slate-800">
+            <picture>
+              {isRaster(project.heroImage) && <source srcset={optimizedImage(project.heroImage, 'avif')} type="image/avif" />}
+              {isRaster(project.heroImage) && <source srcset={optimizedImage(project.heroImage, 'webp')} type="image/webp" />}
+              <img
+                src={project.heroImage}
+                alt={lang === 'es' ? `Evidencia principal de ${projectTitle}` : `Primary evidence for ${projectTitle}`}
+                width="1200"
+                height="600"
+                loading="eager"
+                fetchpriority="high"
+                class="h-full w-full object-cover object-top"
+              />
+            </picture>
+          </div>
+        )
+      }
+      <div class="relative p-7 sm:p-9">
+        <div class="flex flex-col gap-5 sm:flex-row sm:items-start">
+          <ProjectIcon icon={project.icon} label={projectTitle} size="hero" />
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-wrap items-center gap-3 text-xs font-medium">
+              <span class="rounded-full bg-brand-500/15 px-2.5 py-1 font-mono text-brand-700 dark:text-brand-200">
+                {pick(project.category, lang)}
+              </span>
+              {project.badge && (
                 <span class="inline-flex items-center gap-1.5 rounded-full bg-amber-400/15 px-2.5 py-1 font-mono text-amber-700 ring-1 ring-amber-400/30 dark:text-amber-300">
                   <Iconify name="lucide:graduation-cap" class="h-3.5 w-3.5" />
                   {pick(project.badge, lang)}
                 </span>
-              )
-            }
-            <span class="font-mono text-slate-400">{project.year}</span>
-          </div>
-          <h1 class="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">{projectTitle}</h1>
-          <p class="mt-3 text-lg text-slate-600 dark:text-slate-300">{pick(project.tagline, lang)}</p>
-
-          <div class="mt-6 flex flex-wrap gap-3">
-            {
-              project.demo && (
+              )}
+              <span class="font-mono text-slate-400">{project.year}</span>
+            </div>
+            <h1 class="mt-4 text-3xl font-bold tracking-tight sm:text-5xl">{projectTitle}</h1>
+            <p class="mt-4 max-w-3xl text-lg leading-relaxed text-slate-600 dark:text-slate-300">{description}</p>
+            <div class="mt-6 flex flex-wrap gap-3">
+              {externalLinks.map((link, index) => (
                 <a
-                  href={project.demo}
+                  href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-lg shadow-brand-500/20 transition hover:bg-brand-400"
+                  class:list={[
+                    'inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition',
+                    index === 0
+                      ? 'bg-brand-500 text-slate-950 shadow-lg shadow-brand-500/20 hover:bg-brand-400'
+                      : 'border border-slate-300 hover:border-brand-400 hover:text-brand-500 dark:border-slate-700',
+                  ]}
                 >
-                  <Icon name="external" class="h-4 w-4" />
-                  {t('projects.demo')}
+                  <Icon name={link.type === 'github' ? 'github' : 'external'} class="h-4 w-4" />
+                  {linkLabels[link.type]}
                 </a>
-              )
-            }
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold transition hover:border-brand-400 hover:text-brand-500 dark:border-slate-700"
-            >
-              <Icon name="github" class="h-4 w-4" />
-              {t('projects.repo')}
-            </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>
     </header>
 
-    <section class="reveal mt-10">
-      <h2 class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">
-        <span class="h-4 w-1 flex-none rounded-full bg-gradient-to-b from-brand-400 to-accent-500"></span>
-        {t('projects.context')}
-      </h2>
-      <p class="mt-3 leading-relaxed text-slate-600 dark:text-slate-300">{pick(project.context, lang)}</p>
-    </section>
+    {project.problem && (
+      <section class="case-section reveal">
+        <p class="eyebrow">{t('projects.problem')}</p>
+        <p class="case-lead">{pick(project.problem, lang)}</p>
+      </section>
+    )}
 
-    <section class="reveal mt-9">
-      <h2 class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">
-        <span class="h-4 w-1 flex-none rounded-full bg-gradient-to-b from-brand-400 to-accent-500"></span>
-        {t('projects.highlights')}
-      </h2>
-      <ul class="mt-4 space-y-2.5">
-        {
-          highlights.map((h) => (
-            <li class="flex gap-3 text-slate-600 dark:text-slate-300">
-              <Iconify name="lucide:check" class="mt-1 h-4 w-4 flex-none text-brand-500" />
-              <span>{h}</span>
-            </li>
-          ))
-        }
+    {project.architecture && (
+      <section class="case-section reveal">
+        <p class="eyebrow">{t('projects.architecture')}</p>
+        <p class="case-lead">{pick(project.architecture, lang)}</p>
+        {project.dataFlow && (
+          <div class="mt-5 rounded-2xl border border-brand-500/25 bg-brand-500/5 p-5">
+            <h2 class="text-sm font-semibold text-brand-700 dark:text-brand-300">{t('projects.dataFlow')}</h2>
+            <p class="mt-2 font-mono text-sm leading-relaxed text-slate-700 dark:text-slate-200">{pick(project.dataFlow, lang)}</p>
+          </div>
+        )}
+      </section>
+    )}
+
+    {project.verifiedMetrics && (
+      <section class="case-section reveal">
+        <p class="eyebrow">{t('projects.results')}</p>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {project.verifiedMetrics.map((metric) => (
+            <article class="rounded-2xl border border-slate-200 bg-white/70 p-5 dark:border-slate-800 dark:bg-slate-900/60">
+              <p class="text-2xl font-bold text-gradient">{metric.value}</p>
+              <h2 class="mt-2 text-sm font-semibold">{pick(metric.label, lang)}</h2>
+              {metric.detail && <p class="mt-1 text-xs text-slate-500">{pick(metric.detail, lang)}</p>}
+              <a
+                href={evidenceUrl(metric.evidence)}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-3 inline-flex items-center gap-1 text-xs text-brand-600 hover:underline dark:text-brand-400"
+              >
+                {lang === 'es' ? 'Ver fuente' : 'View source'}
+                <Icon name="external" class="h-3 w-3" />
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section class="case-section reveal">
+      <p class="eyebrow">{project.ownership ? t('projects.ownership') : t('projects.highlights')}</p>
+      <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+        {pick(project.ownership ?? project.highlights, lang).map((item) => (
+          <li class="flex gap-3 rounded-xl border border-slate-200/80 p-4 text-slate-600 dark:border-slate-800 dark:text-slate-300">
+            <Iconify name="lucide:check" class="mt-1 h-4 w-4 flex-none text-brand-500" />
+            <span>{item}</span>
+          </li>
+        ))}
       </ul>
+      {project.team && (
+        <div class="mt-5 flex flex-wrap gap-2">
+          {project.team.map((member) => (
+            <span class="rounded-full border border-slate-200 px-3 py-1.5 text-xs dark:border-slate-700">
+              <strong>{member.name}</strong> · {pick(member.role, lang)}
+            </span>
+          ))}
+        </div>
+      )}
     </section>
 
-    {
-      results && (
-        <section class="reveal mt-9 rounded-2xl border border-brand-500/30 bg-brand-500/5 p-5">
-          <h2 class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">
-            <Iconify name="lucide:trending-up" class="h-4 w-4" />
-            {t('projects.results')}
-          </h2>
-          <ul class="mt-4 grid gap-2.5 sm:grid-cols-2">
-            {results.map((r) => (
-              <li class="flex gap-3 text-slate-700 dark:text-slate-200">
-                <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-brand-500" />
-                <span>{r}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )
-    }
+    {project.evidence && (
+      <section class="case-section reveal">
+        <p class="eyebrow">{t('projects.evidence')}</p>
+        <div class="mt-4 grid gap-5 sm:grid-cols-2">
+          {project.evidence.map((item) => (
+            <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-950 dark:border-slate-800">
+              <a href={evidenceUrl(item.path)} target="_blank" rel="noopener noreferrer">
+                <picture>
+                  {isRaster(evidenceImage(item.path)) && <source srcset={optimizedImage(evidenceImage(item.path), 'avif')} type="image/avif" />}
+                  {isRaster(evidenceImage(item.path)) && <source srcset={optimizedImage(evidenceImage(item.path), 'webp')} type="image/webp" />}
+                  <img
+                    src={evidenceImage(item.path)}
+                    alt={pick(item.label, lang)}
+                    width="1000"
+                    height="620"
+                    loading="lazy"
+                    decoding="async"
+                    class="aspect-[16/10] h-auto w-full object-contain"
+                  />
+                </picture>
+              </a>
+              <figcaption class="border-t border-slate-800 px-4 py-3 text-sm text-slate-300">
+                {pick(item.label, lang)}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+    )}
 
-    <section class="reveal mt-9">
-      <h2 class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">
-        <span class="h-4 w-1 flex-none rounded-full bg-gradient-to-b from-brand-400 to-accent-500"></span>
-        {t('projects.stack')}
-      </h2>
+    {project.limitations && (
+      <section class="case-section reveal rounded-2xl border border-amber-400/25 bg-amber-400/5 p-6">
+        <p class="eyebrow text-amber-700 dark:text-amber-300">{t('projects.limitations')}</p>
+        <ul class="mt-4 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+          {pick(project.limitations, lang).map((item) => <li>• {item}</li>)}
+        </ul>
+      </section>
+    )}
+
+    <section class="case-section reveal">
+      <p class="eyebrow">{t('projects.stack')}</p>
       <div class="mt-4 flex flex-wrap gap-2">
-        {project.stack.map((s) => <TechBadge label={s} size="md" link />)}
+        {project.stack.map((item) => <TechBadge label={item} size="md" link />)}
       </div>
+      {github && (
+        <p class="mt-6 break-all font-mono text-sm">
+          <a href={github.url} target="_blank" rel="noopener noreferrer" class="text-brand-600 hover:underline dark:text-brand-400">
+            {github.url}
+          </a>
+        </p>
+      )}
     </section>
   </article>
 </Base>

@@ -1,13 +1,23 @@
 {
   "name": "alonsomarcosm-portfolio",
   "type": "module",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
+  "packageManager": "npm@10.9.0",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "prebuild": "npm run optimize:assets && npm run generate:og",
     "build": "astro build",
     "preview": "astro preview",
+    "check": "astro check",
+    "test:content": "node scripts/test-content.mjs",
+    "test:e2e": "node scripts/visual-test.mjs",
+    "generate:og": "node scripts/generate-og.mjs",
+    "optimize:assets": "node scripts/optimize-assets.mjs",
+    "sync:flagships": "node scripts/sync-flagships.mjs",
+    "sync:check": "node scripts/sync-flagships.mjs --check",
+    "quality": "npm run check && npm run test:content && npm run build",
     "astro": "astro"
   },
   "dependencies": {
@@ -15,12 +25,16 @@
     "@iconify-json/lucide": "^1.2.114",
     "@iconify-json/simple-icons": "^1.2.87",
     "@tailwindcss/vite": "^4.3.1",
-    "astro": "^5.18.2",
-    "astro-icon": "^1.1.5",
+    "astro": "^7.3.2",
+    "astro-icon": "^1.2.0",
+    "sharp": "^0.35.4",
     "tailwindcss": "^4.3.1"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@axe-core/playwright": "^4.11.0",
     "@iconify-json/circle-flags": "^1.2.10",
-    "playwright": "^1.61.0"
+    "playwright": "^1.61.0",
+    "typescript": "^5.9.3"
   }
 }

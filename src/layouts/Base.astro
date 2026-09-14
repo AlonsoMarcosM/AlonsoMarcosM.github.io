@@ -12,9 +12,21 @@ interface Props {
   /** Ruta relativa al idioma (sin prefijo): '', 'projects' o 'projects/slug'. */
   path?: string;
   ogImage?: string;
+  ogImageAlt?: string;
+  ogType?: 'website' | 'article';
+  structuredData?: Record<string, unknown>;
 }
 
-const { lang, title, description, path = '', ogImage = '/img/og-default.png' } = Astro.props;
+const {
+  lang,
+  title,
+  description,
+  path = '',
+  ogImage = `/img/og/home-${lang}.png`,
+  ogImageAlt = title,
+  ogType = 'website',
+  structuredData,
+} = Astro.props;
 const t = useTranslations(lang);
 
 const site = (Astro.site ? Astro.site.toString() : 'https://alonsomarcosm.github.io').replace(/\/$/, '');
@@ -57,22 +69,27 @@ const personLd = {
     <link rel="alternate" hreflang="en" href={buildUrl('en')} />
     <link rel="alternate" hreflang="x-default" href={buildUrl('en')} />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href={fontsHref} />
 
     <script type="application/ld+json" is:inline set:html={JSON.stringify(personLd)}></script>
+    {structuredData && <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)}></script>}
 
     <script is:inline>
       (function () {

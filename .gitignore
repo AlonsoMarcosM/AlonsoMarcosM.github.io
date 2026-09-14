@@ -4,6 +4,9 @@ dist/
 
 # dependencies
 node_modules/
+.lighthouseci/
+_pwshots/
+_cvtmp/
 
 # logs
 npm-debug.log*

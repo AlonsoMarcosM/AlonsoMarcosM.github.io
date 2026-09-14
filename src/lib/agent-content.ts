@@ -1,6 +1,6 @@
 import { education, certifications } from '../data/education';
 import { experiences } from '../data/experience';
-import { orderedProjects, type Project } from '../data/projects';
+import { getProjectLink, orderedProjects, type Project } from '../data/projects';
 import { profile } from '../data/site';
 import { skillGroups } from '../data/skills';
 import { pick, type Lang } from '../i18n/utils';
@@ -65,10 +65,16 @@ export function renderProjectMarkdown(project: Project, lang: Lang): string {
     bullets(pick(project.highlights, lang)),
   ];
 
-  if (project.results) {
-    sections.push('', `## ${labels.results}`, '', bullets(pick(project.results, lang)));
+  if (project.verifiedMetrics) {
+    sections.push(
+      '',
+      `## ${labels.results}`,
+      '',
+      bullets(project.verifiedMetrics.map((metric) => `${pick(metric.label, lang)}: ${metric.value}. Fuente: ${metric.evidence}`)),
+    );
   }
 
+  const github = getProjectLink(project, 'github');
   sections.push(
     '',
     `## ${labels.stack}`,
@@ -78,10 +84,12 @@ export function renderProjectMarkdown(project: Project, lang: Lang): string {
     `## ${labels.links}`,
     '',
     `- ${labels.portfolio}: ${site}/${lang}/projects/${project.slug}/`,
-    `- ${labels.repository}: ${project.github}`,
+    ...(github ? [`- ${labels.repository}: ${github.url}`] : []),
   );
 
-  if (project.demo) sections.push(`- ${labels.demo}: ${project.demo}`);
+  for (const link of project.links.filter((item) => item.type !== 'github' && item.type !== 'case_study')) {
+    sections.push(`- ${link.type}: ${link.url}`);
+  }
 
   return `${sections.join('\n')}\n`;
 }
@@ -98,8 +106,7 @@ export function renderProjectsIndexMarkdown(lang: Lang): string {
     clean(pick(project.tagline, lang)),
     '',
     `- Markdown: ${projectMarkdownUrl(project, lang)}`,
-    `- GitHub: ${project.github}`,
-    ...(project.demo ? [`- Demo: ${project.demo}`] : []),
+    ...project.links.map((link) => `- ${link.type}: ${link.url}`),
   ].join('\n')).join('\n\n');
 
   return `# ${title}\n\n> ${intro}\n\n${projects}\n`;
@@ -158,8 +165,7 @@ export function renderProfileMarkdown(lang: Lang): string {
     clean(pick(project.tagline, lang)),
     '',
     `- ${labels.details}: ${projectMarkdownUrl(project, lang)}`,
-    `- ${labels.repository}: ${project.github}`,
-    ...(project.demo ? [`- ${labels.demo}: ${project.demo}`] : []),
+    ...project.links.map((link) => `- ${link.type}: ${link.url}`),
   ].join('\n')).join('\n\n');
 
   const skillSections = skillGroups.map((group) =>

@@ -24,17 +24,17 @@ export interface SiteProfile {
 export const profile: SiteProfile = {
   name: 'Alonso Marcos Muñoz',
   role: {
-    es: 'Ingeniero de Datos · Pipelines, modelado y plataformas',
+    es: 'Data Engineer · Pipelines, modelado y plataformas',
     en: 'Data Engineer · Pipelines, data modelling & platforms',
   },
   tagline: {
-    es: 'Diseño e industrializo pipelines y modelos de datos con Python, SQL, calidad y operación multi-entorno; mi portfolio demuestra además Databricks, Spark, Airflow, Kafka, Delta Lake y AWS en soluciones end-to-end.',
-    en: 'I design and industrialise data pipelines and models with Python, SQL, quality controls and multi-environment operations; my portfolio also demonstrates Databricks, Spark, Airflow, Kafka, Delta Lake and AWS in end-to-end solutions.',
+    es: 'Construyo pipelines, modelos y plataformas de datos con Python y SQL. Aporto experiencia profesional en metadatos públicos y proyectos aplicados con Databricks, Spark, Airflow, Kafka y AWS.',
+    en: 'I build data pipelines, models and platforms with Python and SQL. I bring professional public-metadata experience and applied projects with Databricks, Spark, Airflow, Kafka and AWS.',
   },
   about: [
     {
-      es: 'Ingeniero de Datos y Plataformas centrado en construir pipelines fiables, modelos de datos mantenibles y soluciones operables. Actualmente trabajo en Tragsatec, dentro de ImpulsaDATA para la Dirección General del Dato, en una plataforma cuyo alcance incluye 22 organismos de la AGE y más de 10.000 datasets federados en datos.gob.es.',
-      en: 'Data Engineer and Platform Engineer focused on reliable pipelines, maintainable data models and operable solutions. I currently work at Tragsatec within ImpulsaDATA for the Spanish Data Directorate, on a platform spanning 22 central-government bodies and more than 10,000 datasets federated to datos.gob.es.',
+      es: 'Data Engineer centrado en construir pipelines fiables, modelos mantenibles y soluciones operables. Trabajo en Tragsatec dentro de ImpulsaDATA para la Dirección General del Dato, una iniciativa con 5.771 datasets publicados y federados, 22 ministerios y organismos y 13 servicios comunes según su balance público.',
+      en: 'Data Engineer focused on reliable pipelines, maintainable models and operable solutions. I work at Tragsatec within ImpulsaDATA for the Spanish Data Directorate, an initiative publicly reporting 5,771 published and federated datasets, 22 ministries and public bodies and 13 shared services.',
     },
     {
       es: 'Mi trabajo combina Python, SQL y modelado sobre PostgreSQL/Oracle con ETL de metadatos, CKAN, DCAT-AP-ES, RDF/JSON-LD y SHACL. Abarca transformaciones, agregaciones, vistas y optimización, junto con contenedorización, seguridad, administración de entornos test/desa/pre/pro y documentación operativa.',

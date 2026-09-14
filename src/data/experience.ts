@@ -26,8 +26,8 @@ export const experiences: Experience[] = [
     period: { from: '2025-10', to: null },
     location: { es: 'Sector público · España', en: 'Public sector · Spain' },
     summary: {
-      es: 'Ingeniería de datos y gobernanza del dato en un contexto real de la Administración General del Estado, con alcance sobre 22 organismos y más de 10.000 datasets federados en datos.gob.es a través de catálogos CKAN comunes.',
-      en: 'Data engineering and data governance in a real central-government setting, spanning 22 public bodies and 10,000+ datasets federated to datos.gob.es through shared CKAN catalogues.',
+      es: 'Ingeniería de datos y gobierno del dato en la Administración General del Estado. El balance público de ImpulsaDATA acredita 5.771 datasets publicados y federados, 22 ministerios y organismos y 13 servicios comunes.',
+      en: 'Data engineering and data governance in Spain’s central government. ImpulsaDATA publicly reports 5,771 published and federated datasets, 22 ministries and public bodies and 13 shared services.',
     },
     highlights: {
       es: [
