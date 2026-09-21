@@ -22,7 +22,7 @@ export const education: EducationItem[] = [
   {
     institution: 'UCLM',
     logo: '/img/edu/uclm.jpg',
-    href: 'https://www.uclm.es/estudios/masteres/master-big-data',
+    href: 'https://esi.uclm.es/mubdcn/',
     title: {
       es: 'Máster Universitario en Big Data y Computación en la Nube',
       en: "Master's Degree in Big Data & Cloud Computing",
@@ -33,7 +33,7 @@ export const education: EducationItem[] = [
   {
     institution: 'UCLM',
     logo: '/img/edu/uclm.jpg',
-    href: 'https://www.uclm.es/estudios/grados/ingenieria-informatica',
+    href: 'https://esi.uclm.es/index.php/grado-en-ingenieria-informatica/',
     title: {
       es: 'Grado en Ingeniería Informática · Especialización en Tecnologías de la Información',
       en: 'BSc in Computer Engineering · Information Technologies specialisation',
