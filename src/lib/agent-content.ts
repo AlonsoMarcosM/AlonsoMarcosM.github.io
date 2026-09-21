@@ -173,11 +173,11 @@ export function renderProfileMarkdown(lang: Lang): string {
   ).join('\n');
 
   const educationSections = education.map((item) =>
-    `- **${pick(item.title, lang)}** — ${item.institution} · ${pick(item.period, lang)}${item.note ? ` · ${pick(item.note, lang)}` : ''}`,
+    `- **${pick(item.title, lang)}** — ${item.institution} · ${pick(item.period, lang)}${item.note ? ` · ${pick(item.note, lang)}` : ''}${item.href ? ` · ${item.href}` : ''}`,
   ).join('\n');
 
   const certificationSections = certifications.map((item) =>
-    `- **${item.name}** — ${item.issuer}. ${pick(item.note, lang)}`,
+    `- **${item.name}** — ${item.issuer}. ${pick(item.note, lang)}${item.href ? ` ${item.href}` : ''}`,
   ).join('\n');
 
   const socialSections = profile.socials.map((item) => `- ${item.label}: ${item.href}`).join('\n');

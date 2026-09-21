@@ -4,6 +4,7 @@ export interface EducationItem {
   institution: string;
   /** Logo de la institución (ruta en /public); si falta, se usa icono. */
   logo?: string;
+  href?: string;
   title: I18nText;
   period: I18nText;
   note?: I18nText;
@@ -13,6 +14,7 @@ export interface Certification {
   name: string;
   issuer: string;
   logo?: string;
+  href?: string;
   note: I18nText;
 }
 
@@ -20,6 +22,7 @@ export const education: EducationItem[] = [
   {
     institution: 'UCLM',
     logo: '/img/edu/uclm.jpg',
+    href: 'https://www.uclm.es/estudios/masteres/master-big-data',
     title: {
       es: 'Máster Universitario en Big Data y Computación en la Nube',
       en: "Master's Degree in Big Data & Cloud Computing",
@@ -30,6 +33,7 @@ export const education: EducationItem[] = [
   {
     institution: 'UCLM',
     logo: '/img/edu/uclm.jpg',
+    href: 'https://www.uclm.es/estudios/grados/ingenieria-informatica',
     title: {
       es: 'Grado en Ingeniería Informática · Especialización en Tecnologías de la Información',
       en: 'BSc in Computer Engineering · Information Technologies specialisation',
@@ -38,6 +42,7 @@ export const education: EducationItem[] = [
   },
   {
     institution: 'IES Juan Bosco',
+    href: 'https://iesjuanbosco.es/index.php/departamentos-fp/informatica?set_color=orange',
     title: {
       es: 'C.F.G.S. en Administración de Sistemas Informáticos en Red',
       en: 'Higher Vocational Diploma in Network Systems Administration',
@@ -51,6 +56,7 @@ export const certifications: Certification[] = [
     name: 'CAPM',
     issuer: 'Project Management Institute',
     logo: '/img/edu/pmi.png',
+    href: 'https://www.pmi.org/certifications/certified-associate-capm',
     note: {
       es: 'Fundamentos certificados de dirección de proyectos PMI.',
       en: 'Certified foundations of PMI project management.',
@@ -60,6 +66,7 @@ export const certifications: Certification[] = [
     name: 'First Certificate in English (B2)',
     issuer: 'Cambridge English',
     logo: '/img/edu/cambridge.png',
+    href: 'https://www.cambridgeenglish.org/es/exams-and-tests/first/',
     note: {
       es: 'Competencia profesional acreditada en inglés.',
       en: 'Accredited professional English proficiency.',

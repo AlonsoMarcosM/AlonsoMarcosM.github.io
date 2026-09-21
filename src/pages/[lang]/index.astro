@@ -71,6 +71,7 @@ const description = pick(profile.tagline, lang);
             type="edu"
             typeLabel={lang === 'es' ? 'Formación' : 'Education'}
             logo={e.logo}
+            href={e.href}
             title={pick(e.title, lang)}
             sub={`${e.institution} · ${pick(e.period, lang)}`}
             note={e.note ? pick(e.note, lang) : undefined}
@@ -84,6 +85,7 @@ const description = pick(profile.tagline, lang);
             type="cert"
             typeLabel={lang === 'es' ? 'Certificación' : 'Certification'}
             logo={c.logo}
+            href={c.href}
             title={c.name}
             sub={c.issuer}
             note={pick(c.note, lang)}
