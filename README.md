@@ -10,9 +10,9 @@
 ![Lighthouse](https://img.shields.io/badge/Lighthouse-CI%20budgets-F44B21?logo=lighthouse&logoColor=white)
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-deployed-222222?logo=githubpages&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Pipelines](https://img.shields.io/badge/pipelines-idempotent-1a7f37)
-![Data quality](https://img.shields.io/badge/data%20quality-SHACL%20%E2%9C%93-660066)
-![Fuel](https://img.shields.io/badge/fuel-caf%C3%A9%20con%20leche-6F4E37?logo=buymeacoffee&logoColor=white)
+![Accessibility](https://img.shields.io/badge/a11y-WCAG%20AA%20%C2%B7%20axe-1A7F37)
+![E2E](https://img.shields.io/badge/E2E-3%20viewports%20%C2%B7%20light%20%2B%20dark-2EAD33)
+![i18n](https://img.shields.io/badge/i18n-ES%20%C2%B7%20EN-0E7490)
 
 ![Portada del portfolio: presentación de Alonso Marcos Muñoz como Data Engineer con stack principal y métricas verificadas](docs/portada.png)
 
@@ -56,6 +56,12 @@ All content lives as typed, bilingual data in `src/data/`:
 | `education.ts` | education & certifications |
 
 UI strings are in `src/i18n/ui.ts`.
+
+Each project also declares `shields`: the same stack and version badges shown in
+its repository README, rendered on the case-study page by `ShieldBadge.astro`
+(CSS only, no requests to shields.io; the value text switches between black and
+white to keep WCAG AA contrast on any brand colour). The footer uses the same
+component for the site's own quality facts.
 
 ## Assets
 

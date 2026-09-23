@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import ShieldBadge from './ShieldBadge.astro';
 import { profile } from '../data/site';
 import { useTranslations, type Lang } from '../i18n/utils';
 interface Props { lang: Lang }
@@ -47,20 +48,19 @@ const year = new Date().getFullYear();
     </div>
     <div class="flex flex-col items-center gap-2 sm:items-end">
       <p class="text-center text-xs sm:text-right">{t('footer.builtWith')}</p>
-      <!-- Guiño a los badges de shields.io de los README de los proyectos. -->
-      <p class="flex gap-1.5 font-mono text-[10px] leading-none text-white">
-        {
-          [
-            ['pipelines', 'idempotent', 'bg-[#1a7f37]'],
-            ['data quality', 'SHACL ✓', 'bg-[#660066]'],
-          ].map(([label, value, color]) => (
-            <span class="inline-flex overflow-hidden rounded-[3px]">
-              <span class="bg-[#555] px-1.5 py-1">{label}</span>
-              <span class:list={['px-1.5 py-1', color]}>{value}</span>
-            </span>
-          ))
-        }
-      </p>
+      <a
+        href="https://github.com/AlonsoMarcosM/AlonsoMarcosM.github.io/actions/workflows/deploy.yml"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex flex-wrap justify-center gap-1.5 rounded transition hover:opacity-90 sm:justify-end"
+        title={lang === 'es' ? 'Ver el workflow de calidad y despliegue' : 'View the quality and deploy workflow'}
+      >
+        <ShieldBadge label="Astro" value="7" color="#BC52EE" icon="simple-icons:astro" />
+        <ShieldBadge label="a11y" value="WCAG AA · axe" color="#1A7F37" />
+        <ShieldBadge label="E2E" value="Playwright" color="#2EAD33" />
+        <ShieldBadge label="Lighthouse" value="CI budgets" color="#F44B21" icon="simple-icons:lighthouse" />
+        <ShieldBadge label="i18n" value="ES · EN" color="#0E7490" />
+      </a>
     </div>
   </div>
 </footer>

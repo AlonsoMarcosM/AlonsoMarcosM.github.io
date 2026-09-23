@@ -1,0 +1,37 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  label: string;
+  value: string;
+  /** Color de marca del valor, en hex (#RRGGBB). */
+  color: string;
+  /** Icono Iconify opcional para la etiqueta. */
+  icon?: string;
+}
+
+const { label, value, color, icon } = Astro.props;
+
+// Igual que shields.io: el texto del valor usa blanco o negro, el que más
+// contraste tenga con el color de fondo. Con negro puro, cualquier fondo
+// alcanza al menos 4,5:1 (WCAG AA).
+function luminance(hex: string) {
+  const channels = hex.replace('#', '').match(/../g)!.map((part) => {
+    const c = parseInt(part, 16) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+}
+const background = luminance(color);
+const onWhite = 1.05 / (background + 0.05);
+const onBlack = (background + 0.05) / 0.05;
+const valueText = onWhite >= onBlack ? '#ffffff' : '#000000';
+---
+
+<span class="inline-flex max-w-full items-stretch overflow-hidden rounded-[4px] font-mono text-[11px] leading-snug shadow-sm">
+  <span class="inline-flex shrink-0 items-center gap-1 whitespace-nowrap bg-[#454b52] px-1.5 py-0.5 text-white">
+    {icon && <Icon name={icon} class="h-3 w-3" aria-hidden="true" />}
+    {label}
+  </span>
+  <span class="flex items-center px-1.5 py-0.5" style={`background-color:${color};color:${valueText}`}>{value}</span>
+</span>

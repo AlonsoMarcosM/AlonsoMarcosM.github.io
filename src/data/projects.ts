@@ -35,6 +35,14 @@ export interface ProjectEvidence {
   label: I18nText;
 }
 
+/** Badge al estilo shields.io; mismo contenido que el README del repositorio. */
+export interface ProjectShield {
+  label: string;
+  value: string;
+  color: string;
+  icon?: string;
+}
+
 export interface ProjectMember {
   name: string;
   role: I18nText;
@@ -88,6 +96,7 @@ export interface Project {
   limitations?: I18nList;
   heroImage: string;
   heroAlt: I18nText;
+  shields: ProjectShield[];
   ogImage?: string;
   assetBase?: string;
 }
@@ -134,6 +143,16 @@ export const projects: Project[] = [
     tags: ['Databricks', 'Delta Lake', 'MLflow', 'Unity Catalog'],
     context: databricks.problem,
     highlights: databricks.ownership,
+    shields: [
+      { label: 'Databricks', value: 'Lakehouse', color: '#FF3621', icon: 'simple-icons:databricks' },
+      { label: 'Asset Bundles', value: 'databricks.yml', color: '#FF3621', icon: 'simple-icons:databricks' },
+      { label: 'Pipelines', value: 'Medallion serverless', color: '#FF3621', icon: 'simple-icons:databricks' },
+      { label: 'Delta Lake', value: 'Bronze · Silver · Gold', color: '#00ADD4' },
+      { label: 'Spark', value: 'MLlib', color: '#E25A1C', icon: 'simple-icons:apachespark' },
+      { label: 'MLflow', value: 'Tracking + Registry', color: '#0194E2', icon: 'simple-icons:mlflow' },
+      { label: 'Unity Catalog', value: 'Models + Tables', color: '#FF3621', icon: 'simple-icons:databricks' },
+      { label: 'License', value: 'MIT', color: '#3DA639' },
+    ],
     heroImage: '/img/projects/databricks/cover-lakehouse-monitor.png',
     heroAlt: {
       es: 'Dashboard de Databricks con tasa de churn, precisión del modelo, calibración y rendimiento por segmento',
@@ -156,6 +175,14 @@ export const projects: Project[] = [
     tags: ['AWS IoT', 'Lambda', 'DynamoDB', 'Streamlit'],
     context: parking.problem,
     highlights: parking.ownership,
+    shields: [
+      { label: 'Python', value: '3.13', color: '#3776AB', icon: 'simple-icons:python' },
+      { label: 'AWS', value: 'IoT Core · Lambda · DynamoDB · API Gateway', color: '#FF9900', icon: 'simple-icons:amazonwebservices' },
+      { label: 'MQTT', value: 'mTLS', color: '#660066', icon: 'simple-icons:mqtt' },
+      { label: 'Streamlit', value: 'Dashboard', color: '#FF4B4B', icon: 'simple-icons:streamlit' },
+      { label: 'OpenAPI', value: '3.0', color: '#6BA539', icon: 'simple-icons:openapiinitiative' },
+      { label: 'License', value: 'Academic', color: '#007EC6' },
+    ],
     heroImage: '/img/projects/smart-parking/cover-dashboard-streamlit.png',
     heroAlt: {
       es: 'Dashboard Streamlit con KPIs de ocupación, mapa de plazas en tiempo real y estado por sub-zona',
@@ -178,6 +205,16 @@ export const projects: Project[] = [
     tags: ['Spark', 'Airflow', 'Kafka', 'Delta Lake'],
     context: spark.problem,
     highlights: spark.ownership,
+    shields: [
+      { label: 'Apache Spark', value: '4.0.1', color: '#E25A1C', icon: 'simple-icons:apachespark' },
+      { label: 'Delta Lake', value: '4.0.0', color: '#00ADD4' },
+      { label: 'Apache Kafka', value: '4.1.1', color: '#231F20', icon: 'simple-icons:apachekafka' },
+      { label: 'Apache Airflow', value: '3.0.6', color: '#017CEE', icon: 'simple-icons:apacheairflow' },
+      { label: 'MinIO', value: 'S3 local', color: '#C72E49', icon: 'simple-icons:minio' },
+      { label: 'SQL Server', value: '2022', color: '#CC2927', icon: 'simple-icons:microsoftsqlserver' },
+      { label: 'Docker', value: 'Compose', color: '#2496ED', icon: 'simple-icons:docker' },
+      { label: 'License', value: 'MIT', color: '#3DA639' },
+    ],
     heroImage: '/img/projects/spark/arquitectura-ejecutiva.png',
     heroAlt: {
       es: 'Diagrama: SQL Server, CSV y Kafka alimentan Spark, orquestado por Airflow, que escribe capas Bronze, Silver y Gold de Delta Lake sobre MinIO',
@@ -213,6 +250,16 @@ export const projects: Project[] = [
       es: ['Despliegue reproducible con Kubernetes y Helm', 'Sincronización controlada mediante dry-run y apply', 'Exportación DCAT-AP-ES y validación SHACL'],
       en: ['Reproducible Kubernetes and Helm deployment', 'Controlled synchronisation through dry-run and apply', 'DCAT-AP-ES export and SHACL validation'],
     },
+    shields: [
+      { label: 'Python', value: '3.11+', color: '#3776AB', icon: 'simple-icons:python' },
+      { label: 'Kubernetes', value: 'Kind + Helm', color: '#326CE5', icon: 'simple-icons:kubernetes' },
+      { label: 'OpenMetadata', value: '1.11', color: '#3361FF' },
+      { label: 'DCAT-AP-ES', value: '1.0.0', color: '#005A9C' },
+      { label: 'SHACL', value: 'HVD', color: '#660066' },
+      { label: 'Next.js', value: '16', color: '#000000', icon: 'simple-icons:nextdotjs' },
+      { label: 'pnpm', value: 'canonical', color: '#F69220', icon: 'simple-icons:pnpm' },
+      { label: 'License', value: 'Academic', color: '#007EC6' },
+    ],
     heroImage: '/img/projects/tfm-openmetadata/cover-consola-validacion.png',
     heroAlt: {
       es: 'Consola operativa del TFM con la suite de validación y la validación DCAT live completadas, exportación JSON-LD y resultados SHACL',
@@ -245,6 +292,14 @@ export const projects: Project[] = [
       es: ['Catálogo, glosario y linaje como entidades reales', 'Trazabilidad UNE a entregable', 'Scripts idempotentes de carga y borrado'],
       en: ['Catalogue, glossary and lineage as real entities', 'UNE-to-deliverable traceability', 'Idempotent load and delete scripts'],
     },
+    shields: [
+      { label: 'Markdown', value: 'CommonMark', color: '#000000', icon: 'simple-icons:markdown' },
+      { label: 'OpenMetadata', value: '1.12', color: '#3361FF' },
+      { label: 'Python', value: '3.10+', color: '#3776AB', icon: 'simple-icons:python' },
+      { label: 'PowerShell', value: '7', color: '#5391FE', icon: 'simple-icons:powershell' },
+      { label: 'UNE', value: '0077–0081', color: '#005A9C' },
+      { label: 'License', value: 'Academic', color: '#007EC6' },
+    ],
     heroImage: '/img/projects/gobierno-calidad/cover-linaje-energitech.png',
     heroAlt: {
       es: 'Linaje en OpenMetadata del caso EnergiTech, desde punto de suministro y contrato hasta lecturas silver, curva gold y previsión de demanda',
@@ -277,6 +332,15 @@ export const projects: Project[] = [
       es: ['Terraform modular', 'Despliegue y destrucción automatizados', 'IAM mínimo, cifrado y acceso mediante SSM'],
       en: ['Modular Terraform', 'Automated deployment and teardown', 'Least-privilege IAM, encryption and SSM access'],
     },
+    shields: [
+      { label: 'Terraform', value: '≥ 1.5', color: '#844FBA', icon: 'simple-icons:terraform' },
+      { label: 'AWS provider', value: '~> 5.0', color: '#FF9900', icon: 'simple-icons:amazonwebservices' },
+      { label: 'AWS', value: 'EC2 · S3 · Lambda · SNS · CloudWatch · SSM', color: '#FF9900', icon: 'simple-icons:amazonwebservices' },
+      { label: 'Cowrie', value: 'SSH honeypot', color: '#2F4F4F' },
+      { label: 'Lambda', value: 'Python 3.11', color: '#3776AB', icon: 'simple-icons:python' },
+      { label: 'PowerShell', value: 'up / down', color: '#5391FE', icon: 'simple-icons:powershell' },
+      { label: 'License', value: 'MIT', color: '#3DA639' },
+    ],
     heroImage: '/img/projects/honeypot/arquitectura-honeypot.png',
     heroAlt: {
       es: 'Diagrama: tráfico SSH de Internet llega a Cowrie en EC2, los logs pasan a S3 y activan Lambda, con alertas SNS, CloudWatch y administración por SSM, todo desplegado con Terraform',
@@ -288,16 +352,16 @@ export const projects: Project[] = [
     badge: { es: 'TFG · Trabajo Fin de Grado', en: "Bachelor's thesis" },
     title: { es: 'Ejecución remota de scripts en R', en: 'Remote execution of R scripts' },
     tagline: {
-      es: 'Aplicación full stack para ejecutar scripts R mediante API REST, contenedores y JWT.',
-      en: 'Full-stack application for running R scripts through a REST API, containers and JWT.',
+      es: 'Aplicación full stack para ejecutar scripts R mediante una API REST con una instancia dedicada por usuario.',
+      en: 'Full-stack application for running R scripts through a REST API with a dedicated instance per user.',
     },
     category: { es: 'Full stack', en: 'Full stack' },
     icon: { icon: 'simple-icons:r', color: '#276DC3' },
     year: '2025',
     featured: false,
     order: 7,
-    tags: ['Angular', 'R / Plumber', 'Docker', 'JWT'],
-    stack: ['Angular', 'TypeScript', 'RxJS', 'R', 'Plumber', 'Docker Compose', 'JWT', 'OpenAPI'],
+    tags: ['Angular', 'R / Plumber', 'Docker', 'OpenAPI'],
+    stack: ['Angular', 'TypeScript', 'RxJS', 'R', 'Plumber', 'Docker Compose', 'OpenAPI'],
     links: [
       { type: 'technical_docs', url: 'https://alonsomarcosm.github.io/TFG_AlonsoMarcosMu-oz/' },
       { type: 'github', url: 'https://github.com/AlonsoMarcosM/TFG_AlonsoMarcosMu-oz' },
@@ -307,9 +371,20 @@ export const projects: Project[] = [
       en: "Bachelor's thesis separating frontend and backend and exposing remote execution through documented APIs.",
     },
     highlights: {
-      es: ['Frontend Angular y backend R/Plumber', 'APIs documentadas con OpenAPI', 'Despliegue con Docker Compose y autenticación JWT'],
-      en: ['Angular frontend and R/Plumber backend', 'OpenAPI-documented APIs', 'Docker Compose deployment and JWT authentication'],
+      es: ['Frontend Angular y backend R/Plumber', 'APIs documentadas con OpenAPI', 'Una API Plumber por usuario, con roles y sesiones'],
+      en: ['Angular frontend and R/Plumber backend', 'OpenAPI-documented APIs', 'One Plumber API per user, with roles and sessions'],
     },
+    shields: [
+      { label: 'Angular', value: '19', color: '#DD0031', icon: 'simple-icons:angular' },
+      { label: 'Angular Material', value: '19', color: '#3F51B5', icon: 'simple-icons:angular' },
+      { label: 'TypeScript', value: '5.7', color: '#3178C6', icon: 'simple-icons:typescript' },
+      { label: 'RxJS', value: '7.8', color: '#B7178C', icon: 'simple-icons:reactivex' },
+      { label: 'R', value: 'Plumber', color: '#276DC3', icon: 'simple-icons:r' },
+      { label: 'OpenAPI', value: '3.0', color: '#6BA539', icon: 'simple-icons:openapiinitiative' },
+      { label: 'Docker', value: 'Compose', color: '#2496ED', icon: 'simple-icons:docker' },
+      { label: 'Node.js', value: '20', color: '#5FA04E', icon: 'simple-icons:nodedotjs' },
+      { label: 'License', value: 'MIT', color: '#3DA639' },
+    ],
     heroImage: '/img/projects/tfg-r/cover-ejecucion-r.png',
     heroAlt: {
       es: 'Aplicación Angular ejecutando un script R de estadísticas descriptivas, con parámetros, metadatos y resultado calculado',

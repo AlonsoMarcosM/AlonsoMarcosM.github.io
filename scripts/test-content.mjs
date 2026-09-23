@@ -52,6 +52,11 @@ for (const project of projects) {
   await access(publicPath(heroImage));
   for (const format of ['avif', 'webp']) await access(publicPath(heroImage.replace(/\.png$/i, `.${format}`)));
   if (diagramCovers.has(slug)) await access(publicPath(heroImage.replace(/\.png$/i, '.svg')));
+  if (!Array.isArray(project.shields) || project.shields.length < 4) throw new Error(`Expected at least 4 shields in ${slug}`);
+  if (!project.shields.some((shield) => shield.label === 'License')) throw new Error(`Missing License shield in ${slug}`);
+  for (const shield of project.shields) {
+    if (!shield.label || !shield.value || !/^#[0-9A-Fa-f]{6}$/.test(shield.color)) throw new Error(`Invalid shield in ${slug}: ${JSON.stringify(shield)}`);
+  }
   const { width, height } = await sharp(publicPath(heroImage)).metadata();
   if (Math.abs(width / height - 16 / 9) > 0.01) throw new Error(`heroImage in ${slug} is not 16:9 (${width}x${height})`);
 }
