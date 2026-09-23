@@ -88,7 +88,7 @@ export const experiences: Experience[] = [
       en: 'Process Automation & Productivity Consultant',
     },
     period: { from: '2024-02', to: '2024-08' },
-    location: { es: 'Almansa, España', en: 'Almansa, Spain' },
+    location: { es: 'Albacete, España', en: 'Albacete, Spain' },
     summary: {
       es: 'Automatización de procesos y productividad con Power Platform sobre Microsoft 365, con formación a clientes y generación de contenido técnico.',
       en: 'Process automation and productivity with Power Platform on Microsoft 365, including client training and technical content creation.',

@@ -55,8 +55,8 @@ export const profile: SiteProfile = {
     { label: 'Email', href: 'mailto:alonsomarcosm99@gmail.com', icon: 'email' },
   ],
   cv: {
-    es: '/cv/CV_Alonso_Marcos_Munoz_ES.pdf',
-    en: '/cv/CV_Alonso_Marcos_Munoz_EN.pdf',
+    es: '/cv/CV_Alonso_Marcos_Muñoz_ES.pdf',
+    en: '/cv/CV_Alonso_Marcos_Muñoz_EN.pdf',
   },
 };
 

@@ -27,7 +27,7 @@ export const education: EducationItem[] = [
       es: 'Máster Universitario en Big Data y Computación en la Nube',
       en: "Master's Degree in Big Data & Cloud Computing",
     },
-    period: { es: 'Sept. 2025 – Jun. 2026', en: 'Sep 2025 – Jun 2026' },
+    period: { es: 'Sept. 2025 – Jul. 2026', en: 'Sep 2025 – Jul 2026' },
     note: { es: 'Finalizado · TFM 9,2/10', en: "Completed · Master's thesis 9.2/10" },
   },
   {
