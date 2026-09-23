@@ -2,6 +2,20 @@
 
 > **Despliegue público:** [Abrir portfolio](https://alonsomarcosm.github.io)
 
+[![Quality and deploy](https://github.com/AlonsoMarcosM/AlonsoMarcosM.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/AlonsoMarcosM/AlonsoMarcosM.github.io/actions/workflows/deploy.yml)
+![Astro](https://img.shields.io/badge/Astro-7-BC52EE?logo=astro&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
+![Playwright](https://img.shields.io/badge/Playwright-axe%20%2B%20responsive-2EAD33)
+![Lighthouse](https://img.shields.io/badge/Lighthouse-CI%20budgets-F44B21?logo=lighthouse&logoColor=white)
+![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-deployed-222222?logo=githubpages&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Pipelines](https://img.shields.io/badge/pipelines-idempotent-1a7f37)
+![Data quality](https://img.shields.io/badge/data%20quality-SHACL%20%E2%9C%93-660066)
+![Fuel](https://img.shields.io/badge/fuel-caf%C3%A9%20con%20leche-6F4E37?logo=buymeacoffee&logoColor=white)
+
+![Portada del portfolio: presentación de Alonso Marcos Muñoz como Data Engineer con stack principal y métricas verificadas](docs/portada.png)
+
 Personal portfolio of Alonso Marcos Muñoz, Data Engineer focused on reliable
 pipelines, data modelling, data quality and operable data platforms.
 
@@ -13,7 +27,7 @@ deployed automatically to GitHub Pages via GitHub Actions.
 
 ## Tech
 
-- Astro 5 (static output, native i18n routing `/es` · `/en`)
+- Astro 7 (static output, native i18n routing `/es` · `/en`)
 - Tailwind CSS 4 (`@tailwindcss/vite`)
 - TypeScript content model in `src/data` (bilingual)
 - Light/dark theme, SEO (hreflang, JSON-LD, sitemap, OpenGraph)
