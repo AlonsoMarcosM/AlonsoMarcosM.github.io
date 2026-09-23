@@ -67,22 +67,22 @@ const current = item.period.to === null;
       <h3 class="flex items-center gap-2 text-lg font-semibold">
         {item.company}
         {current && (
-          <span class="rounded-full bg-brand-500/15 px-2 py-0.5 text-[11px] font-medium text-brand-600 dark:text-brand-300">
+          <span class="rounded-full bg-brand-500/15 px-2 py-0.5 text-[11px] font-medium text-brand-700 dark:text-brand-300">
             {t('experience.present')}
           </span>
         )}
       </h3>
-      <span class="font-mono text-xs text-slate-400">{period}</span>
+      <span class="font-mono text-xs text-slate-500 dark:text-slate-400">{period}</span>
     </div>
-    <p class="text-sm font-medium text-brand-600 dark:text-brand-400">{pick(item.role, lang)}</p>
-    <p class="mt-1 text-xs text-slate-400">{pick(item.location, lang)}</p>
+    <p class="text-sm font-medium text-brand-700 dark:text-brand-400">{pick(item.role, lang)}</p>
+    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{pick(item.location, lang)}</p>
     {
       item.link && (
         <a
           href={item.link.href}
           target="_blank"
           rel="noopener noreferrer"
-          class="mt-1.5 inline-flex items-center gap-1 text-xs font-medium text-brand-600 transition hover:text-brand-500 dark:text-brand-400"
+          class="mt-1.5 inline-flex items-center gap-1 text-xs font-medium text-brand-700 transition hover:text-brand-500 dark:text-brand-400"
         >
           <Iconify name="lucide:external-link" class="h-3 w-3" />
           {item.link.label}

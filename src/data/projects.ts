@@ -86,7 +86,8 @@ export interface Project {
   verifiedMetrics?: ProjectMetric[];
   evidence?: ProjectEvidence[];
   limitations?: I18nList;
-  heroImage?: string;
+  heroImage: string;
+  heroAlt: I18nText;
   ogImage?: string;
   assetBase?: string;
 }
@@ -133,7 +134,11 @@ export const projects: Project[] = [
     tags: ['Databricks', 'Delta Lake', 'MLflow', 'Unity Catalog'],
     context: databricks.problem,
     highlights: databricks.ownership,
-    heroImage: '/img/projects/databricks/hito2_pipeline_medallion_dag.png',
+    heroImage: '/img/projects/databricks/cover-lakehouse-monitor.png',
+    heroAlt: {
+      es: 'Dashboard de Databricks con tasa de churn, precisión del modelo, calibración y rendimiento por segmento',
+      en: 'Databricks dashboard showing churn rate, model accuracy, calibration and performance by segment',
+    },
     ogImage: '/img/og/telco-churn-mlops-databricks-es.png',
     assetBase: '/img/projects/databricks',
   }),
@@ -151,7 +156,11 @@ export const projects: Project[] = [
     tags: ['AWS IoT', 'Lambda', 'DynamoDB', 'Streamlit'],
     context: parking.problem,
     highlights: parking.ownership,
-    heroImage: '/img/projects/smart-parking/diagrama_arquitectura.png',
+    heroImage: '/img/projects/smart-parking/cover-dashboard-streamlit.png',
+    heroAlt: {
+      es: 'Dashboard Streamlit con KPIs de ocupación, mapa de plazas en tiempo real y estado por sub-zona',
+      en: 'Streamlit dashboard with occupancy KPIs, a real-time parking map and status by sub-zone',
+    },
     ogImage: '/img/og/smart-parking-albacete-es.png',
     assetBase: '/img/projects/smart-parking',
   }),
@@ -170,6 +179,10 @@ export const projects: Project[] = [
     context: spark.problem,
     highlights: spark.ownership,
     heroImage: '/img/projects/spark/arquitectura-ejecutiva.png',
+    heroAlt: {
+      es: 'Diagrama: SQL Server, CSV y Kafka alimentan Spark, orquestado por Airflow, que escribe capas Bronze, Silver y Gold de Delta Lake sobre MinIO',
+      en: 'Diagram: SQL Server, CSV and Kafka feed Spark, orchestrated by Airflow, which writes Bronze, Silver and Gold Delta Lake layers on MinIO',
+    },
     ogImage: '/img/og/big-data-catalog-batch-streaming-es.png',
     assetBase: '/img/projects/spark',
   }),
@@ -200,6 +213,11 @@ export const projects: Project[] = [
       es: ['Despliegue reproducible con Kubernetes y Helm', 'Sincronización controlada mediante dry-run y apply', 'Exportación DCAT-AP-ES y validación SHACL'],
       en: ['Reproducible Kubernetes and Helm deployment', 'Controlled synchronisation through dry-run and apply', 'DCAT-AP-ES export and SHACL validation'],
     },
+    heroImage: '/img/projects/tfm-openmetadata/cover-consola-validacion.png',
+    heroAlt: {
+      es: 'Consola operativa del TFM con la suite de validación y la validación DCAT live completadas, exportación JSON-LD y resultados SHACL',
+      en: 'Thesis operations console showing the completed validation suite and live DCAT validation, JSON-LD export and SHACL results',
+    },
   },
   {
     slug: 'gobierno-calidad-dato-openmetadata',
@@ -226,6 +244,11 @@ export const projects: Project[] = [
     highlights: {
       es: ['Catálogo, glosario y linaje como entidades reales', 'Trazabilidad UNE a entregable', 'Scripts idempotentes de carga y borrado'],
       en: ['Catalogue, glossary and lineage as real entities', 'UNE-to-deliverable traceability', 'Idempotent load and delete scripts'],
+    },
+    heroImage: '/img/projects/gobierno-calidad/cover-linaje-energitech.png',
+    heroAlt: {
+      es: 'Linaje en OpenMetadata del caso EnergiTech, desde punto de suministro y contrato hasta lecturas silver, curva gold y previsión de demanda',
+      en: 'OpenMetadata lineage for the EnergiTech case, from supply point and contract to silver readings, gold load curve and demand forecast',
     },
   },
   {
@@ -254,6 +277,11 @@ export const projects: Project[] = [
       es: ['Terraform modular', 'Despliegue y destrucción automatizados', 'IAM mínimo, cifrado y acceso mediante SSM'],
       en: ['Modular Terraform', 'Automated deployment and teardown', 'Least-privilege IAM, encryption and SSM access'],
     },
+    heroImage: '/img/projects/honeypot/arquitectura-honeypot.png',
+    heroAlt: {
+      es: 'Diagrama: tráfico SSH de Internet llega a Cowrie en EC2, los logs pasan a S3 y activan Lambda, con alertas SNS, CloudWatch y administración por SSM, todo desplegado con Terraform',
+      en: 'Diagram: Internet SSH traffic reaches Cowrie on EC2, logs flow to S3 and trigger Lambda, with SNS alerts, CloudWatch and SSM administration, all deployed with Terraform',
+    },
   },
   {
     slug: 'tfg-remote-r-scripts',
@@ -281,6 +309,11 @@ export const projects: Project[] = [
     highlights: {
       es: ['Frontend Angular y backend R/Plumber', 'APIs documentadas con OpenAPI', 'Despliegue con Docker Compose y autenticación JWT'],
       en: ['Angular frontend and R/Plumber backend', 'OpenAPI-documented APIs', 'Docker Compose deployment and JWT authentication'],
+    },
+    heroImage: '/img/projects/tfg-r/cover-ejecucion-r.png',
+    heroAlt: {
+      es: 'Aplicación Angular ejecutando un script R de estadísticas descriptivas, con parámetros, metadatos y resultado calculado',
+      en: 'Angular application running a descriptive statistics R script, showing parameters, metadata and the computed result',
     },
   },
 ];

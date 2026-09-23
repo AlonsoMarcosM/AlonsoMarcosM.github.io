@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">AWS honeypot architecture deployed with Terraform</title>
+  <desc id="desc">Internet SSH traffic on port 22 reaches a Cowrie honeypot on EC2. Logs sync to an S3 bucket, whose object events trigger a Lambda analyzer that sends SNS email alerts and writes CloudWatch logs. CloudWatch alarms on EC2 metrics also notify SNS. Administration uses SSM. Terraform provisions the stack.</desc>
+  <defs>
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M50 0H0V50" fill="none" stroke="#1e293b" stroke-width="1"/>
+    </pattern>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0 0L12 6L0 12z" fill="#cbd5e1"/>
+    </marker>
+    <style>
+      .main { font: 700 48px 'DejaVu Sans', Arial, sans-serif; fill: #f8fafc; }
+      .sub { font: 400 28px 'DejaVu Sans', Arial, sans-serif; fill: #94a3b8; }
+      .edge { font: 600 26px 'DejaVu Sans', Arial, sans-serif; fill: #cbd5e1; }
+      .tag { font: 700 32px 'DejaVu Sans', Arial, sans-serif; }
+      .box { fill: #0f172a; stroke-width: 4; }
+      .flow { fill: none; stroke: #cbd5e1; stroke-width: 5; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="#020617"/>
+  <rect width="1600" height="900" fill="url(#grid)" opacity="0.6"/>
+
+  <!-- Terraform-managed AWS boundary -->
+  <rect x="300" y="60" width="1270" height="790" rx="30" fill="#0b1324" fill-opacity="0.6" stroke="#475569" stroke-width="3" stroke-dasharray="16 12"/>
+  <text class="tag" x="340" y="122" fill="#e2e8f0">AWS</text>
+  <rect x="1250" y="84" width="290" height="58" rx="29" fill="#2e1065" stroke="#a78bfa" stroke-width="3"/>
+  <text class="tag" x="1395" y="124" text-anchor="middle" fill="#ddd6fe">Terraform</text>
+
+  <!-- Internet -->
+  <circle cx="150" cy="300" r="95" fill="#0f172a" stroke="#94a3b8" stroke-width="4"/>
+  <ellipse cx="150" cy="300" rx="42" ry="95" fill="none" stroke="#475569" stroke-width="3"/>
+  <path d="M55 300H245M72 250H228M72 350H228" fill="none" stroke="#475569" stroke-width="3"/>
+  <text class="main" x="150" y="460" text-anchor="middle" style="font-size:40px">Internet</text>
+  <path class="flow" d="M248 300H338"/>
+  <text class="edge" x="295" y="280" text-anchor="middle">SSH</text>
+
+  <!-- Row 1: capture and analysis -->
+  <rect class="box" x="350" y="200" width="340" height="200" rx="22" stroke="#fb923c"/>
+  <text class="main" x="520" y="292" text-anchor="middle">Cowrie</text>
+  <text class="sub" x="520" y="342" text-anchor="middle">EC2 · :22</text>
+
+  <path class="flow" d="M692 300H788"/>
+  <text class="edge" x="745" y="280" text-anchor="middle">logs</text>
+
+  <rect class="box" x="800" y="200" width="340" height="200" rx="22" stroke="#4ade80"/>
+  <text class="main" x="970" y="292" text-anchor="middle">S3</text>
+  <text class="sub" x="970" y="342" text-anchor="middle">SSE-S3</text>
+
+  <path class="flow" d="M1142 300H1198"/>
+
+  <rect class="box" x="1210" y="200" width="330" height="200" rx="22" stroke="#fbbf24"/>
+  <text class="main" x="1375" y="292" text-anchor="middle">Lambda</text>
+  <text class="sub" x="1375" y="342" text-anchor="middle">analyzer</text>
+
+  <!-- Row 2: operations and alerting -->
+  <rect class="box" x="350" y="580" width="340" height="200" rx="22" stroke="#a78bfa"/>
+  <text class="main" x="520" y="672" text-anchor="middle">SSM</text>
+  <text class="sub" x="520" y="722" text-anchor="middle">admin</text>
+  <path class="flow" d="M520 578V412"/>
+
+  <rect class="box" x="800" y="580" width="340" height="200" rx="22" stroke="#38bdf8"/>
+  <text class="main" x="970" y="670" text-anchor="middle" style="font-size:44px">CloudWatch</text>
+  <text class="sub" x="970" y="722" text-anchor="middle">logs · alarms</text>
+  <path class="flow" d="M660 402L846 570"/>
+  <path class="flow" d="M1260 402L1094 570"/>
+
+  <rect class="box" x="1210" y="580" width="330" height="200" rx="22" stroke="#f472b6"/>
+  <text class="main" x="1375" y="672" text-anchor="middle">SNS</text>
+  <text class="sub" x="1375" y="722" text-anchor="middle">email</text>
+  <path class="flow" d="M1142 680H1198"/>
+  <path class="flow" d="M1480 402V568"/>
+</svg>

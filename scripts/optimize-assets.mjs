@@ -4,9 +4,15 @@ import { extname, join, parse, resolve } from 'node:path';
 
 const root = resolve(import.meta.dirname, '..');
 const inputs = [resolve(root, 'public/img/alonso.jpg')];
-const sparkArchitecture = resolve(root, 'public/img/projects/spark/arquitectura-ejecutiva.svg');
-const sparkArchitecturePng = resolve(root, 'public/img/projects/spark/arquitectura-ejecutiva.png');
-await sharp(sparkArchitecture).resize({ width: 1200 }).png().toFile(sparkArchitecturePng);
+// Cover diagrams are authored as SVG; the PNG is the raster fallback used by cards and OpenGraph.
+const coverDiagrams = [
+  'public/img/projects/spark/arquitectura-ejecutiva.svg',
+  'public/img/projects/honeypot/arquitectura-honeypot.svg',
+];
+for (const diagram of coverDiagrams) {
+  const source = resolve(root, diagram);
+  await sharp(source, { density: 144 }).resize({ width: 1600 }).png({ compressionLevel: 9 }).toFile(source.replace(/\.svg$/, '.png'));
+}
 
 async function collect(directory) {
   for (const entry of await readdir(directory, { withFileTypes: true })) {
