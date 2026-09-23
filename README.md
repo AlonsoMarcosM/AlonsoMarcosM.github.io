@@ -72,6 +72,12 @@ untouched in their source repositories.
 
 Diagrams are hand-written SVG (plain `<text>`, no `foreignObject`, so librsvg
 renders them identically in CI) with short labels sized for a three-column card.
+Each node carries its technology logo, inlined as paths from the same Iconify
+sets used by the tech badges (`simple-icons` for brand logos). Where no brand
+logo exists, the generic `lucide` icon used by the badges stands in: `layers`
+for Delta Lake, `radio-tower` for SNS, `server-cog` for SSM and
+`file-spreadsheet` for CSV. Note that `simple-icons:delta` is Delta Air Lines,
+not Delta Lake.
 
 ## Deploy
 
