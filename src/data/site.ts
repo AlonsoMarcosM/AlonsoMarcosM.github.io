@@ -33,16 +33,16 @@ export const profile: SiteProfile = {
   },
   about: [
     {
-      es: 'Data Engineer centrado en construir pipelines fiables, modelos mantenibles y soluciones operables. Trabajo en Tragsatec dentro de ImpulsaDATA para la Dirección General del Dato, una iniciativa con 5.771 datasets publicados y federados, 22 ministerios y organismos y 13 servicios comunes según su balance público.',
-      en: 'Data Engineer focused on reliable pipelines, maintainable models and operable solutions. I work at Tragsatec within ImpulsaDATA for the Spanish Data Directorate, an initiative publicly reporting 5,771 published and federated datasets, 22 ministries and public bodies and 13 shared services.',
+      es: 'Soy Ingeniero de Datos en Tragsatec, dentro del proyecto ImpulsaDATA para la Dirección General del Dato. Construyo y opero pipelines ETL con Python y SQL que integran, validan y publican la información de los catálogos de datos de 22 ministerios y organismos públicos.',
+      en: 'I am a Data Engineer at Tragsatec, working on the ImpulsaDATA project for the Spanish Data Directorate. I build and run Python and SQL ETL pipelines that integrate, validate and publish the data catalogue information of 22 Spanish ministries and public bodies.',
     },
     {
-      es: 'Mi trabajo combina Python, SQL y modelado sobre PostgreSQL/Oracle con ETL de metadatos, CKAN, DCAT-AP-ES, RDF/JSON-LD y SHACL. Abarca transformaciones, agregaciones, vistas y optimización, junto con contenedorización, seguridad, administración de entornos test/desa/pre/pro y documentación operativa.',
-      en: 'My work combines Python, SQL and data modelling on PostgreSQL/Oracle with metadata ETL, CKAN, DCAT-AP-ES, RDF/JSON-LD and SHACL. It covers transformations, aggregations, views and optimisation alongside containerisation, security, test/dev/pre-production/production environments and operational documentation.',
+      es: 'Cubro el ciclo completo: modelar y transformar datos en PostgreSQL y Oracle, automatizar controles de calidad y desplegar en desarrollo, pruebas y producción. Dentro del proyecto AgoraData lidero el desarrollo de la interfaz web que sirve de front-end a todo el backend y a los procesos Python de ImpulsaDATA, con Java, Spring Boot, Vaadin y PostgreSQL.',
+      en: 'I cover the full cycle: modelling and transforming data in PostgreSQL and Oracle, automating quality checks and deploying to development, test and production. Within the AgoraData project, I lead the development of the web interface that serves as the front end for all of ImpulsaDATA\'s backend and Python processes, using Java, Spring Boot, Vaadin and PostgreSQL.',
     },
     {
-      es: 'Lo complemento con un Máster en Big Data y Computación en la Nube, la certificación CAPM y proyectos en OpenMetadata, Kubernetes, Airflow, Spark, Kafka, Databricks y AWS, además de IA generativa aplicada y AI harness engineering para acelerar análisis, desarrollo y documentación.',
-      en: 'I complement this with a Master’s in Big Data & Cloud Computing, the CAPM certification and projects across OpenMetadata, Kubernetes, Airflow, Spark, Kafka, Databricks and AWS, plus applied generative AI and AI harness engineering to speed up analysis, development and documentation.',
+      es: 'El Máster en Big Data y Computación en la Nube me ha dado práctica con Databricks, Spark, Kafka, Airflow y AWS, y la certificación CAPM, método para planificar alcance, riesgos y entregas. En el día a día uso flujos de trabajo agénticos con IA para acelerar el desarrollo, las pruebas y la revisión de código sin perder trazabilidad.',
+      en: 'My MSc in Big Data and Cloud Computing gave me hands-on practice with Databricks, Spark, Kafka, Airflow and AWS, and the CAPM certification a structured method to plan scope, risks and deliveries. Day to day I use agentic AI workflows to speed up development, testing and code review while keeping the work traceable.',
     },
   ],
   location: { es: 'Albacete, España', en: 'Albacete, Spain' },

@@ -122,8 +122,8 @@ function fromManifest(
 export const projects: Project[] = [
   fromManifest(databricks, {
     tagline: {
-      es: 'Lakehouse Medallion y ciclo MLOps reproducible sobre Databricks con evidencia de ejecución.',
-      en: 'Reproducible Databricks Medallion Lakehouse and MLOps lifecycle with execution evidence.',
+      es: 'Plataforma de datos de principio a fin, desarrollada en coautoría, que predice la baja de clientes de una operadora con datos sintéticos usando PySpark, Delta Lake, Unity Catalog y MLflow.',
+      en: 'Co-developed end-to-end data platform that predicts customer churn for a telecom operator on synthetic data using PySpark, Delta Lake, Unity Catalog and MLflow.',
     },
     category: { es: 'Big Data · MLOps', en: 'Big Data · MLOps' },
     badge: { es: 'Proyecto académico aplicado', en: 'Applied academic project' },
@@ -144,8 +144,8 @@ export const projects: Project[] = [
   }),
   fromManifest(parking, {
     tagline: {
-      es: 'Plataforma IoT serverless probada en AWS Academy, desde telemetría MQTT hasta API y dashboard.',
-      en: 'Serverless IoT platform tested in AWS Academy, from MQTT telemetry to API and dashboard.',
+      es: 'Plataforma IoT en la nube que recoge en tiempo real los datos de 40 sensores de aparcamiento simulados y los publica en un panel web, con AWS Lambda, DynamoDB y MQTT.',
+      en: 'Cloud IoT platform that collects real-time data from 40 simulated parking sensors and serves it in a web dashboard, using AWS Lambda, DynamoDB and MQTT.',
     },
     category: { es: 'Cloud · IoT', en: 'Cloud · IoT' },
     badge: { es: 'Proyecto académico aplicado', en: 'Applied academic project' },
@@ -166,8 +166,8 @@ export const projects: Project[] = [
   }),
   fromManifest(spark, {
     tagline: {
-      es: 'Plataforma local reproducible con batch, streaming, arquitectura Medallion y orquestación.',
-      en: 'Reproducible local platform with batch, streaming, Medallion architecture and orchestration.',
+      es: 'Procesa datos por lotes y en tiempo real con Spark, Kafka y Airflow y los organiza en capas de calidad creciente (arquitectura Medallion) sobre Delta Lake.',
+      en: 'Processes batch and real-time data with Spark, Kafka and Airflow and organises it into layers of increasing quality (Medallion architecture) on Delta Lake.',
     },
     category: { es: 'Data Engineering', en: 'Data Engineering' },
     badge: { es: 'Proyecto académico aplicado', en: 'Applied academic project' },
@@ -191,8 +191,8 @@ export const projects: Project[] = [
     badge: { es: 'TFM · 9,2/10 confirmado por Alonso', en: "Master's thesis · 9.2/10 confirmed by Alonso" },
     title: { es: 'OpenMetadata + DCAT-AP-ES', en: 'OpenMetadata + DCAT-AP-ES' },
     tagline: {
-      es: 'Modelo de metadatos gobernado con exportación RDF/JSON-LD y validación SHACL.',
-      en: 'Governed metadata model with RDF/JSON-LD export and SHACL validation.',
+      es: 'Catálogo de metadatos en OpenMetadata sobre Kubernetes que descubre datos de PostgreSQL, los sincroniza y los exporta validados al estándar DCAT-AP-ES.',
+      en: 'OpenMetadata metadata catalogue on Kubernetes that discovers PostgreSQL data, keeps it in sync and exports it validated against the DCAT-AP-ES standard.',
     },
     category: { es: 'Gobierno del dato', en: 'Data governance' },
     icon: { img: '/img/tech/openmetadata.png' },
@@ -223,8 +223,8 @@ export const projects: Project[] = [
     slug: 'gobierno-calidad-dato-openmetadata',
     title: { es: 'Gobierno y Calidad del Dato · UNE', en: 'Data Governance & Quality · UNE' },
     tagline: {
-      es: 'Aplicación de la familia UNE 0077-0081 materializada en OpenMetadata.',
-      en: 'Applying the UNE 0077-0081 family through real OpenMetadata entities.',
+      es: 'Caso práctico de gobierno del dato con OpenMetadata y Python que aplica las normas UNE 0077-0081 a la catalogación, la calidad y la trazabilidad.',
+      en: 'Data governance case study with OpenMetadata and Python that applies the UNE 0077-0081 standards to cataloguing, quality and traceability.',
     },
     category: { es: 'Gobierno del dato', en: 'Data governance' },
     icon: { icon: 'lucide:scale', color: '#16A34A' },
